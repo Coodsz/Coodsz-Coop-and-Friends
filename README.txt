@@ -35,7 +35,7 @@ If SmartScreen says "Unknown publisher", choose **More info**, then **Run anyway
 3. Click **Unblock DLLs** first. It is the first Setup button. Until you have used it once, it stays gold and pulses, and the first **Connect** waits for that click. Windows blocks downloaded DLLs, and the game cannot load them until that block is cleared. It clears the Windows download mark under Modules. It does not change the mod files. If Windows blocks a DLL later, that button turns red. Click it again, then **Connect**.
 4. Click **Check mods**, then **Install TAOM**.
 5. Click **Switch to Coop 0.1.5**. If Modules\Coop is already 0.1.5, it leaves that folder. If another Coop version is in Modules\Coop and a 0.1.5 copy is parked beside it, this puts 0.1.5 into Modules\Coop and moves the other folder out of Modules. It does not make another copy.
-6. **Direct**: the host's IP and UDP port. **Steam lobby**: the host's Steam username, no port forwarding needed, Steam running on both PCs. Put a password only if the host has set one.
+6. **Direct**: the host's IP and UDP port. **Steam lobby**: the host's Steam profile name (the name friends see in Steam, not the login name), no port forwarding needed, Steam running on both PCs. Put a password only if the host has set one.
 7. Click **Connect**.
 
 # If something goes wrong
@@ -144,7 +144,7 @@ Unzip the zip before you open anything. You get these program folders:
 1. Close Bannerlord.
 2. Open the launcher that matches the map you are playing.
 3. Under **Saved setup**, pick your setup. The **Campaign map** box switches to the map that setup saved. Default and custom setups load their own map. The locked Vanilla setup loads the vanilla map. The locked More Nations setup loads the Remastered map. Saved paths and cheats stay.
-4. Steam lobby: put the host's Steam name in the Steam lobby box and connect from the lobby.
+4. Steam lobby: put the host's Steam profile name (the name friends see in Steam, not the login name) in the Steam lobby box and connect from the lobby.
 5. Direct connect: put the host's address and UDP port in the direct boxes. A home address only works on the same network. A port-forwarded address is what friends off that network use.
 6. Click connect. If Windows says Unknown publisher, choose More info, then Run anyway.
 7. If the game says it cannot load a DLL, click **Unblock DLLs**. That button turns red when Windows blocks a DLL. Click it, then connect again.
