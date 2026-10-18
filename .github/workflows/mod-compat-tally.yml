@@ -1,0 +1,66 @@
+# Adapted from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep), MIT,
+# Copyright (c) 2026 aderimo. See THIRD-PARTY-NOTICES.md.
+#
+# Counts compat-list/mods.json again each time a "mod-compat" issue changes (the form the
+# "Report how this mod worked" link in Coodsz Host and Coodsz Coop and Friends opens).
+#
+# The script counts every open and closed report from scratch; a report that gets the
+# "invalid" or "spam" label drops out on the next run. Of several reports by one person for
+# one mod only the latest counts. works - broken >= 3 makes the status "Works", the other
+# way round "Broken"; hand kept entries (the ones with "coop") never change status.
+#
+# Note: issue events only run the workflow on the default branch.
+#
+# The tools read the list and open the form in Coodsz/Coodsz-Coop-and-Friends (branch
+# main), so this workflow, the script, the form and compat-list/mods.json are copied there
+# at release (docs/compat-list-publish.md). In this repository it only keeps the source.
+
+name: Mod compatibility tally
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+# Two tallies never write to the default branch at the same time.
+concurrency:
+  group: mod-compat-tally
+  cancel-in-progress: false
+
+jobs:
+  tally:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'mod-compat') ||
+      github.event.label.name == 'mod-compat'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Count the reports
+        id: tally
+        run: node .github/scripts/tally-mod-compat.mjs --file compat-list/mods.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push the change to the default branch
+        if: steps.tally.outputs.changed == 'true'
+        env:
+          BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add compat-list/mods.json
+          git commit -m "compat-list: update the mod compatibility tally"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"

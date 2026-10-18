@@ -1,0 +1,55 @@
+# Adapted from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep), MIT,
+# Copyright (c) 2026 aderimo. See THIRD-PARTY-NOTICES.md.
+name: Mod compatibility
+description: Tell us whether a mod works with Bannerlord Coop
+title: "[Mod] "
+labels: ["mod-compat"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Coodsz Host and Coodsz Coop and Friends fill most of this in for you. Please only report what you really tested.
+        Your report counts toward the badge the tools show next to this mod.
+  - type: input
+    id: mod_id
+    attributes:
+      label: Mod id
+      description: The Module Id, as shown under the mod's name in the tools
+    validations:
+      required: true
+  - type: input
+    id: mod_name
+    attributes:
+      label: Mod name
+      description: The mod's display name, if you know it
+  - type: input
+    id: mod_version
+    attributes:
+      label: Mod version
+  # The option texts have to match what .github/scripts/tally-mod-compat.mjs reads.
+  - type: dropdown
+    id: status
+    attributes:
+      label: Result
+      options:
+        - works
+        - broken
+        - client-only
+    validations:
+      required: true
+  - type: input
+    id: coop_version
+    attributes:
+      label: Coop version
+    validations:
+      required: true
+  - type: input
+    id: game_version
+    attributes:
+      label: Bannerlord version
+  - type: textarea
+    id: details
+    attributes:
+      label: What happened?
+      description: |
+        The error message, when it happened (joining, a battle, a siege), and whether the mod was on for the host, the players or both.
