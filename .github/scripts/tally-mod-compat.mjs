@@ -11,7 +11,8 @@
 // count only after Coodsz removes it. They carry the player's mod list, which gives each entry
 // "testedWith" (mods often in the lists of players who said it works), "conflicts" (mods in the
 // broken lists that no works list had) and "needs" (the mods players said it works only with).
-// TAOM reports (label "taom") are not counted here; the TAOM list is kept by hand.
+// TAOM reports (label "taom") are not counted here; the TAOM list is kept by hand. AD1259 reports
+// (label "ad1259") are left out too; the AD1259 pack is fixed and read by hand.
 //
 // Every run counts all open and closed reports again; running twice on the same input
 // gives the same file (idempotent).
@@ -30,6 +31,8 @@ export const IGNORED_LABELS = ['invalid', 'spam', 'pending'];
 // Set by the report worker only (no issue form adds it), so its Reporter line can be trusted.
 export const REPORT_LABEL = 'mod-report';
 export const TAOM_LABEL = 'taom';
+// AD1259 client reports: the pack is fixed, so they are read by hand like the TAOM ones.
+export const AD1259_LABEL = 'ad1259';
 // A mod counts as "broken together with" this one once it was in this many broken reports and in no works report.
 export const CONFLICT_MIN = 2;
 // "testedWith", "conflicts" and "needs" keep at most this many ids.
@@ -140,6 +143,7 @@ export function collectReports(issues) {
     if (issue.pull_request || !labels.includes(LABEL)) continue;
     if (labels.some(l => IGNORED_LABELS.includes(l))) { skipped.push([issue.number, labels.includes('pending') ? 'pending' : 'invalid/spam']); continue; }
     if (labels.includes(TAOM_LABEL)) { skipped.push([issue.number, 'TAOM report']); continue; }
+    if (labels.includes(AD1259_LABEL)) { skipped.push([issue.number, 'AD1259 report']); continue; }
     const anonymous = labels.includes(REPORT_LABEL);
     if (issue.user?.type === 'Bot' && !anonymous) { skipped.push([issue.number, 'bot']); continue; }
     const f = parseForm(issue.body);
@@ -156,8 +160,10 @@ export function collectReports(issues) {
       number: issue.number, user, modId: f.modId, modName: ID_PATTERN.test(f.modName ?? '') ? f.modName : null, result,
       with: result === 'workswith' && ID_PATTERN.test(f.with ?? '') ? f.with : null,
       mods: f.mods ?? [],
-      // An edited report (the worker updates the issue when a player changes the vote) counts from its last change.
-      created: (anonymous ? issue.updated_at : null) ?? issue.created_at ?? '',
+      // The newest report wins by when it was filed. A changed vote edits the same issue (one issue
+      // per player, mod and version), so its body is already the latest vote. updated_at is not used:
+      // approving an old issue (removing pending) bumps it and would beat a newer vote.
+      created: issue.created_at ?? '',
     };
     const prev = latest.get(key);
     if (!prev || report.created > prev.created || (report.created === prev.created && report.number > prev.number)) latest.set(key, report);
