@@ -5,6 +5,14 @@
 // Counts the "mod-compat" issues from scratch and updates the works/broken counts and the
 // statuses in compat-list/mods.json.
 //
+// Two kinds of report count: the GitHub issue form (one person = one GitHub login) and the
+// anonymous reports the tools send through server/mod-reports-worker (label "mod-report"; one
+// person = the "Reporter" hash the worker writes). Those arrive with the label "pending" and
+// count only after Coodsz removes it. They carry the player's mod list, which gives each entry
+// "testedWith" (mods often in the lists of players who said it works), "conflicts" (mods in the
+// broken lists that no works list had) and "needs" (the mods players said it works only with).
+// TAOM reports (label "taom") are not counted here; the TAOM list is kept by hand.
+//
 // Every run counts all open and closed reports again; running twice on the same input
 // gives the same file (idempotent).
 //
@@ -18,11 +26,20 @@ import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 export const LABEL = 'mod-compat';
-export const IGNORED_LABELS = ['invalid', 'spam'];
+export const IGNORED_LABELS = ['invalid', 'spam', 'pending'];
+// Set by the report worker only (no issue form adds it), so its Reporter line can be trusted.
+export const REPORT_LABEL = 'mod-report';
+export const TAOM_LABEL = 'taom';
+// A mod counts as "broken together with" this one once it was in this many broken reports and in no works report.
+export const CONFLICT_MIN = 2;
+// "testedWith", "conflicts" and "needs" keep at most this many ids.
+export const LIST_MAX = 5;
+// Mods almost every list has; they say nothing about which mod works with which.
+export const COMMON_MODS = ['bannerlord.harmony', 'bannerlord.butterlib', 'bannerlord.uiextenderex', 'bannerlord.mboptionscreen', 'coop', 'coopnightly'];
 // The status changes on its own once works - broken reaches this difference.
 export const THRESHOLD = 3;
 
-const KEY_ORDER = ['id', 'name', 'status', 'coop', 'note', 'workshop', 'nexus', 'category', 'works', 'broken', 'idGuess'];
+const KEY_ORDER = ['id', 'name', 'status', 'coop', 'note', 'workshop', 'nexus', 'category', 'works', 'broken', 'testedWith', 'conflicts', 'needs', 'idGuess'];
 const ID_PATTERN = /^[\p{L}\p{N}_.\-' ()+&!:]{1,100}$/u;
 
 // ---- JSONC ---------------------------------------------------------------
@@ -92,6 +109,9 @@ export function parseForm(body) {
     else if (header.startsWith('mod name')) fields.modName = value.split('\n')[0].trim();
     else if (header.startsWith('result')) fields.result = value;
     else if (header.startsWith('coop version')) fields.coop = value.split('\n')[0].trim();
+    else if (header.startsWith('works only with')) fields.with = value.split('\n')[0].trim();
+    else if (header.startsWith('reporter')) fields.reporter = value.split('\n')[0].trim();
+    else if (header.startsWith('mod list')) fields.mods = value.split('\n').map(line => line.split('|')[0].trim()).filter(id => ID_PATTERN.test(id));
   }
   return fields;
 }
@@ -101,6 +121,7 @@ export function normalizeResult(value) {
   // English, plus the Turkish words CoopKeep's form used.
   if (['works', 'work', 'working', 'yes', 'çalışıyor', 'calisiyor'].includes(v)) return 'works';
   if (['broken', 'broke', 'notworking', 'no', 'crash', 'çalışmıyor', 'calismiyor'].includes(v)) return 'broken';
+  if (['workswith', 'worksonlywith'].includes(v)) return 'workswith';
   if (['clientonly', 'client', 'yalnızcaoyuncularda'].includes(v)) return 'clientonly';
   return null;
 }
@@ -117,15 +138,27 @@ export function collectReports(issues) {
   for (const issue of issues) {
     const labels = (issue.labels ?? []).map(l => (typeof l === 'string' ? l : l.name).toLowerCase());
     if (issue.pull_request || !labels.includes(LABEL)) continue;
-    if (labels.some(l => IGNORED_LABELS.includes(l))) { skipped.push([issue.number, 'invalid/spam']); continue; }
-    if (issue.user?.type === 'Bot') { skipped.push([issue.number, 'bot']); continue; }
+    if (labels.some(l => IGNORED_LABELS.includes(l))) { skipped.push([issue.number, labels.includes('pending') ? 'pending' : 'invalid/spam']); continue; }
+    if (labels.includes(TAOM_LABEL)) { skipped.push([issue.number, 'TAOM report']); continue; }
+    const anonymous = labels.includes(REPORT_LABEL);
+    if (issue.user?.type === 'Bot' && !anonymous) { skipped.push([issue.number, 'bot']); continue; }
     const f = parseForm(issue.body);
     const result = normalizeResult(f.result);
     if (!f.modId || !ID_PATTERN.test(f.modId)) { skipped.push([issue.number, 'mod id could not be read']); continue; }
     if (!result) { skipped.push([issue.number, 'result could not be read']); continue; }
-    const user = (issue.user?.login ?? `#${issue.number}`).toLowerCase();
+    let user = (issue.user?.login ?? `#${issue.number}`).toLowerCase();
+    if (anonymous) {
+      if (!/^anon-[0-9a-f]{8,64}$/.test(f.reporter ?? '')) { skipped.push([issue.number, 'reporter could not be read']); continue; }
+      user = f.reporter;
+    }
     const key = `${user}|${f.modId.toLowerCase()}`;
-    const report = { number: issue.number, user, modId: f.modId, modName: ID_PATTERN.test(f.modName ?? '') ? f.modName : null, result, created: issue.created_at ?? '' };
+    const report = {
+      number: issue.number, user, modId: f.modId, modName: ID_PATTERN.test(f.modName ?? '') ? f.modName : null, result,
+      with: result === 'workswith' && ID_PATTERN.test(f.with ?? '') ? f.with : null,
+      mods: f.mods ?? [],
+      // An edited report (the worker updates the issue when a player changes the vote) counts from its last change.
+      created: (anonymous ? issue.updated_at : null) ?? issue.created_at ?? '',
+    };
     const prev = latest.get(key);
     if (!prev || report.created > prev.created || (report.created === prev.created && report.number > prev.number)) latest.set(key, report);
   }
@@ -159,17 +192,30 @@ export function applyTally(mods, reports) {
       byId.set(entry.id.toLowerCase(), entry);
       added.push(entry.id);
     }
-    const c = counts.get(entry) ?? { works: 0, broken: 0, clientonly: 0 };
-    c[r.result]++;
+    const c = counts.get(entry) ?? { works: 0, broken: 0, clientonly: 0, worksLists: [], brokenLists: [], needs: [] };
+    if (r.result === 'workswith') {
+      c.works++;
+      if (r.with) c.needs.push(r.with);
+    } else {
+      c[r.result]++;
+    }
+    const others = otherMods(r.mods, entry.id);
+    if (others.length && (r.result === 'works' || r.result === 'workswith')) c.worksLists.push(others);
+    if (others.length && r.result === 'broken') c.brokenLists.push(others);
     counts.set(entry, c);
   }
 
   const statusChanges = [];
   for (const m of mods) {
-    const c = counts.get(m) ?? { works: 0, broken: 0 };
+    const c = counts.get(m) ?? { works: 0, broken: 0, worksLists: [], brokenLists: [], needs: [] };
     m.works = c.works;
     m.broken = c.broken;
     m.status ??= 'Unknown';
+    setList(m, 'testedWith', topIds(c.worksLists.flat()));
+    const inWorks = new Set(c.worksLists.flat().map(id => id.toLowerCase()));
+    const conflicts = c.works > 0 ? topIds(c.brokenLists.flat(), CONFLICT_MIN, inWorks) : [];
+    setList(m, 'conflicts', conflicts);
+    setList(m, 'needs', topIds(c.needs));
     if (isManual(m)) continue;
     let next = m.status;
     if (m.works - m.broken >= THRESHOLD) next = 'Works';
@@ -178,6 +224,42 @@ export function applyTally(mods, reports) {
   }
   sortMods(mods);
   return { added, renamed, statusChanges };
+}
+
+/** The ids of a report's mod list without the mod itself and the mods every list has, once each. */
+export function otherMods(mods, selfId) {
+  const self = selfId.toLowerCase();
+  const seen = new Set();
+  const out = [];
+  for (const id of mods ?? []) {
+    const key = id.toLowerCase();
+    if (key === self || COMMON_MODS.includes(key) || key.startsWith('dedicatedserver.') || seen.has(key)) continue;
+    seen.add(key);
+    out.push(id);
+  }
+  return out;
+}
+
+/** The ids seen at least min times and not in skip, most often first (ties by id), at most LIST_MAX. */
+export function topIds(ids, min = 1, skip = new Set()) {
+  const counts = new Map();
+  for (const id of ids) {
+    const key = id.toLowerCase();
+    if (skip.has(key)) continue;
+    const c = counts.get(key) ?? { id, n: 0 };
+    c.n++;
+    counts.set(key, c);
+  }
+  return [...counts.values()]
+    .filter(c => c.n >= min)
+    .sort((a, b) => b.n - a.n || a.id.localeCompare(b.id, 'en', { sensitivity: 'base' }))
+    .slice(0, LIST_MAX)
+    .map(c => c.id);
+}
+
+function setList(entry, key, ids) {
+  if (ids.length) entry[key] = ids;
+  else delete entry[key];
 }
 
 // ---- GitHub -------------------------------------------------------------
