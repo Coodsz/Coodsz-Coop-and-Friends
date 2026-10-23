@@ -18,13 +18,16 @@
 // gives the same file (idempotent).
 //
 // Usage:
-//   node tally-mod-compat.mjs [--file compat-list/mods.json] [--issues fixture.json] [--dry-run]
+//   node tally-mod-compat.mjs [--file compat-list/mods.json] [--records compat-list/compat-records.json] [--issues fixture.json] [--dry-run]
+//
+// --records also writes the approved results as ModderLords compat records (compat-records.mjs).
 //
 // Without --issues the issues come from the GitHub API (needs the GITHUB_TOKEN and
 // GITHUB_REPOSITORY environment variables). No dependencies; Node 18+.
 
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { buildRecords, readRecords, writeRecords } from './compat-records.mjs';
 
 export const LABEL = 'mod-compat';
 export const IGNORED_LABELS = ['invalid', 'spam', 'pending'];
@@ -110,6 +113,7 @@ export function parseForm(body) {
     value = value.replace(/^```\w*\n?|\n?```$/g, '').replace(/^`+|`+$/g, '').trim();
     if (header.startsWith('mod id')) fields.modId = value.split('\n')[0].trim();
     else if (header.startsWith('mod name')) fields.modName = value.split('\n')[0].trim();
+    else if (header.startsWith('mod version')) fields.version = value.split('\n')[0].trim();
     else if (header.startsWith('result')) fields.result = value;
     else if (header.startsWith('coop version')) fields.coop = value.split('\n')[0].trim();
     else if (header.startsWith('works only with')) fields.with = value.split('\n')[0].trim();
@@ -160,6 +164,8 @@ export function collectReports(issues) {
       number: issue.number, user, modId: f.modId, modName: ID_PATTERN.test(f.modName ?? '') ? f.modName : null, result,
       with: result === 'workswith' && ID_PATTERN.test(f.with ?? '') ? f.with : null,
       mods: f.mods ?? [],
+      version: f.version ?? '',
+      coop: f.coop ?? '',
       // The newest report wins by when it was filed. A changed vote edits the same issue (one issue
       // per player, mod and version), so its body is already the latest vote. updated_at is not used:
       // approving an old issue (removing pending) bumps it and would beat a newer vote.
@@ -178,6 +184,8 @@ export function applyTally(mods, reports) {
   const byId = new Map(mods.map(m => [m.id.toLowerCase(), m]));
   const counts = new Map();
   const added = [], renamed = [];
+  // The counted reports of each entry, for the compat records export (compat-records.mjs).
+  const reportsByEntry = new Map();
 
   for (const r of reports) {
     let entry = byId.get(r.modId.toLowerCase());
@@ -209,6 +217,7 @@ export function applyTally(mods, reports) {
     if (others.length && (r.result === 'works' || r.result === 'workswith')) c.worksLists.push(others);
     if (others.length && r.result === 'broken') c.brokenLists.push(others);
     counts.set(entry, c);
+    reportsByEntry.set(entry, [...(reportsByEntry.get(entry) ?? []), r]);
   }
 
   const statusChanges = [];
@@ -229,7 +238,7 @@ export function applyTally(mods, reports) {
     if (next !== m.status) { statusChanges.push([m.id, m.status, next]); m.status = next; }
   }
   sortMods(mods);
-  return { added, renamed, statusChanges };
+  return { added, renamed, statusChanges, reportsByEntry };
 }
 
 /** The ids of a report's mod list without the mod itself and the mods every list has, once each. */
@@ -295,6 +304,7 @@ async function main() {
   const file = arg('--file') ?? 'compat-list/mods.json';
   const fixture = arg('--issues');
   const dryRun = process.argv.includes('--dry-run');
+  const recordsFile = arg('--records');
 
   let issues;
   if (fixture) {
@@ -308,7 +318,7 @@ async function main() {
   const original = fs.readFileSync(file, 'utf8');
   const doc = parseJsonc(original);
   const { reports, skipped } = collectReports(issues);
-  const { added, renamed, statusChanges } = applyTally(doc.mods, reports);
+  const { added, renamed, statusChanges, reportsByEntry } = applyTally(doc.mods, reports);
   const text = serialize(original, doc.mods);
   parseJsonc(text); // make sure the result is valid before writing it
 
@@ -318,9 +328,15 @@ async function main() {
   for (const [from, to] of renamed) console.log(`  id fixed: ${from} -> ${to}`);
   for (const [id, from, to] of statusChanges) console.log(`  status: ${id} ${from} -> ${to}`);
 
-  const changed = text !== original;
+  let changed = text !== original;
   console.log(changed ? 'Changed.' : 'No change.');
   if (changed && !dryRun) fs.writeFileSync(file, text);
+  if (recordsFile) {
+    const records = buildRecords(doc.mods, reportsByEntry, { previous: readRecords(recordsFile) });
+    const recordsChanged = !dryRun && writeRecords(recordsFile, records);
+    console.log(`compat records: ${records.Records.length}${recordsChanged ? ', written' : ''}`);
+    changed = changed || recordsChanged;
+  }
   if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `changed=${changed}\n`);
 }
 
