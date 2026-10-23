@@ -9,6 +9,16 @@
 # one mod only the latest counts. works - broken >= 3 makes the status "Works", the other
 # way round "Broken"; hand kept entries (the ones with "coop") never change status.
 #
+# The one click reports the tools send through server/mod-reports-worker arrive as issues with the
+# labels mod-report and pending. They count once "pending" is removed, by Coodsz (that unlabel
+# runs this workflow) or by the hourly auto approval (auto-approve-reports.yml, which then calls
+# this workflow, because a label removed with GITHUB_TOKEN starts no workflow). "taom" and
+# "ad1259" reports are left out.
+#
+# It also writes compat-list/compat-records.json: the approved results as ModderLords compat
+# records (Ryvius' format, .github/scripts/compat-records.mjs), Verdict Works or Broken once
+# works - broken reaches 3 either way.
+#
 # Note: issue events only run the workflow on the default branch.
 #
 # The tools read the list and open the form in Coodsz/Coodsz-Coop-and-Friends (branch
@@ -21,6 +31,8 @@ on:
   issues:
     types: [opened, edited, labeled, unlabeled, closed, reopened]
   workflow_dispatch:
+  # Called by auto-approve-reports.yml after it approved reports.
+  workflow_call:
 
 permissions:
   contents: write
@@ -34,14 +46,14 @@ concurrency:
 jobs:
   tally:
     if: >-
-      github.event_name == 'workflow_dispatch' ||
+      github.event_name != 'issues' ||
       contains(github.event.issue.labels.*.name, 'mod-compat') ||
       github.event.label.name == 'mod-compat'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          ref: ${{ github.event.repository.default_branch || github.ref_name }}
 
       - uses: actions/setup-node@v4
         with:
@@ -49,18 +61,18 @@ jobs:
 
       - name: Count the reports
         id: tally
-        run: node .github/scripts/tally-mod-compat.mjs --file compat-list/mods.json
+        run: node .github/scripts/tally-mod-compat.mjs --file compat-list/mods.json --records compat-list/compat-records.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push the change to the default branch
         if: steps.tally.outputs.changed == 'true'
         env:
-          BRANCH: ${{ github.event.repository.default_branch }}
+          BRANCH: ${{ github.event.repository.default_branch || github.ref_name }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add compat-list/mods.json
+          git add compat-list/mods.json compat-list/compat-records.json
           git commit -m "compat-list: update the mod compatibility tally"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
