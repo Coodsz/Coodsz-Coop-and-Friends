@@ -17,7 +17,13 @@
 #
 # It also writes compat-list/compat-records.json: the approved results as ModderLords compat
 # records (Ryvius' format, .github/scripts/compat-records.mjs), Verdict Works or Broken once
-# works - broken reaches 3 either way.
+# works - broken reaches 3 either way, and MODS.md in the repository root: the readable page of
+# the whole list that the tools' Full mod list link opens.
+#
+# It also runs when compat-list/mods.json or the script is pushed to main (a hand edit or the copy at
+# release), so MODS.md is written right after the files are copied over. Its own commit is made
+# with GITHUB_TOKEN, which starts no workflow, so it does not loop. In this repository the default
+# branch is master, so the push trigger never runs here.
 #
 # Note: issue events only run the workflow on the default branch.
 #
@@ -30,6 +36,13 @@ name: Mod compatibility tally
 on:
   issues:
     types: [opened, edited, labeled, unlabeled, closed, reopened]
+  push:
+    branches: [main]
+    paths:
+      - compat-list/mods.json
+      # The tally and the script it imports.
+      - .github/scripts/tally-mod-compat.mjs
+      - .github/scripts/compat-records.mjs
   workflow_dispatch:
   # Called by auto-approve-reports.yml after it approved reports.
   workflow_call:
@@ -59,9 +72,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: Count the reports
+      - name: Count the reports and write MODS.md
         id: tally
-        run: node .github/scripts/tally-mod-compat.mjs --file compat-list/mods.json --records compat-list/compat-records.json
+        run: node .github/scripts/tally-mod-compat.mjs --file compat-list/mods.json --page MODS.md --records compat-list/compat-records.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -72,7 +85,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add compat-list/mods.json compat-list/compat-records.json
+          git add compat-list/mods.json compat-list/compat-records.json MODS.md
           git commit -m "compat-list: update the mod compatibility tally"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"

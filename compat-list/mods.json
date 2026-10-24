@@ -17,6 +17,8 @@
   //   category  Framework | Gameplay | Overhaul | Troops | Items | UI | Graphics | Audio | Map | Characters | Utility
   //   works     Number of people who reported "works".
   //   broken    Number of people who reported "broken".
+  //   clientOnly  Number of people who reported "client-only" (only when there are any; it never changes the status).
+  //   lastReport  The day of the newest counted report, YYYY-MM-DD (only on reported mods).
   //   idGuess   true when the real Module Id is not known yet and "id" is just the display name.
   //             The first report that carries both the real id and this name fixes it automatically.
   //
@@ -30,10 +32,11 @@
   // Automation (.github/workflows/mod-compat-tally.yml):
   //   Every "Mod compatibility" issue (label "mod-compat") is counted from scratch on each change.
   //   Issues labelled "invalid" or "spam" are ignored, and only a person's latest report per mod counts.
-  //   "client-only" reports are not counted; the maintainer sets "ClientOnly" by hand.
+  //   "client-only" reports only count in "clientOnly"; the maintainer sets "ClientOnly" by hand.
   //   works - broken >= 3  -> "Works",  broken - works >= 3  -> "Broken",  otherwise the status stays.
   //   A reported mod that is not in the list is added as a new entry.
   //   The script keeps this comment block and rewrites the "mods" array, one entry per line, sorted by name.
+  //   It also writes MODS.md in the repository root, the readable page of this list (the tools' Full mod list link).
   "mods": [
     { "id": "Achievement Unblocker", "name": "Achievement Unblocker", "status": "Unknown", "nexus": 4587, "category": "Utility", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Adjustable Bandits", "name": "Adjustable Bandits", "status": "Unknown", "workshop": "2896450980", "nexus": 6599, "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },
