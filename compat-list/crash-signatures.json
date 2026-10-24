@@ -1,0 +1,463 @@
+{
+  "schema": 1,
+  "version": "2026.10.24.3",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...).",
+  "signatures": [
+    {
+      "id": "coop-siege-teams-loop",
+      "side": "client",
+      "priority": 95,
+      "category": "coop-bug",
+      "match": {
+        "any": [
+          { "file": "coopClient", "contains": "Number of teams is not 0", "minCount": 3 },
+          { "file": "coopClient", "contains": "DeploymentPoint.SetBreachSideDeploymentPoint" }
+        ]
+      },
+      "title": "Endless loading after joining a running siege battle",
+      "whatHappened": "You joined a town siege battle that was already running. The battle failed to start on your side, then every tick failed with Number of teams is not 0, so the loading screen never ended. This is a known Coop bug.",
+      "whatToDo": "Close the game and join again. Wait on the campaign map until that siege battle is over before you go into it.",
+      "reportNeeded": true,
+      "labels": ["siege"],
+      "trackingIssue": 8,
+      "upstream": "https://github.com/Bannerlord-Coop-Team/BannerlordCoop/issues/3660",
+      "translations": {
+        "ar": {
+          "title": "تحميل لا ينتهي بعد الانضمام إلى معركة حصار جارية",
+          "whatHappened": "انضممت إلى معركة حصار مدينة كانت قد بدأت بالفعل. فشلت المعركة في البدء عندك، ثم فشلت كل لحظة بالخطأ Number of teams is not 0، فلم تنته شاشة التحميل أبدًا. هذا خطأ معروف في Coop.",
+          "whatToDo": "أغلق اللعبة وانضم مرة أخرى. انتظر على خريطة الحملة حتى تنتهي معركة الحصار تلك قبل أن تدخلها."
+        },
+        "de": {
+          "title": "Endloses Laden nach dem Beitritt zu einer laufenden Belagerungsschlacht",
+          "whatHappened": "Du bist einer Belagerungsschlacht um eine Stadt beigetreten, die schon lief. Die Schlacht konnte bei dir nicht starten, danach schlug jeder Tick mit Number of teams is not 0 fehl, deshalb hörte der Ladebildschirm nie auf. Das ist ein bekannter Coop Fehler.",
+          "whatToDo": "Schließ das Spiel und tritt wieder bei. Warte auf der Kampagnenkarte, bis diese Belagerungsschlacht vorbei ist, bevor du hineingehst."
+        },
+        "fr": {
+          "title": "Chargement sans fin après avoir rejoint une bataille de siège en cours",
+          "whatHappened": "Tu as rejoint une bataille de siège d'une ville qui avait déjà commencé. La bataille n'a pas pu démarrer de ton côté, puis chaque tick a échoué avec Number of teams is not 0, donc l'écran de chargement ne s'est jamais terminé. C'est un bug connu de Coop.",
+          "whatToDo": "Ferme le jeu et rejoins à nouveau. Attends sur la carte de campagne que cette bataille de siège soit finie avant d'y entrer."
+        },
+        "pt": {
+          "title": "Carregamento sem fim depois de entrar numa batalha de cerco em andamento",
+          "whatHappened": "Você entrou numa batalha de cerco de uma cidade que já estava em andamento. A batalha não conseguiu começar do seu lado, depois cada tick falhou com Number of teams is not 0, então a tela de carregamento nunca terminou. Este é um bug conhecido do Coop.",
+          "whatToDo": "Feche o jogo e entre de novo. Espere no mapa da campanha até essa batalha de cerco acabar antes de entrar nela."
+        },
+        "ru": {
+          "title": "Бесконечная загрузка после входа в уже идущую осадную битву",
+          "whatHappened": "Ты вошёл в осадную битву за город, которая уже шла. У тебя битва не смогла начаться, потом каждый тик падал с ошибкой Number of teams is not 0, поэтому экран загрузки так и не закончился. Это известная ошибка Coop.",
+          "whatToDo": "Закрой игру и подключись снова. Подожди на карте кампании, пока эта осадная битва не закончится, и только потом входи в неё."
+        },
+        "tr": {
+          "title": "Devam eden bir kuşatma savaşına katıldıktan sonra bitmeyen yükleme",
+          "whatHappened": "Zaten başlamış bir şehir kuşatması savaşına katıldın. Savaş senin tarafında başlayamadı, sonra her tick Number of teams is not 0 hatasıyla başarısız oldu, bu yüzden yükleme ekranı hiç bitmedi. Bu bilinen bir Coop hatası.",
+          "whatToDo": "Oyunu kapat ve tekrar katıl. O kuşatma savaşı bitene kadar sefer haritasında bekle, sonra içine gir."
+        }
+      }
+    },
+    {
+      "id": "server-raw-assets",
+      "side": "server",
+      "priority": 85,
+      "category": "mod-assets",
+      "match": {
+        "exitCodes": [-1073741819],
+        "all": [
+          {
+            "file": "rgl",
+            "lastLine": "Loading packages\\s+\\$BASE/Modules/(?<mod>[^/\\\\.\\r\\n][^/\\\\\\r\\n]*)/Assets(?:\\.\\.\\.)?\\s*$",
+            "ignore": "^\\s*(?:\\[[^\\]]*\\]\\s*)?(?:Registering items\\.*|Initializing items\\.*|Unable to find item to add dependency.*)?\\s*$"
+          }
+        ]
+      },
+      "title": "A mod's Assets folder crashed the server",
+      "whatHappened": "The Assets folder of {mod} crashed the server while it was loading packages, before the save was loaded. The dedicated server cannot load a mod's raw Assets folder. Your save is fine.",
+      "whatToDo": "Press Start server again. Coodsz Host hid that Assets folder in the server copy now (renamed to Assets.off), so the server skips it. Players keep theirs.",
+      "whatNotToDo": "Do not load a backup or run the save fixes for this. The save was not the problem. Do not move Bannerlord Coop or turn {mod} off for this either.",
+      "reportNeeded": false,
+      "labels": ["assets"],
+      "translations": {
+        "ar": {
+          "title": "مجلد Assets الخاص بمود أوقف الخادم",
+          "whatHappened": "أوقف مجلد Assets الخاص بـ {mod} الخادم أثناء تحميل الحزم، قبل تحميل الحفظ. لا يستطيع الخادم المخصص تحميل مجلد Assets الخام لأي مود. حفظك سليم.",
+          "whatToDo": "اضغط تشغيل الخادم مرة أخرى. أخفى Coodsz Host مجلد Assets هذا في نسخة الخادم الآن (أعاد تسميته إلى Assets.off)، فيتخطاه الخادم. يحتفظ اللاعبون بنسختهم.",
+          "whatNotToDo": "لا تحمّل نسخة احتياطية ولا تشغّل إصلاحات الحفظ لهذا. الحفظ لم يكن المشكلة. لا تنقل Bannerlord Coop ولا توقف {mod} لهذا أيضًا."
+        },
+        "de": {
+          "title": "Der Assets Ordner einer Mod hat den Server abstürzen lassen",
+          "whatHappened": "Der Assets Ordner von {mod} hat den Server beim Laden der Pakete abstürzen lassen, bevor der Spielstand geladen wurde. Der Dedicated Server kann den rohen Assets Ordner einer Mod nicht laden. Dein Spielstand ist in Ordnung.",
+          "whatToDo": "Drück noch einmal auf Server starten. Coodsz Host hat diesen Assets Ordner jetzt in der Serverkopie ausgeblendet (umbenannt in Assets.off), also überspringt der Server ihn. Spieler behalten ihren.",
+          "whatNotToDo": "Lade dafür kein Backup und führe keine Spielstand Reparaturen aus. Der Spielstand war nicht das Problem. Verschieb Bannerlord Coop nicht und schalte {mod} dafür auch nicht aus."
+        },
+        "fr": {
+          "title": "Le dossier Assets d'un mod a fait planter le serveur",
+          "whatHappened": "Le dossier Assets de {mod} a fait planter le serveur pendant le chargement des paquets, avant le chargement de la sauvegarde. Le serveur dédié ne peut pas charger le dossier Assets brut d'un mod. Ta sauvegarde va bien.",
+          "whatToDo": "Clique de nouveau sur Démarrer le serveur. Coodsz Host a caché ce dossier Assets dans la copie du serveur (renommé en Assets.off), donc le serveur l'ignore. Les joueurs gardent le leur.",
+          "whatNotToDo": "Ne charge pas de sauvegarde de secours et ne lance pas les réparations de sauvegarde pour ça. La sauvegarde n'était pas le problème. Ne déplace pas Bannerlord Coop et ne désactive pas {mod} pour ça non plus."
+        },
+        "pt": {
+          "title": "A pasta Assets de um mod derrubou o servidor",
+          "whatHappened": "A pasta Assets de {mod} derrubou o servidor enquanto ele carregava os pacotes, antes de carregar o save. O servidor dedicado não consegue carregar a pasta Assets crua de um mod. Seu save está bem.",
+          "whatToDo": "Clique em Iniciar servidor de novo. O Coodsz Host escondeu essa pasta Assets na cópia do servidor agora (renomeada para Assets.off), então o servidor a ignora. Os jogadores ficam com a deles.",
+          "whatNotToDo": "Não carregue um backup nem rode as correções de save por causa disso. O save não era o problema. Não mova o Bannerlord Coop e também não desligue {mod} por causa disso."
+        },
+        "ru": {
+          "title": "Папка Assets мода уронила сервер",
+          "whatHappened": "Папка Assets мода {mod} уронила сервер во время загрузки пакетов, ещё до загрузки сохранения. Выделенный сервер не может загружать сырую папку Assets мода. С твоим сохранением всё в порядке.",
+          "whatToDo": "Снова нажми Запустить сервер. Coodsz Host уже скрыл эту папку Assets в копии сервера (переименовал в Assets.off), поэтому сервер её пропустит. У игроков их папка остаётся.",
+          "whatNotToDo": "Не загружай для этого резервную копию и не запускай исправления сохранения. Проблема была не в сохранении. Не перемещай Bannerlord Coop и не выключай {mod} из за этого."
+        },
+        "tr": {
+          "title": "Bir modun Assets klasörü sunucuyu çökertti",
+          "whatHappened": "{mod} modunun Assets klasörü, paketler yüklenirken ve kayıt yüklenmeden önce sunucuyu çökertti. Özel sunucu bir modun ham Assets klasörünü yükleyemez. Kaydın sağlam.",
+          "whatToDo": "Sunucuyu başlat düğmesine tekrar bas. Coodsz Host bu Assets klasörünü sunucu kopyasında gizledi (adını Assets.off yaptı), böylece sunucu onu atlar. Oyuncular kendi klasörlerini tutar.",
+          "whatNotToDo": "Bunun için yedek yükleme ve kayıt düzeltmelerini çalıştırma. Sorun kayıt değildi. Bannerlord Coop'u taşıma ve bunun için {mod} modunu da kapatma."
+        }
+      }
+    },
+    {
+      "id": "coopmodpatch-first-setup",
+      "side": "server",
+      "priority": 80,
+      "category": "setup",
+      "match": {
+        "exitCodes": [1],
+        "all": [
+          { "file": "server", "regex": "CoopModPatch.*first-time setup complete" },
+          { "file": "server", "contains": "The server was stopped intentionally; start it again to load them." }
+        ]
+      },
+      "title": "CoopModPatch finished its first time setup",
+      "whatHappened": "CoopModPatch copied the server files it needs and stopped the server on purpose, so they load on the next start. This is not a crash.",
+      "whatToDo": "Setup finished. Press Start server again.",
+      "whatNotToDo": "Do not move Bannerlord Coop or turn CoopModPatch off for this. It only stops the server like this once, after it set itself up.",
+      "reportNeeded": false,
+      "labels": ["coopmodpatch"],
+      "translations": {
+        "ar": {
+          "title": "أنهى CoopModPatch إعداده الأول",
+          "whatHappened": "نسخ CoopModPatch ملفات الخادم التي يحتاجها وأوقف الخادم عمدًا، لكي يتم تحميلها في التشغيل التالي. هذا ليس انهيارًا.",
+          "whatToDo": "انتهى الإعداد. اضغط تشغيل الخادم مرة أخرى.",
+          "whatNotToDo": "لا تنقل Bannerlord Coop ولا توقف CoopModPatch لهذا. يوقف الخادم بهذه الطريقة مرة واحدة فقط، بعد أن يجهّز نفسه."
+        },
+        "de": {
+          "title": "CoopModPatch hat seine Ersteinrichtung abgeschlossen",
+          "whatHappened": "CoopModPatch hat die Serverdateien kopiert, die es braucht, und den Server absichtlich gestoppt, damit sie beim nächsten Start geladen werden. Das ist kein Absturz.",
+          "whatToDo": "Einrichtung fertig. Drück noch einmal auf Server starten.",
+          "whatNotToDo": "Verschieb Bannerlord Coop nicht und schalte CoopModPatch dafür nicht aus. Es stoppt den Server nur einmal so, nachdem es sich eingerichtet hat."
+        },
+        "fr": {
+          "title": "CoopModPatch a terminé sa première configuration",
+          "whatHappened": "CoopModPatch a copié les fichiers serveur dont il a besoin et a arrêté le serveur exprès, pour qu'ils soient chargés au prochain démarrage. Ce n'est pas un plantage.",
+          "whatToDo": "Configuration terminée. Clique de nouveau sur Démarrer le serveur.",
+          "whatNotToDo": "Ne déplace pas Bannerlord Coop et ne désactive pas CoopModPatch pour ça. Il n'arrête le serveur comme ça qu'une seule fois, après s'être configuré."
+        },
+        "pt": {
+          "title": "O CoopModPatch terminou a primeira configuração",
+          "whatHappened": "O CoopModPatch copiou os arquivos de servidor de que precisa e parou o servidor de propósito, para que eles carreguem no próximo início. Isto não é um crash.",
+          "whatToDo": "Configuração concluída. Clique em Iniciar servidor de novo.",
+          "whatNotToDo": "Não mova o Bannerlord Coop nem desligue o CoopModPatch por causa disso. Ele só para o servidor assim uma vez, depois de se configurar."
+        },
+        "ru": {
+          "title": "CoopModPatch закончил первую настройку",
+          "whatHappened": "CoopModPatch скопировал нужные ему файлы сервера и специально остановил сервер, чтобы они загрузились при следующем запуске. Это не вылет.",
+          "whatToDo": "Настройка закончена. Снова нажми Запустить сервер.",
+          "whatNotToDo": "Не перемещай Bannerlord Coop и не выключай CoopModPatch из за этого. Он останавливает сервер так только один раз, после своей настройки."
+        },
+        "tr": {
+          "title": "CoopModPatch ilk kurulumunu bitirdi",
+          "whatHappened": "CoopModPatch ihtiyaç duyduğu sunucu dosyalarını kopyaladı ve bir sonraki başlatmada yüklensinler diye sunucuyu bilerek durdurdu. Bu bir çökme değil.",
+          "whatToDo": "Kurulum bitti. Sunucuyu başlat düğmesine tekrar bas.",
+          "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve CoopModPatch'i kapatma. Sunucuyu sadece bir kez, kendini kurduktan sonra böyle durdurur."
+        }
+      }
+    },
+    {
+      "id": "diplomacy-without-coopcompat",
+      "side": "client",
+      "priority": 70,
+      "category": "mod-missing-patch",
+      "match": {
+        "all": [
+          { "module": "Bannerlord.Diplomacy" },
+          { "file": "coopClient", "regex": "^\\s*at Diplomacy\\.", "tail": 3000 },
+          { "file": "coopClient", "regex": "Client updated managed|^\\s*at Diplomacy\\.Messengers\\.MessengerManager", "tail": 3000 }
+        ],
+        "none": [ { "module": "Diplomacy.CoopCompat" } ]
+      },
+      "title": "Diplomacy is on without Diplomacy Coop Compat",
+      "whatHappened": "Diplomacy is on but Diplomacy Coop Compat is not. In co op, Diplomacy's messengers and some of its buttons change things only the host may change, and the game breaks soon after.",
+      "whatToDo": "Subscribe to Diplomacy Coop Compat on the Steam Workshop (item 3824313421), turn it on in your mod list and play again. Diplomacy itself can stay on.",
+      "reportNeeded": false,
+      "labels": ["diplomacy"],
+      "translations": {
+        "ar": {
+          "title": "Diplomacy مفعّل بدون Diplomacy Coop Compat",
+          "whatHappened": "Diplomacy مفعّل لكن Diplomacy Coop Compat غير مفعّل. في اللعب الجماعي، يغيّر رسل Diplomacy وبعض أزراره أشياء لا يحق تغييرها إلا للمضيف، فتتعطل اللعبة بعد قليل.",
+          "whatToDo": "اشترك في Diplomacy Coop Compat على Steam Workshop (العنصر 3824313421)، وفعّله في قائمة المودات والعب مرة أخرى. يمكن أن يبقى Diplomacy نفسه مفعّلًا."
+        },
+        "de": {
+          "title": "Diplomacy ist an, aber Diplomacy Coop Compat nicht",
+          "whatHappened": "Diplomacy ist an, aber Diplomacy Coop Compat nicht. Im Koop ändern die Boten von Diplomacy und einige seiner Knöpfe Dinge, die nur der Host ändern darf, und das Spiel geht kurz danach kaputt.",
+          "whatToDo": "Abonniere Diplomacy Coop Compat im Steam Workshop (Item 3824313421), schalte es in deiner Mod Liste an und spiel wieder. Diplomacy selbst kann an bleiben."
+        },
+        "fr": {
+          "title": "Diplomacy est activé sans Diplomacy Coop Compat",
+          "whatHappened": "Diplomacy est activé mais Diplomacy Coop Compat ne l'est pas. En coop, les messagers de Diplomacy et certains de ses boutons changent des choses que seul l'hôte peut changer, et le jeu casse peu après.",
+          "whatToDo": "Abonne toi à Diplomacy Coop Compat sur le Steam Workshop (objet 3824313421), active le dans ta liste de mods et rejoue. Diplomacy lui même peut rester activé."
+        },
+        "pt": {
+          "title": "O Diplomacy está ligado sem o Diplomacy Coop Compat",
+          "whatHappened": "O Diplomacy está ligado mas o Diplomacy Coop Compat não. No coop, os mensageiros do Diplomacy e alguns dos seus botões mudam coisas que só o host pode mudar, e o jogo quebra logo depois.",
+          "whatToDo": "Inscreva se no Diplomacy Coop Compat na Steam Workshop (item 3824313421), ligue o na sua lista de mods e jogue de novo. O próprio Diplomacy pode continuar ligado."
+        },
+        "ru": {
+          "title": "Diplomacy включён без Diplomacy Coop Compat",
+          "whatHappened": "Diplomacy включён, а Diplomacy Coop Compat нет. В кооперативе гонцы Diplomacy и некоторые его кнопки меняют то, что может менять только хост, и вскоре игра ломается.",
+          "whatToDo": "Подпишись на Diplomacy Coop Compat в Steam Workshop (предмет 3824313421), включи его в списке модов и играй снова. Сам Diplomacy можно оставить включённым."
+        },
+        "tr": {
+          "title": "Diplomacy açık ama Diplomacy Coop Compat yok",
+          "whatHappened": "Diplomacy açık ama Diplomacy Coop Compat açık değil. Co op oyunda Diplomacy'nin elçileri ve bazı düğmeleri yalnızca hostun değiştirebileceği şeyleri değiştirir ve oyun kısa süre sonra bozulur.",
+          "whatToDo": "Steam Workshop'ta Diplomacy Coop Compat'e abone ol (öğe 3824313421), mod listende aç ve tekrar oyna. Diplomacy'nin kendisi açık kalabilir."
+        }
+      }
+    },
+    {
+      "id": "join-closed-mod-mismatch",
+      "side": "client",
+      "priority": 60,
+      "category": "mod-mismatch",
+      "match": {
+        "all": [
+          { "file": "coopClient", "contains": "Steam tunnel to the host established" },
+          { "file": "coopClient", "contains": "reason=client-disposed" }
+        ],
+        "none": [
+          { "file": "coopClient", "contains": "Game State is changing to MapState" }
+        ]
+      },
+      "title": "The join closed right after connecting",
+      "whatHappened": "Your game reached the host, then the connection closed before the campaign loaded. This almost always means your mods do not match the mods on the server.",
+      "whatToDo": "Open Connect and click Get all of this server's mods, so your mod list matches the server. Then join again. If you added or removed mods since your last join, ask the host which mods the server runs.",
+      "reportNeeded": false,
+      "labels": ["join"],
+      "translations": {
+        "ar": {
+          "title": "أُغلق الانضمام بعد الاتصال مباشرة",
+          "whatHappened": "وصلت لعبتك إلى المضيف، ثم أُغلق الاتصال قبل تحميل الحملة. هذا يعني في الغالب أن موداتك لا تطابق المودات على الخادم.",
+          "whatToDo": "افتح اتصال واستخدم الزر الذي يجلب كل مودات هذا الخادم، لكي تطابق قائمة موداتك الخادم. ثم انضم مرة أخرى. إذا أضفت أو أزلت مودات منذ آخر انضمام، اسأل المضيف عن المودات التي يشغّلها الخادم."
+        },
+        "de": {
+          "title": "Der Beitritt wurde direkt nach dem Verbinden geschlossen",
+          "whatHappened": "Dein Spiel hat den Host erreicht, dann wurde die Verbindung geschlossen, bevor die Kampagne geladen war. Das heißt fast immer, dass deine Mods nicht zu den Mods auf dem Server passen.",
+          "whatToDo": "Öffne Verbinden und nutze den Knopf, der alle Mods dieses Servers holt, damit deine Mod Liste zum Server passt. Tritt dann wieder bei. Wenn du seit dem letzten Beitritt Mods hinzugefügt oder entfernt hast, frag den Host, welche Mods der Server nutzt."
+        },
+        "fr": {
+          "title": "La connexion s'est fermée juste après s'être connectée",
+          "whatHappened": "Ton jeu a atteint l'hôte, puis la connexion s'est fermée avant le chargement de la campagne. Cela veut presque toujours dire que tes mods ne correspondent pas aux mods du serveur.",
+          "whatToDo": "Ouvre Se connecter et utilise le bouton qui récupère tous les mods de ce serveur, pour que ta liste de mods corresponde au serveur. Puis rejoins à nouveau. Si tu as ajouté ou retiré des mods depuis ta dernière connexion, demande à l'hôte quels mods le serveur utilise."
+        },
+        "pt": {
+          "title": "A entrada fechou logo depois de conectar",
+          "whatHappened": "Seu jogo chegou ao host, depois a conexão fechou antes de a campanha carregar. Isso quase sempre quer dizer que seus mods não batem com os mods do servidor.",
+          "whatToDo": "Abra Conectar e use o botão que pega todos os mods deste servidor, para que sua lista de mods bata com o servidor. Depois entre de novo. Se você adicionou ou removeu mods desde a última entrada, pergunte ao host quais mods o servidor usa."
+        },
+        "ru": {
+          "title": "Подключение закрылось сразу после соединения",
+          "whatHappened": "Твоя игра дошла до хоста, но соединение закрылось ещё до загрузки кампании. Почти всегда это значит, что твои моды не совпадают с модами на сервере.",
+          "whatToDo": "Открой Подключиться и нажми кнопку, которая получает все моды этого сервера, чтобы твой список модов совпал с сервером. Потом подключись снова. Если ты добавлял или убирал моды после прошлого подключения, спроси у хоста, какие моды стоят на сервере."
+        },
+        "tr": {
+          "title": "Katılım bağlandıktan hemen sonra kapandı",
+          "whatHappened": "Oyunun hosta ulaştı, sonra sefer yüklenmeden bağlantı kapandı. Bu neredeyse her zaman modlarının sunucudaki modlarla eşleşmediği anlamına gelir.",
+          "whatToDo": "Bağlan'ı aç ve bu sunucunun tüm modlarını getiren düğmeyi kullan, böylece mod listen sunucuyla eşleşir. Sonra tekrar katıl. Son katılımından beri mod eklediysen ya da çıkardıysan, hosta sunucunun hangi modları çalıştırdığını sor."
+        }
+      }
+    },
+    {
+      "id": "client-clean-exit",
+      "side": "client",
+      "priority": 10,
+      "category": "not-a-crash",
+      "match": {
+        "exitCodes": [-1],
+        "all": [
+          { "file": "rgl", "lastLine": "Managed Interface deleted|There are no living managed objects|Final_cleanup" }
+        ]
+      },
+      "title": "The game closed normally",
+      "whatHappened": "You quit the game the normal way. Bannerlord ends with exit code -1 when it quits, and Coop makes a crash report for every exit code that is not 0. There was no error and no crash.",
+      "whatToDo": "Nothing to fix. Start the game again when you want to play.",
+      "reportNeeded": false,
+      "labels": [],
+      "translations": {
+        "ar": {
+          "title": "أُغلقت اللعبة بشكل طبيعي",
+          "whatHappened": "خرجت من اللعبة بالطريقة العادية. ينتهي Bannerlord برمز الخروج -1 عند الخروج، ويصنع Coop تقرير انهيار لكل رمز خروج ليس 0. لم يكن هناك خطأ ولا انهيار.",
+          "whatToDo": "لا يوجد شيء لإصلاحه. شغّل اللعبة مرة أخرى عندما تريد اللعب."
+        },
+        "de": {
+          "title": "Das Spiel wurde normal geschlossen",
+          "whatHappened": "Du hast das Spiel ganz normal beendet. Bannerlord endet beim Beenden mit dem Exit Code -1, und Coop macht für jeden Exit Code außer 0 einen Absturzbericht. Es gab keinen Fehler und keinen Absturz.",
+          "whatToDo": "Nichts zu reparieren. Starte das Spiel wieder, wenn du spielen willst."
+        },
+        "fr": {
+          "title": "Le jeu s'est fermé normalement",
+          "whatHappened": "Tu as quitté le jeu normalement. Bannerlord se termine avec le code de sortie -1 quand il quitte, et Coop crée un rapport de plantage pour chaque code de sortie qui n'est pas 0. Il n'y a eu ni erreur ni plantage.",
+          "whatToDo": "Rien à réparer. Relance le jeu quand tu veux jouer."
+        },
+        "pt": {
+          "title": "O jogo fechou normalmente",
+          "whatHappened": "Você saiu do jogo do jeito normal. O Bannerlord termina com o código de saída -1 ao sair, e o Coop faz um relatório de crash para todo código de saída que não seja 0. Não houve erro nem crash.",
+          "whatToDo": "Nada para consertar. Abra o jogo de novo quando quiser jogar."
+        },
+        "ru": {
+          "title": "Игра закрылась нормально",
+          "whatHappened": "Ты вышел из игры обычным способом. При выходе Bannerlord завершается с кодом выхода -1, а Coop создаёт отчёт о вылете для любого кода выхода кроме 0. Не было ни ошибки, ни вылета.",
+          "whatToDo": "Чинить нечего. Запусти игру снова, когда захочешь играть."
+        },
+        "tr": {
+          "title": "Oyun normal şekilde kapandı",
+          "whatHappened": "Oyundan normal yoldan çıktın. Bannerlord kapanırken -1 çıkış koduyla biter ve Coop, 0 olmayan her çıkış kodu için bir çökme raporu oluşturur. Ne hata ne de çökme vardı.",
+          "whatToDo": "Düzeltilecek bir şey yok. Oynamak istediğinde oyunu yeniden başlat."
+        }
+      }
+    },
+    {
+      "id": "server-exit-code-1-silent",
+      "side": "server",
+      "priority": 5,
+      "category": "silent-exit",
+      "match": {
+        "exitCodes": [1],
+        "none": [
+          {
+            "file": "server",
+            "regex": "(?i)\\b(?:unhandled exception|fatal error|EXCEPTION_ACCESS_VIOLATION|access violation|stack overflow|out of memory)\\b|\\b(?:[A-Z]\\w*\\.)*[A-Z]\\w*Exception\\b\\s*:",
+            "ignore": "(?i)FMOD|Serilog|AccessTools|ReflectionTypeLoadException|attribute is not declared",
+            "tail": 200
+          },
+          {
+            "file": "serverLog",
+            "regex": "(?i)\\b(?:unhandled exception|fatal error|EXCEPTION_ACCESS_VIOLATION|access violation|stack overflow|out of memory)\\b|\\b(?:[A-Z]\\w*\\.)*[A-Z]\\w*Exception\\b\\s*:",
+            "ignore": "(?i)FMOD|Serilog|AccessTools|ReflectionTypeLoadException|attribute is not declared",
+            "tail": 200
+          }
+        ]
+      },
+      "title": "The server closed with exit code 1 and no error",
+      "whatHappened": "The server stopped with exit code 1 and no error. Exit code 1 with no error usually means the process was closed from outside, by an antivirus, Task Manager or a script. A Windows Insider build can do this too.",
+      "whatToDo": "Check your antivirus history and allow the DedicatedServer folder if it was blocked. Make sure no script or tool closes dotnet.exe or the server. If this PC runs a Windows Insider build, try a normal Windows build. Then press Start server again.",
+      "whatNotToDo": "Do not move Bannerlord Coop or turn your mods off for this. Nothing in the log points at a mod or the save.",
+      "reportNeeded": true,
+      "labels": ["exit-code-1"],
+      "trackingIssue": 12,
+      "translations": {
+        "ar": {
+          "title": "أُغلق الخادم برمز الخروج 1 وبدون خطأ",
+          "whatHappened": "توقف الخادم برمز الخروج 1 وبدون خطأ. رمز الخروج 1 بدون خطأ يعني عادة أن العملية أُغلقت من الخارج، بواسطة برنامج مكافحة الفيروسات أو مدير المهام أو سكربت. يمكن أن يفعل إصدار Windows Insider ذلك أيضًا.",
+          "whatToDo": "افحص سجل برنامج مكافحة الفيروسات واسمح بمجلد DedicatedServer إذا كان محظورًا. تأكد أنه لا يوجد سكربت أو أداة تغلق dotnet.exe أو الخادم. إذا كان هذا الجهاز يعمل بإصدار Windows Insider، جرّب إصدار Windows عاديًا. ثم اضغط تشغيل الخادم مرة أخرى.",
+          "whatNotToDo": "لا تنقل Bannerlord Coop ولا توقف موداتك لهذا. لا شيء في السجل يشير إلى مود أو إلى الحفظ."
+        },
+        "de": {
+          "title": "Der Server wurde mit Exit Code 1 und ohne Fehler geschlossen",
+          "whatHappened": "Der Server hat mit Exit Code 1 und ohne Fehler gestoppt. Exit Code 1 ohne Fehler heißt meistens, dass der Prozess von außen geschlossen wurde, durch einen Virenscanner, den Task Manager oder ein Skript. Ein Windows Insider Build kann das auch.",
+          "whatToDo": "Schau in den Verlauf deines Virenscanners und erlaube den Ordner DedicatedServer, falls er blockiert wurde. Stell sicher, dass kein Skript oder Tool dotnet.exe oder den Server schließt. Wenn dieser PC einen Windows Insider Build nutzt, probier ein normales Windows. Drück dann noch einmal auf Server starten.",
+          "whatNotToDo": "Verschieb Bannerlord Coop nicht und schalte deine Mods dafür nicht aus. Nichts im Log zeigt auf eine Mod oder den Spielstand."
+        },
+        "fr": {
+          "title": "Le serveur s'est fermé avec le code de sortie 1 et sans erreur",
+          "whatHappened": "Le serveur s'est arrêté avec le code de sortie 1 et sans erreur. Le code de sortie 1 sans erreur veut souvent dire que le processus a été fermé de l'extérieur, par un antivirus, le Gestionnaire des tâches ou un script. Une version Windows Insider peut le faire aussi.",
+          "whatToDo": "Regarde l'historique de ton antivirus et autorise le dossier DedicatedServer s'il a été bloqué. Vérifie qu'aucun script ou outil ne ferme dotnet.exe ou le serveur. Si ce PC utilise une version Windows Insider, essaie une version normale de Windows. Puis clique de nouveau sur Démarrer le serveur.",
+          "whatNotToDo": "Ne déplace pas Bannerlord Coop et ne désactive pas tes mods pour ça. Rien dans le journal ne montre un mod ou la sauvegarde."
+        },
+        "pt": {
+          "title": "O servidor fechou com o código de saída 1 e sem erro",
+          "whatHappened": "O servidor parou com o código de saída 1 e sem erro. Código de saída 1 sem erro normalmente quer dizer que o processo foi fechado de fora, por um antivírus, pelo Gerenciador de Tarefas ou por um script. Uma versão Windows Insider também pode fazer isso.",
+          "whatToDo": "Veja o histórico do seu antivírus e libere a pasta DedicatedServer se ela foi bloqueada. Confira que nenhum script ou ferramenta fecha o dotnet.exe ou o servidor. Se este PC usa uma versão Windows Insider, tente uma versão normal do Windows. Depois clique em Iniciar servidor de novo.",
+          "whatNotToDo": "Não mova o Bannerlord Coop nem desligue seus mods por causa disso. Nada no log aponta para um mod ou para o save."
+        },
+        "ru": {
+          "title": "Сервер закрылся с кодом выхода 1 и без ошибки",
+          "whatHappened": "Сервер остановился с кодом выхода 1 и без ошибки. Код выхода 1 без ошибки обычно значит, что процесс закрыли снаружи, антивирус, Диспетчер задач или скрипт. Сборка Windows Insider тоже может так делать.",
+          "whatToDo": "Проверь историю антивируса и разреши папку DedicatedServer, если её заблокировали. Убедись, что никакой скрипт или программа не закрывает dotnet.exe или сервер. Если на этом ПК стоит сборка Windows Insider, попробуй обычную Windows. Потом снова нажми Запустить сервер.",
+          "whatNotToDo": "Не перемещай Bannerlord Coop и не выключай свои моды из за этого. Ничто в логе не указывает на мод или сохранение."
+        },
+        "tr": {
+          "title": "Sunucu 1 çıkış koduyla ve hatasız kapandı",
+          "whatHappened": "Sunucu 1 çıkış koduyla ve hiçbir hata olmadan durdu. Hatasız 1 çıkış kodu genelde işlemin dışarıdan kapatıldığı anlamına gelir, bir antivirüs, Görev Yöneticisi ya da bir betik tarafından. Bir Windows Insider sürümü de bunu yapabilir.",
+          "whatToDo": "Antivirüs geçmişine bak ve engellendiyse DedicatedServer klasörüne izin ver. Hiçbir betiğin ya da aracın dotnet.exe'yi veya sunucuyu kapatmadığından emin ol. Bu bilgisayar bir Windows Insider sürümü kullanıyorsa normal bir Windows sürümü dene. Sonra Sunucuyu başlat düğmesine tekrar bas.",
+          "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        }
+      }
+    },
+    {
+      "id": "server-exit-code-minus-1-silent",
+      "side": "server",
+      "priority": 5,
+      "category": "silent-exit",
+      "match": {
+        "exitCodes": [-1],
+        "none": [
+          {
+            "file": "server",
+            "regex": "(?i)\\b(?:unhandled exception|fatal error|EXCEPTION_ACCESS_VIOLATION|access violation|stack overflow|out of memory)\\b|\\b(?:[A-Z]\\w*\\.)*[A-Z]\\w*Exception\\b\\s*:",
+            "ignore": "(?i)FMOD|Serilog|AccessTools|ReflectionTypeLoadException|attribute is not declared",
+            "tail": 200
+          },
+          {
+            "file": "serverLog",
+            "regex": "(?i)\\b(?:unhandled exception|fatal error|EXCEPTION_ACCESS_VIOLATION|access violation|stack overflow|out of memory)\\b|\\b(?:[A-Z]\\w*\\.)*[A-Z]\\w*Exception\\b\\s*:",
+            "ignore": "(?i)FMOD|Serilog|AccessTools|ReflectionTypeLoadException|attribute is not declared",
+            "tail": 200
+          }
+        ]
+      },
+      "title": "The server closed with exit code -1 and no error",
+      "whatHappened": "The server stopped with exit code -1 and no error. Exit code -1 with no error usually means the process was closed from outside, by an antivirus, Task Manager or a script. A Windows Insider build can do this too.",
+      "whatToDo": "Check your antivirus history and allow the DedicatedServer folder if it was blocked. Make sure no script or tool closes dotnet.exe or the server. If this PC runs a Windows Insider build, try a normal Windows build. Then press Start server again.",
+      "whatNotToDo": "Do not move Bannerlord Coop or turn your mods off for this. Nothing in the log points at a mod or the save.",
+      "reportNeeded": true,
+      "labels": ["exit-code-1"],
+      "trackingIssue": 12,
+      "translations": {
+        "ar": {
+          "title": "أُغلق الخادم برمز الخروج -1 وبدون خطأ",
+          "whatHappened": "توقف الخادم برمز الخروج -1 وبدون خطأ. رمز الخروج -1 بدون خطأ يعني عادة أن العملية أُغلقت من الخارج، بواسطة برنامج مكافحة الفيروسات أو مدير المهام أو سكربت. يمكن أن يفعل إصدار Windows Insider ذلك أيضًا.",
+          "whatToDo": "افحص سجل برنامج مكافحة الفيروسات واسمح بمجلد DedicatedServer إذا كان محظورًا. تأكد أنه لا يوجد سكربت أو أداة تغلق dotnet.exe أو الخادم. إذا كان هذا الجهاز يعمل بإصدار Windows Insider، جرّب إصدار Windows عاديًا. ثم اضغط تشغيل الخادم مرة أخرى.",
+          "whatNotToDo": "لا تنقل Bannerlord Coop ولا توقف موداتك لهذا. لا شيء في السجل يشير إلى مود أو إلى الحفظ."
+        },
+        "de": {
+          "title": "Der Server wurde mit Exit Code -1 und ohne Fehler geschlossen",
+          "whatHappened": "Der Server hat mit Exit Code -1 und ohne Fehler gestoppt. Exit Code -1 ohne Fehler heißt meistens, dass der Prozess von außen geschlossen wurde, durch einen Virenscanner, den Task Manager oder ein Skript. Ein Windows Insider Build kann das auch.",
+          "whatToDo": "Schau in den Verlauf deines Virenscanners und erlaube den Ordner DedicatedServer, falls er blockiert wurde. Stell sicher, dass kein Skript oder Tool dotnet.exe oder den Server schließt. Wenn dieser PC einen Windows Insider Build nutzt, probier ein normales Windows. Drück dann noch einmal auf Server starten.",
+          "whatNotToDo": "Verschieb Bannerlord Coop nicht und schalte deine Mods dafür nicht aus. Nichts im Log zeigt auf eine Mod oder den Spielstand."
+        },
+        "fr": {
+          "title": "Le serveur s'est fermé avec le code de sortie -1 et sans erreur",
+          "whatHappened": "Le serveur s'est arrêté avec le code de sortie -1 et sans erreur. Le code de sortie -1 sans erreur veut souvent dire que le processus a été fermé de l'extérieur, par un antivirus, le Gestionnaire des tâches ou un script. Une version Windows Insider peut le faire aussi.",
+          "whatToDo": "Regarde l'historique de ton antivirus et autorise le dossier DedicatedServer s'il a été bloqué. Vérifie qu'aucun script ou outil ne ferme dotnet.exe ou le serveur. Si ce PC utilise une version Windows Insider, essaie une version normale de Windows. Puis clique de nouveau sur Démarrer le serveur.",
+          "whatNotToDo": "Ne déplace pas Bannerlord Coop et ne désactive pas tes mods pour ça. Rien dans le journal ne montre un mod ou la sauvegarde."
+        },
+        "pt": {
+          "title": "O servidor fechou com o código de saída -1 e sem erro",
+          "whatHappened": "O servidor parou com o código de saída -1 e sem erro. Código de saída -1 sem erro normalmente quer dizer que o processo foi fechado de fora, por um antivírus, pelo Gerenciador de Tarefas ou por um script. Uma versão Windows Insider também pode fazer isso.",
+          "whatToDo": "Veja o histórico do seu antivírus e libere a pasta DedicatedServer se ela foi bloqueada. Confira que nenhum script ou ferramenta fecha o dotnet.exe ou o servidor. Se este PC usa uma versão Windows Insider, tente uma versão normal do Windows. Depois clique em Iniciar servidor de novo.",
+          "whatNotToDo": "Não mova o Bannerlord Coop nem desligue seus mods por causa disso. Nada no log aponta para um mod ou para o save."
+        },
+        "ru": {
+          "title": "Сервер закрылся с кодом выхода -1 и без ошибки",
+          "whatHappened": "Сервер остановился с кодом выхода -1 и без ошибки. Код выхода -1 без ошибки обычно значит, что процесс закрыли снаружи, антивирус, Диспетчер задач или скрипт. Сборка Windows Insider тоже может так делать.",
+          "whatToDo": "Проверь историю антивируса и разреши папку DedicatedServer, если её заблокировали. Убедись, что никакой скрипт или программа не закрывает dotnet.exe или сервер. Если на этом ПК стоит сборка Windows Insider, попробуй обычную Windows. Потом снова нажми Запустить сервер.",
+          "whatNotToDo": "Не перемещай Bannerlord Coop и не выключай свои моды из за этого. Ничто в логе не указывает на мод или сохранение."
+        },
+        "tr": {
+          "title": "Sunucu -1 çıkış koduyla ve hatasız kapandı",
+          "whatHappened": "Sunucu -1 çıkış koduyla ve hiçbir hata olmadan durdu. Hatasız -1 çıkış kodu genelde işlemin dışarıdan kapatıldığı anlamına gelir, bir antivirüs, Görev Yöneticisi ya da bir betik tarafından. Bir Windows Insider sürümü de bunu yapabilir.",
+          "whatToDo": "Antivirüs geçmişine bak ve engellendiyse DedicatedServer klasörüne izin ver. Hiçbir betiğin ya da aracın dotnet.exe'yi veya sunucuyu kapatmadığından emin ol. Bu bilgisayar bir Windows Insider sürümü kullanıyorsa normal bir Windows sürümü dene. Sonra Sunucuyu başlat düğmesine tekrar bas.",
+          "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        }
+      }
+    }
+  ]
+}
