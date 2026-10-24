@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.10.24.3",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...).",
+  "version": "2026.10.24.4",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -57,6 +57,7 @@
     {
       "id": "server-raw-assets",
       "side": "server",
+      "tools": ["coop", "ad1259"],
       "priority": 85,
       "category": "mod-assets",
       "match": {
@@ -225,6 +226,7 @@
     {
       "id": "join-closed-mod-mismatch",
       "side": "client",
+      "tools": ["coop", "ad1259"],
       "priority": 60,
       "category": "mod-mismatch",
       "match": {
@@ -326,6 +328,7 @@
     {
       "id": "server-exit-code-1-silent",
       "side": "server",
+      "tools": ["coop", "ad1259"],
       "priority": 5,
       "category": "silent-exit",
       "match": {
@@ -394,6 +397,7 @@
     {
       "id": "server-exit-code-minus-1-silent",
       "side": "server",
+      "tools": ["coop", "ad1259"],
       "priority": 5,
       "category": "silent-exit",
       "match": {
@@ -456,6 +460,105 @@
           "whatHappened": "Sunucu -1 çıkış koduyla ve hiçbir hata olmadan durdu. Hatasız -1 çıkış kodu genelde işlemin dışarıdan kapatıldığı anlamına gelir, bir antivirüs, Görev Yöneticisi ya da bir betik tarafından. Bir Windows Insider sürümü de bunu yapabilir.",
           "whatToDo": "Antivirüs geçmişine bak ve engellendiyse DedicatedServer klasörüne izin ver. Hiçbir betiğin ya da aracın dotnet.exe'yi veya sunucuyu kapatmadığından emin ol. Bu bilgisayar bir Windows Insider sürümü kullanıyorsa normal bir Windows sürümü dene. Sonra Sunucuyu başlat düğmesine tekrar bas.",
           "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        }
+      }
+    },
+    {
+      "id": "taom-coopcompat-startup-check",
+      "side": "server",
+      "tools": ["taom"],
+      "priority": 90,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "hostConsole", "contains": "pre-serving attestation failed", "newestOnly": true },
+          { "file": "hostConsole", "contains": "rejected AssertPreServingReady", "newestOnly": true }
+        ]
+      },
+      "title": "TAOM.CoopCompat stopped the start during its own startup check",
+      "whatHappened": "TAOM.CoopCompat checks the server before it lets players in. That check failed on this start, so it stopped the server on purpose. The save was not loaded yet, so your save is fine.",
+      "whatToDo": "Press Start server again. If it keeps stopping the same way, send this report.",
+      "reportNeeded": true,
+      "labels": ["taom-startup-check"],
+      "translations": {
+        "ar": {
+          "title": "أوقف TAOM.CoopCompat التشغيل أثناء فحص البدء الخاص به",
+          "whatHappened": "يفحص TAOM.CoopCompat الخادم قبل أن يسمح للاعبين بالدخول. فشل هذا الفحص في هذا التشغيل، فأوقف الخادم عمدًا. لم يكن الحفظ قد حُمّل بعد، لذلك حفظك سليم.",
+          "whatToDo": "اضغط تشغيل الخادم مرة أخرى. إذا استمر في التوقف بالطريقة نفسها، فأرسل هذا التقرير."
+        },
+        "de": {
+          "title": "TAOM.CoopCompat hat den Start bei seiner eigenen Startprüfung gestoppt",
+          "whatHappened": "TAOM.CoopCompat prüft den Server, bevor es Spieler hereinlässt. Diese Prüfung ist bei diesem Start fehlgeschlagen, deshalb hat es den Server absichtlich gestoppt. Der Spielstand war noch nicht geladen, also ist dein Spielstand in Ordnung.",
+          "whatToDo": "Drück erneut auf Server starten. Wenn er immer wieder genauso stoppt, schick diesen Bericht."
+        },
+        "fr": {
+          "title": "TAOM.CoopCompat a arrêté le démarrage pendant sa propre vérification de démarrage",
+          "whatHappened": "TAOM.CoopCompat vérifie le serveur avant de laisser entrer les joueurs. Cette vérification a échoué à ce démarrage, donc il a arrêté le serveur exprès. La sauvegarde n'était pas encore chargée, donc ta sauvegarde n'a rien.",
+          "whatToDo": "Clique à nouveau sur Démarrer le serveur. S'il continue de s'arrêter de la même façon, envoie ce rapport."
+        },
+        "pt": {
+          "title": "O TAOM.CoopCompat parou a inicialização durante a própria verificação de início",
+          "whatHappened": "O TAOM.CoopCompat verifica o servidor antes de deixar os jogadores entrarem. Essa verificação falhou nesta inicialização, então ele parou o servidor de propósito. O save ainda não tinha sido carregado, então seu save está bem.",
+          "whatToDo": "Clique em Iniciar servidor de novo. Se continuar parando do mesmo jeito, envie este relatório."
+        },
+        "ru": {
+          "title": "TAOM.CoopCompat остановил запуск во время своей проверки при старте",
+          "whatHappened": "TAOM.CoopCompat проверяет сервер, прежде чем пустить игроков. Эта проверка не прошла при этом запуске, поэтому он намеренно остановил сервер. Сохранение ещё не было загружено, так что с твоим сохранением всё в порядке.",
+          "whatToDo": "Нажми Запустить сервер ещё раз. Если он и дальше останавливается так же, отправь этот отчёт."
+        },
+        "tr": {
+          "title": "TAOM.CoopCompat başlatmayı kendi başlangıç denetimi sırasında durdurdu",
+          "whatHappened": "TAOM.CoopCompat oyuncuları içeri almadan önce sunucuyu denetler. Bu denetim bu başlatmada başarısız oldu, bu yüzden sunucuyu bilerek durdurdu. Kayıt henüz yüklenmemişti, yani kayıt dosyan sağlam.",
+          "whatToDo": "Sunucuyu başlat düğmesine yeniden bas. Aynı şekilde durmaya devam ederse bu raporu gönder."
+        }
+      }
+    },
+    {
+      "id": "gpu-create-texture-array",
+      "side": "both",
+      "priority": 40,
+      "category": "setup",
+      "match": {
+        "exitCodes": [5],
+        "all": [
+          { "file": "rgl", "contains": "create_texture_array failed", "newestOnly": true }
+        ]
+      },
+      "title": "Graphics error while the map terrain loaded",
+      "whatHappened": "Bannerlord could not create a texture on your graphics card while the map terrain loaded (create_texture_array failed). This is a problem between Bannerlord and the graphics card or its driver, not Coop or the Coodsz tools.",
+      "whatToDo": "Update your graphics driver from the NVIDIA, AMD or Intel website. Do not use a Windows Insider preview build. Try another Terrain quality in the game's video settings. Check whether a single player campaign loads. If it crashes the same way there, it is not Coop.",
+      "reportNeeded": false,
+      "labels": ["gpu"],
+      "translations": {
+        "ar": {
+          "title": "خطأ في الرسوميات أثناء تحميل تضاريس الخريطة",
+          "whatHappened": "لم يستطع Bannerlord إنشاء نسيج على بطاقة الرسوميات أثناء تحميل تضاريس الخريطة (create_texture_array failed). هذه مشكلة بين Bannerlord وبطاقة الرسوميات أو تعريفها، وليست من Coop أو أدوات Coodsz.",
+          "whatToDo": "حدّث تعريف بطاقة الرسوميات من موقع NVIDIA أو AMD أو Intel. لا تستخدم إصدار Windows Insider التجريبي. جرّب جودة مختلفة لخيار Terrain في إعدادات الفيديو في اللعبة. تحقق مما إذا كانت حملة اللعب الفردي تُحمّل. إذا تعطلت بالطريقة نفسها هناك، فالمشكلة ليست من Coop."
+        },
+        "de": {
+          "title": "Grafikfehler beim Laden des Kartengeländes",
+          "whatHappened": "Bannerlord konnte beim Laden des Kartengeländes keine Textur auf deiner Grafikkarte anlegen (create_texture_array failed). Das ist ein Problem zwischen Bannerlord und der Grafikkarte oder ihrem Treiber, nicht von Coop oder den Coodsz Tools.",
+          "whatToDo": "Aktualisiere deinen Grafiktreiber über die Website von NVIDIA, AMD oder Intel. Nutze keine Windows Insider Vorschauversion. Probier in den Videoeinstellungen des Spiels eine andere Terrain Qualität. Prüf, ob eine Einzelspieler Kampagne lädt. Wenn sie dort genauso abstürzt, liegt es nicht an Coop."
+        },
+        "fr": {
+          "title": "Erreur graphique pendant le chargement du terrain de la carte",
+          "whatHappened": "Bannerlord n'a pas pu créer une texture sur ta carte graphique pendant le chargement du terrain de la carte (create_texture_array failed). C'est un problème entre Bannerlord et la carte graphique ou son pilote, pas de Coop ni des outils Coodsz.",
+          "whatToDo": "Mets à jour ton pilote graphique depuis le site de NVIDIA, AMD ou Intel. N'utilise pas une version préliminaire Windows Insider. Essaie une autre qualité de Terrain dans les réglages vidéo du jeu. Vérifie si une campagne solo se charge. Si elle plante de la même façon, ce n'est pas Coop."
+        },
+        "pt": {
+          "title": "Erro gráfico enquanto o terreno do mapa carregava",
+          "whatHappened": "O Bannerlord não conseguiu criar uma textura na sua placa de vídeo enquanto o terreno do mapa carregava (create_texture_array failed). É um problema entre o Bannerlord e a placa de vídeo ou o driver dela, não do Coop nem das ferramentas Coodsz.",
+          "whatToDo": "Atualize o driver da placa de vídeo pelo site da NVIDIA, AMD ou Intel. Não use uma versão de prévia Windows Insider. Tente outra qualidade de Terrain nas configurações de vídeo do jogo. Veja se uma campanha single player carrega. Se travar do mesmo jeito lá, não é o Coop."
+        },
+        "ru": {
+          "title": "Ошибка графики при загрузке ландшафта карты",
+          "whatHappened": "Bannerlord не смог создать текстуру на твоей видеокарте при загрузке ландшафта карты (create_texture_array failed). Это проблема между Bannerlord и видеокартой или её драйвером, а не Coop и не инструментов Coodsz.",
+          "whatToDo": "Обнови драйвер видеокарты с сайта NVIDIA, AMD или Intel. Не используй предварительные сборки Windows Insider. Попробуй другое качество Terrain в настройках видео игры. Проверь, загружается ли одиночная кампания. Если там игра вылетает так же, дело не в Coop."
+        },
+        "tr": {
+          "title": "Harita arazisi yüklenirken grafik hatası",
+          "whatHappened": "Bannerlord harita arazisi yüklenirken ekran kartında bir doku oluşturamadı (create_texture_array failed). Bu, Bannerlord ile ekran kartı ya da sürücüsü arasındaki bir sorun, Coop ya da Coodsz araçlarıyla ilgili değil.",
+          "whatToDo": "Ekran kartı sürücünü NVIDIA, AMD ya da Intel sitesinden güncelle. Windows Insider önizleme sürümü kullanma. Oyunun video ayarlarında başka bir Terrain kalitesi dene. Tek oyunculu bir seferin yüklenip yüklenmediğine bak. Orada da aynı şekilde çöküyorsa sorun Coop değil."
         }
       }
     }
