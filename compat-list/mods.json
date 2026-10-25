@@ -532,7 +532,7 @@
     { "id": "Total War Music", "name": "Total War Music", "status": "Unknown", "workshop": "3404180590", "category": "Audio", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Tournament Prize Scaling", "name": "Tournament Prize Scaling", "status": "Unknown", "workshop": "3695836576", "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Tournaments Give Full XP", "name": "Tournaments Give Full XP", "status": "Unknown", "workshop": "2875313806", "category": "Utility", "works": 0, "broken": 0, "idGuess": true },
-    { "id": "Tournaments XPanded", "name": "Tournaments XPanded", "status": "Unknown", "workshop": "2892151112", "nexus": 27, "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },
+    { "id": "TournamentsXPanded", "name": "Tournaments XPanded", "status": "Unknown", "workshop": "2892151112", "nexus": 27, "category": "Gameplay", "works": 0, "broken": 1, "lastReport": "2026-10-25" },
     { "id": "TournamentTracker", "name": "TournamentTracker", "status": "Works", "coop": "v0.1.6", "note": "Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest).", "category": "UI", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Traders' Infinite Wealth", "name": "Traders' Infinite Wealth", "status": "Unknown", "workshop": "3000052862", "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Train Troops with Leadership and Level", "name": "Train Troops with Leadership and Level", "status": "Unknown", "workshop": "2881012899", "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },

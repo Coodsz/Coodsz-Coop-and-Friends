@@ -532,7 +532,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Total War Music](https://steamcommunity.com/sharedfiles/filedetails/?id=3404180590) | Not checked yet |  |  |  |  |
 | [Tournament Prize Scaling](https://steamcommunity.com/sharedfiles/filedetails/?id=3695836576) | Not checked yet |  |  |  |  |
 | [Tournaments Give Full XP](https://steamcommunity.com/sharedfiles/filedetails/?id=2875313806) | Not checked yet |  |  |  |  |
-| [Tournaments XPanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2892151112) | Not checked yet |  |  |  |  |
+| [Tournaments XPanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2892151112) | Not checked yet | 0 works, 1 broken | 2026-10-25 |  |  |
 | [Traders' Infinite Wealth](https://steamcommunity.com/sharedfiles/filedetails/?id=3000052862) | Not checked yet |  |  |  |  |
 | [Train Troops with Leadership and Level](https://steamcommunity.com/sharedfiles/filedetails/?id=2881012899) | Not checked yet |  |  |  |  |
 | [Troop Collision and siege tower and castle stairs fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/495) | Not checked yet |  |  |  |  |
