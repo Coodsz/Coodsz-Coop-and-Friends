@@ -348,7 +348,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Hideout Player Party Limit Removed](https://www.nexusmods.com/mountandblade2bannerlord/mods/35) | Not checked yet |  |  |  |  |
 | [Hideout Plus](https://steamcommunity.com/sharedfiles/filedetails/?id=2879876957) | Not checked yet |  |  |  |  |
 | [High Middle Ages Calradia](https://steamcommunity.com/sharedfiles/filedetails/?id=2917750875) | Not checked yet |  |  |  |  |
-| [Historical Banner Icons](https://steamcommunity.com/sharedfiles/filedetails/?id=2990327671) | Not checked yet |  |  |  |  |
+| [Historical Banner Icons](https://steamcommunity.com/sharedfiles/filedetails/?id=2990327671) | Not checked yet | 1 works, 0 broken | 2026-10-25 |  |  |
 | [Historical Name Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3115155002) | Not checked yet |  |  |  |  |
 | [Hold Court](https://www.nexusmods.com/mountandblade2bannerlord/mods/5522) | Not checked yet |  |  |  |  |
 | [Homesteads](https://www.nexusmods.com/mountandblade2bannerlord/mods/5627) | Not checked yet |  |  |  |  |
@@ -451,7 +451,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Pregnancy Control Continued](https://www.nexusmods.com/mountandblade2bannerlord/mods/5478) | Not checked yet |  |  |  |  |
 | [Project Korea](https://steamcommunity.com/sharedfiles/filedetails/?id=2980304763) | Not checked yet |  |  |  |  |
 | Proven Steel patch | Not checked yet |  |  |  | Coop patch by mushymushymosh for Proven Steel, posted on the Coop Discord (Coop 0.1.6 thread). Load it below Proven Steel. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
-| [Quick Nearby Tournaments](https://steamcommunity.com/sharedfiles/filedetails/?id=2910268800) | Not checked yet |  |  |  |  |
+| [Quick Nearby Tournaments](https://steamcommunity.com/sharedfiles/filedetails/?id=2910268800) | Not checked yet | 1 works, 0 broken | 2026-10-25 |  |  |
 | [Ralf's Recruiter](https://www.nexusmods.com/mountandblade2bannerlord/mods/575) | Not checked yet |  |  |  |  |
 | [Ramsay's Stuff](https://www.nexusmods.com/mountandblade2bannerlord/mods/3494) | Not checked yet |  |  |  |  |
 | [Random Bodies](https://www.nexusmods.com/mountandblade2bannerlord/mods/5168) | Not checked yet |  |  |  |  |
