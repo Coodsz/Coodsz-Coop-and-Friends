@@ -58,7 +58,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | Inventory Search Enabler | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Item Quality Indicator](https://steamcommunity.com/sharedfiles/filedetails/?id=3674878917) | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | Legend Training Arena | Works |  |  | v0.1.6 | By Sannech, made for Bannerlord 1.4.8 and Coop 0.1.6. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
-| [Mod Configuration Menu (MCM)](https://steamcommunity.com/sharedfiles/filedetails/?id=2859238197) | Works |  |  | v0.1.6 | Library other mods need. It stays on the list; its menus do not run on the dedicated server. |
+| [Mod Configuration Menu (MCM)](https://www.nexusmods.com/mountandblade2bannerlord/mods/612) | Works |  |  | v0.1.6 | Library other mods need. It stays on the list; its menus do not run on the dedicated server. |
 | More Nations Remastered | Works |  |  | v0.1.6 | Map mod on the Coodsz Host working list. Use it with MoreNationsRemastered COOP Fix. |
 | [More Trait Info](https://steamcommunity.com/sharedfiles/filedetails/?id=2961485825) | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | MoreNationsRemastered COOP Fix | Works |  |  | v0.1.6 | The Coop fix for More Nations Remastered. Use both together. |
