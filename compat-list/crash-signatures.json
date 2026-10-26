@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "2026.10.24.4",
+  "version": "2026.10.26.2",
   "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
   "signatures": [
     {
@@ -459,6 +459,78 @@
           "title": "Sunucu -1 çıkış koduyla ve hatasız kapandı",
           "whatHappened": "Sunucu -1 çıkış koduyla ve hiçbir hata olmadan durdu. Hatasız -1 çıkış kodu genelde işlemin dışarıdan kapatıldığı anlamına gelir, bir antivirüs, Görev Yöneticisi ya da bir betik tarafından. Bir Windows Insider sürümü de bunu yapabilir.",
           "whatToDo": "Antivirüs geçmişine bak ve engellendiyse DedicatedServer klasörüne izin ver. Hiçbir betiğin ya da aracın dotnet.exe'yi veya sunucuyu kapatmadığından emin ol. Bu bilgisayar bir Windows Insider sürümü kullanıyorsa normal bir Windows sürümü dene. Sonra Sunucuyu başlat düğmesine tekrar bas.",
+          "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        }
+      }
+    },
+    {
+      "id": "server-steam-pipe-closed",
+      "side": "server",
+      "tools": [
+        "coop",
+        "ad1259"
+      ],
+      "priority": 50,
+      "category": "silent-exit",
+      "match": {
+        "exitCodes": [
+          1
+        ],
+        "all": [
+          {
+            "file": "rgl",
+            "contains": "CClientPipe::BWriteAndReadResult"
+          },
+          {
+            "file": "rgl",
+            "contains": "Fatal assert; application exiting"
+          }
+        ]
+      },
+      "title": "The server lost its link to Steam",
+      "whatHappened": "The server lost its link to the Steam client on this PC, and the game's Steam part closed the server on purpose. This happens when Steam closes, restarts, updates or signs out while the server runs. It has also been seen right after a game on the same PC closed. It is not a crash in Coop or your mods.",
+      "whatToDo": "Keep Steam open and signed in while the server runs, then press Start server again. If it happens again right when you close your own game on this PC, use Send my logs so it can be looked at.",
+      "whatNotToDo": "Do not move Bannerlord Coop or turn your mods off for this. Nothing in the log points at a mod or the save.",
+      "reportNeeded": true,
+      "labels": [
+        "exit-code-1"
+      ],
+      "trackingIssue": 12,
+      "translations": {
+        "ar": {
+          "title": "فقد الخادم اتصاله بـ Steam",
+          "whatHappened": "فقد الخادم اتصاله بعميل Steam على هذا الجهاز، فأغلق جزء Steam في اللعبة الخادم عمدًا. يحدث هذا عندما يُغلق Steam أو يعيد التشغيل أو يتحدّث أو يسجّل الخروج أثناء عمل الخادم. وقد شوهد أيضًا مباشرة بعد إغلاق لعبة على الجهاز نفسه. هذا ليس انهيارًا في Coop أو في موداتك.",
+          "whatToDo": "أبقِ Steam مفتوحًا ومسجّل الدخول أثناء عمل الخادم، ثم اضغط تشغيل الخادم مرة أخرى. إذا تكرر ذلك عند إغلاق لعبتك على هذا الجهاز، استخدم إرسال سجلاتي ليتم فحصه.",
+          "whatNotToDo": "لا تنقل Bannerlord Coop ولا توقف موداتك لهذا. لا شيء في السجل يشير إلى مود أو إلى الحفظ."
+        },
+        "de": {
+          "title": "Der Server hat die Verbindung zu Steam verloren",
+          "whatHappened": "Der Server hat die Verbindung zum Steam Client auf diesem PC verloren, und der Steam Teil des Spiels hat den Server absichtlich geschlossen. Das passiert, wenn Steam sich schließt, neu startet, aktualisiert oder abmeldet, während der Server läuft. Es wurde auch direkt nach dem Schließen eines Spiels auf demselben PC gesehen. Es ist kein Absturz in Coop oder deinen Mods.",
+          "whatToDo": "Lass Steam offen und angemeldet, solange der Server läuft, und drück dann noch einmal auf Server starten. Wenn es wieder genau beim Schließen deines eigenen Spiels auf diesem PC passiert, nutze Meine Logs senden, damit es angesehen werden kann.",
+          "whatNotToDo": "Verschieb Bannerlord Coop nicht und schalte deine Mods dafür nicht aus. Nichts im Log zeigt auf eine Mod oder den Spielstand."
+        },
+        "fr": {
+          "title": "Le serveur a perdu sa liaison avec Steam",
+          "whatHappened": "Le serveur a perdu sa liaison avec le client Steam de ce PC, et la partie Steam du jeu a fermé le serveur exprès. Cela arrive quand Steam se ferme, redémarre, se met à jour ou se déconnecte pendant que le serveur tourne. On l'a aussi vu juste après la fermeture d'un jeu sur le même PC. Ce n'est pas un plantage de Coop ou de tes mods.",
+          "whatToDo": "Garde Steam ouvert et connecté pendant que le serveur tourne, puis clique de nouveau sur Démarrer le serveur. Si ça recommence juste quand tu fermes ton propre jeu sur ce PC, utilise Envoyer mes journaux pour qu'on regarde.",
+          "whatNotToDo": "Ne déplace pas Bannerlord Coop et ne désactive pas tes mods pour ça. Rien dans le journal ne montre un mod ou la sauvegarde."
+        },
+        "pt": {
+          "title": "O servidor perdeu a ligação com o Steam",
+          "whatHappened": "O servidor perdeu a ligação com o cliente Steam deste PC, e a parte Steam do jogo fechou o servidor de propósito. Isso acontece quando o Steam fecha, reinicia, atualiza ou sai da conta enquanto o servidor roda. Também já foi visto logo depois que um jogo fechou no mesmo PC. Não é um crash do Coop nem dos seus mods.",
+          "whatToDo": "Deixe o Steam aberto e conectado enquanto o servidor roda, depois clique em Iniciar servidor de novo. Se acontecer de novo bem quando você fecha o seu próprio jogo neste PC, use Enviar meus logs para que isso seja analisado.",
+          "whatNotToDo": "Não mova o Bannerlord Coop nem desligue seus mods por causa disso. Nada no log aponta para um mod ou para o save."
+        },
+        "ru": {
+          "title": "Сервер потерял связь со Steam",
+          "whatHappened": "Сервер потерял связь с клиентом Steam на этом ПК, и Steam часть игры намеренно закрыла сервер. Так бывает, когда Steam закрывается, перезапускается, обновляется или выходит из аккаунта, пока сервер работает. Это также видели сразу после закрытия игры на том же ПК. Это не сбой Coop или твоих модов.",
+          "whatToDo": "Держи Steam открытым и с входом в аккаунт, пока работает сервер, потом снова нажми Запустить сервер. Если это повторится ровно при закрытии твоей игры на этом ПК, нажми Отправить мои логи, чтобы это посмотрели.",
+          "whatNotToDo": "Не перемещай Bannerlord Coop и не выключай свои моды из за этого. Ничто в логе не указывает на мод или сохранение."
+        },
+        "tr": {
+          "title": "Sunucu Steam ile bağlantısını kaybetti",
+          "whatHappened": "Sunucu bu bilgisayardaki Steam istemcisiyle bağlantısını kaybetti ve oyunun Steam kısmı sunucuyu bilerek kapattı. Bu, sunucu çalışırken Steam kapandığında, yeniden başladığında, güncellendiğinde ya da oturumu kapattığında olur. Aynı bilgisayarda bir oyun kapandıktan hemen sonra da görüldü. Bu Coop'ta ya da modlarında bir çökme değil.",
+          "whatToDo": "Sunucu çalışırken Steam'i açık ve oturumu açık tut, sonra Sunucuyu başlat düğmesine tekrar bas. Bu bilgisayarda kendi oyununu kapattığın anda yine olursa, incelenmesi için Günlüklerimi gönder'i kullan.",
           "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
         }
       }
