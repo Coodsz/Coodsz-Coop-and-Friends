@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "2026.10.28.1",
+  "version": "2026.10.28.2",
   "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
   "signatures": [
     {
@@ -766,6 +766,75 @@
           "whatHappened": "Bir klan seferde sancağını kaybetti, örneğin bir krallıktan ayrıldığında, ve dünya bu hâliyle kaydedildi. Artık sunucu bu kaydı her yüklediğinde duruyor. Bu bilinen bir Coop hatası.",
           "whatToDo": "Sunucu aracında Kayıt yedeğini geri yükle düğmesine tıkla ve bu kaydın sorundan önceki otomatik bir yedeğini seç. O yedekten sonra oynadıklarını kaybedersin ama sefer geri gelir.",
           "whatNotToDo": "Bunun için kaydı silme ya da mod listeni değiştirme. Bu sancağı düzeltmez."
+        }
+      }
+    },
+    {
+      "id": "coop-workshop-server-native-missing",
+      "side": "server",
+      "tools": [
+        "coop",
+        "ad1259"
+      ],
+      "priority": 85,
+      "category": "setup",
+      "match": {
+        "all": [
+          {
+            "file": "hostConsole",
+            "contains": "Required core module descriptor is missing",
+            "newestOnly": true,
+            "tail": 60
+          },
+          {
+            "file": "hostConsole",
+            "contains": "3770450698\\DedicatedServer",
+            "newestOnly": true,
+            "tail": 60
+          }
+        ]
+      },
+      "title": "Files are missing from the Coop server download",
+      "whatHappened": "The server didn't start because a file is missing from the Coop server folder that Steam downloaded from the Workshop. Steam's Verify integrity of game files only checks Bannerlord itself, not Workshop mods, so it can't bring this file back.",
+      "whatToDo": "Close the Server Tool. In Steam open the Workshop page of Bannerlord Coop, click Unsubscribe and wait until Steam removes it. Then click Subscribe, let it download completely and start the server again.",
+      "whatNotToDo": "Don't copy files from your own Bannerlord folder into the Coop server folder. The server needs the files that come with Coop.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "ملفات ناقصة في تنزيل خادم Coop",
+          "whatHappened": "لم يبدأ الخادم لأن ملفًا ناقص في مجلد خادم Coop الذي نزّله Steam من الورشة. خيار التحقق من سلامة ملفات اللعبة في Steam يفحص Bannerlord نفسها فقط وليس تعديلات الورشة، لذلك لا يستطيع إعادة هذا الملف.",
+          "whatToDo": "أغلق أداة الخادم. في Steam افتح صفحة Bannerlord Coop في الورشة، وانقر إلغاء الاشتراك وانتظر حتى يحذفه Steam. ثم انقر اشتراك، ودعه يكتمل تنزيله، وشغّل الخادم مرة أخرى.",
+          "whatNotToDo": "لا تنسخ ملفات من مجلد Bannerlord الخاص بك إلى مجلد خادم Coop. الخادم يحتاج الملفات التي تأتي مع Coop."
+        },
+        "de": {
+          "title": "Im Coop Server Download fehlen Dateien",
+          "whatHappened": "Der Server ist nicht gestartet, weil im Coop Serverordner, den Steam aus dem Workshop geladen hat, eine Datei fehlt. Die Steam Prüfung der Spieldateien prüft nur Bannerlord selbst und keine Workshop Mods, deshalb holt sie diese Datei nicht zurück.",
+          "whatToDo": "Schließe das Server Tool. Öffne in Steam die Workshop Seite von Bannerlord Coop, klicke auf Abonnement entfernen und warte, bis Steam es gelöscht hat. Klicke dann auf Abonnieren, lass es vollständig herunterladen und starte den Server neu.",
+          "whatNotToDo": "Kopiere keine Dateien aus deinem eigenen Bannerlord Ordner in den Coop Serverordner. Der Server braucht die Dateien, die mit Coop kommen."
+        },
+        "fr": {
+          "title": "Des fichiers manquent dans le téléchargement du serveur Coop",
+          "whatHappened": "Le serveur n'a pas démarré parce qu'un fichier manque dans le dossier serveur de Coop que Steam a téléchargé depuis le Workshop. La vérification de l'intégrité des fichiers de Steam ne vérifie que Bannerlord, pas les mods du Workshop, donc elle ne peut pas remettre ce fichier.",
+          "whatToDo": "Ferme l'outil serveur. Dans Steam, ouvre la page Workshop de Bannerlord Coop, clique sur Se désabonner et attends que Steam le supprime. Clique ensuite sur S'abonner, laisse le téléchargement se terminer et relance le serveur.",
+          "whatNotToDo": "Ne copie pas de fichiers de ton propre dossier Bannerlord dans le dossier serveur de Coop. Le serveur a besoin des fichiers fournis avec Coop."
+        },
+        "pt": {
+          "title": "Faltam arquivos no download do servidor do Coop",
+          "whatHappened": "O servidor não iniciou porque falta um arquivo na pasta do servidor do Coop que a Steam baixou da Oficina. A verificação de integridade dos arquivos da Steam só confere o Bannerlord, não os mods da Oficina, então ela não consegue trazer esse arquivo de volta.",
+          "whatToDo": "Feche a ferramenta do servidor. Na Steam abra a página do Bannerlord Coop na Oficina, clique em Cancelar inscrição e espere a Steam remover o mod. Depois clique em Inscrever, deixe baixar por completo e inicie o servidor de novo.",
+          "whatNotToDo": "Não copie arquivos da sua própria pasta do Bannerlord para a pasta do servidor do Coop. O servidor precisa dos arquivos que vêm com o Coop."
+        },
+        "ru": {
+          "title": "В загрузке сервера Coop не хватает файлов",
+          "whatHappened": "Сервер не запустился, потому что в папке сервера Coop, которую Steam скачал из Мастерской, не хватает файла. Проверка целостности файлов игры в Steam проверяет только саму Bannerlord, а не моды из Мастерской, поэтому она не вернёт этот файл.",
+          "whatToDo": "Закрой инструмент сервера. В Steam открой страницу Bannerlord Coop в Мастерской, нажми Отписаться и подожди, пока Steam его удалит. Потом нажми Подписаться, дождись полной загрузки и снова запусти сервер.",
+          "whatNotToDo": "Не копируй файлы из своей папки Bannerlord в папку сервера Coop. Серверу нужны файлы, которые идут вместе с Coop."
+        },
+        "tr": {
+          "title": "Coop sunucu indirmesinde dosyalar eksik",
+          "whatHappened": "Sunucu başlamadı, çünkü Steam'in Atölye'den indirdiği Coop sunucu klasöründe bir dosya eksik. Steam'in oyun dosyalarının bütünlüğünü doğrulama seçeneği yalnızca Bannerlord'un kendisine bakar, Atölye modlarına bakmaz, bu yüzden bu dosyayı geri getiremez.",
+          "whatToDo": "Sunucu aracını kapat. Steam'de Bannerlord Coop'un Atölye sayfasını aç, Abonelikten çık'a tıkla ve Steam onu kaldırana kadar bekle. Sonra Abone ol'a tıkla, tamamen inmesini bekle ve sunucuyu yeniden başlat.",
+          "whatNotToDo": "Kendi Bannerlord klasöründen Coop sunucu klasörüne dosya kopyalama. Sunucunun Coop ile gelen dosyalara ihtiyacı var."
         }
       }
     }
