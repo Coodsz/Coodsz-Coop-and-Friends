@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.10.26.2",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
+  "version": "2026.10.28.1",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -328,7 +328,7 @@
     {
       "id": "server-exit-code-1-silent",
       "side": "server",
-      "tools": ["coop", "ad1259"],
+      "tools": ["coop", "ad1259", "be"],
       "priority": 5,
       "category": "silent-exit",
       "match": {
@@ -397,7 +397,7 @@
     {
       "id": "server-exit-code-minus-1-silent",
       "side": "server",
-      "tools": ["coop", "ad1259"],
+      "tools": ["coop", "ad1259", "be"],
       "priority": 5,
       "category": "silent-exit",
       "match": {
@@ -631,6 +631,141 @@
           "title": "Harita arazisi yüklenirken grafik hatası",
           "whatHappened": "Bannerlord harita arazisi yüklenirken ekran kartında bir doku oluşturamadı (create_texture_array failed). Bu, Bannerlord ile ekran kartı ya da sürücüsü arasındaki bir sorun, Coop ya da Coodsz araçlarıyla ilgili değil.",
           "whatToDo": "Ekran kartı sürücünü NVIDIA, AMD ya da Intel sitesinden güncelle. Windows Insider önizleme sürümü kullanma. Oyunun video ayarlarında başka bir Terrain kalitesi dene. Tek oyunculu bir seferin yüklenip yüklenmediğine bak. Orada da aynı şekilde çöküyorsa sorun Coop değil."
+        }
+      }
+    },
+    {
+      "id": "coop-childbirth-name-null",
+      "side": "server",
+      "priority": 90,
+      "category": "coop-bug",
+      "match": {
+        "any": [
+          {
+            "file": "serverLog",
+            "contains": "HeroChangeNameData..ctor"
+          },
+          {
+            "file": "server",
+            "contains": "HeroChangeNameData..ctor"
+          },
+          {
+            "file": "hostConsole",
+            "contains": "HeroChangeNameData..ctor"
+          }
+        ]
+      },
+      "title": "Server crash when a child is born",
+      "whatHappened": "A child was born in the campaign and Coop failed to give it a name on the server, so the server stopped. This is a known Coop crash.",
+      "whatToDo": "Update the tool to the newest version, then start the server again. The fix is in the tool update.",
+      "whatNotToDo": "Don't load an earlier save to get past it. The pregnancy is already in that save, so the same birth crashes it again.",
+      "reportNeeded": false,
+      "upstream": "https://github.com/Bannerlord-Coop-Team/BannerlordCoop/issues/4104",
+      "translations": {
+        "ar": {
+          "title": "توقف الخادم عند ولادة طفل",
+          "whatHappened": "وُلد طفل في الحملة وفشل Coop في إعطائه اسمًا على الخادم، فتوقف الخادم. هذا عطل معروف في Coop.",
+          "whatToDo": "حدّث الأداة إلى أحدث إصدار، ثم شغّل الخادم مرة أخرى. الإصلاح موجود في تحديث الأداة.",
+          "whatNotToDo": "لا تحمّل حفظًا أقدم لتتجاوز ذلك. الحمل موجود بالفعل في ذلك الحفظ، فتتسبب الولادة نفسها في التوقف مرة أخرى."
+        },
+        "de": {
+          "title": "Server stürzt ab, wenn ein Kind geboren wird",
+          "whatHappened": "In der Kampagne wurde ein Kind geboren, und Coop konnte ihm auf dem Server keinen Namen geben, deshalb hat der Server angehalten. Das ist ein bekannter Coop Absturz.",
+          "whatToDo": "Aktualisiere das Tool auf die neueste Version und starte dann den Server neu. Die Lösung steckt im Tool Update.",
+          "whatNotToDo": "Lade keinen älteren Spielstand, um daran vorbeizukommen. Die Schwangerschaft ist schon in diesem Spielstand, also bringt dieselbe Geburt ihn wieder zum Absturz."
+        },
+        "fr": {
+          "title": "Le serveur plante quand un enfant naît",
+          "whatHappened": "Un enfant est né dans la campagne et Coop n'a pas réussi à lui donner un nom sur le serveur, alors le serveur s'est arrêté. C'est un plantage connu de Coop.",
+          "whatToDo": "Mets l'outil à jour vers la dernière version, puis relance le serveur. La correction est dans la mise à jour de l'outil.",
+          "whatNotToDo": "Ne charge pas une sauvegarde plus ancienne pour passer outre. La grossesse est déjà dans cette sauvegarde, donc la même naissance la fait planter à nouveau."
+        },
+        "pt": {
+          "title": "O servidor cai quando nasce uma criança",
+          "whatHappened": "Uma criança nasceu na campanha e o Coop não conseguiu dar um nome a ela no servidor, então o servidor parou. Este é um crash conhecido do Coop.",
+          "whatToDo": "Atualize a ferramenta para a versão mais recente e depois inicie o servidor de novo. A correção está na atualização da ferramenta.",
+          "whatNotToDo": "Não carregue um save mais antigo para passar disso. A gravidez já está nesse save, então o mesmo nascimento faz ele cair de novo."
+        },
+        "ru": {
+          "title": "Сервер падает при рождении ребёнка",
+          "whatHappened": "В кампании родился ребёнок, и Coop не смог дать ему имя на сервере, поэтому сервер остановился. Это известный сбой Coop.",
+          "whatToDo": "Обнови инструмент до последней версии, затем снова запусти сервер. Исправление есть в обновлении инструмента.",
+          "whatNotToDo": "Не загружай более раннее сохранение, чтобы обойти это. Беременность уже есть в том сохранении, поэтому то же рождение снова вызовет сбой."
+        },
+        "tr": {
+          "title": "Bir çocuk doğduğunda sunucu çöküyor",
+          "whatHappened": "Seferde bir çocuk doğdu ve Coop sunucuda ona isim veremedi, bu yüzden sunucu durdu. Bu bilinen bir Coop çökmesi.",
+          "whatToDo": "Aracı en yeni sürüme güncelle, sonra sunucuyu yeniden başlat. Düzeltme araç güncellemesinde.",
+          "whatNotToDo": "Bunu geçmek için daha eski bir kayıt yükleme. Hamilelik o kayıtta zaten var, bu yüzden aynı doğum onu yine çökertir."
+        }
+      }
+    },
+    {
+      "id": "coop-empty-clan-banner-load",
+      "side": "server",
+      "priority": 85,
+      "category": "coop-bug",
+      "tools": [
+        "taom",
+        "be"
+      ],
+      "match": {
+        "any": [
+          {
+            "file": "serverLog",
+            "contains": "Banner.ChangeBackgroundColor"
+          },
+          {
+            "file": "server",
+            "contains": "Banner.ChangeBackgroundColor"
+          },
+          {
+            "file": "hostConsole",
+            "contains": "Banner.ChangeBackgroundColor"
+          }
+        ]
+      },
+      "title": "Save won't load because a clan has an empty banner",
+      "whatHappened": "A clan lost its banner in the campaign, for example when it left a kingdom, and the world was saved like that. Now the server stops every time it loads this save. This is a known Coop bug.",
+      "whatToDo": "In the Server Tool click Restore save backup on the Modules page and pick an automatic backup of this save from before the problem started. You lose the play since that backup, but the campaign comes back.",
+      "whatNotToDo": "Don't delete the save or change your mod list for this. It won't fix the banner.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "لا يمكن تحميل الحفظ لأن لعشيرة رايةً فارغة",
+          "whatHappened": "فقدت عشيرة رايتها في الحملة، مثلًا عندما غادرت مملكة، وحُفظ العالم على هذا الحال. الآن يتوقف الخادم في كل مرة يحمّل فيها هذا الحفظ. هذا خطأ معروف في Coop.",
+          "whatToDo": "في أداة الخادم انقر استعادة نسخة الحفظ واختر نسخة احتياطية تلقائية لهذا الحفظ من قبل بدء المشكلة. ستخسر ما لعبته بعد تلك النسخة، لكن الحملة تعود.",
+          "whatNotToDo": "لا تحذف الحفظ ولا تغيّر قائمة التعديلات من أجل هذا. لن يصلح ذلك الراية."
+        },
+        "de": {
+          "title": "Spielstand lädt nicht, weil ein Clan ein leeres Banner hat",
+          "whatHappened": "Ein Clan hat in der Kampagne sein Banner verloren, zum Beispiel als er ein Königreich verlassen hat, und die Welt wurde so gespeichert. Jetzt hält der Server jedes Mal an, wenn er diesen Spielstand lädt. Das ist ein bekannter Coop Fehler.",
+          "whatToDo": "Hol im Server Tool auf der Seite Module eine automatische Sicherung dieses Spielstands von vor dem Problem zurück. Du verlierst das Spiel seit dieser Sicherung, aber die Kampagne kommt zurück.",
+          "whatNotToDo": "Lösche den Spielstand nicht und ändere deshalb nicht deine Modliste. Das repariert das Banner nicht."
+        },
+        "fr": {
+          "title": "La sauvegarde ne charge pas car un clan a une bannière vide",
+          "whatHappened": "Un clan a perdu sa bannière dans la campagne, par exemple en quittant un royaume, et le monde a été sauvegardé ainsi. Maintenant le serveur s'arrête à chaque chargement de cette sauvegarde. C'est un bug connu de Coop.",
+          "whatToDo": "Dans l'outil serveur, clique sur Restaurer une copie de sauvegarde et choisis une sauvegarde automatique de cette partie d'avant le problème. Tu perds ce que tu as joué depuis, mais la campagne revient.",
+          "whatNotToDo": "Ne supprime pas la sauvegarde et ne change pas ta liste de mods pour ça. Ça ne répare pas la bannière."
+        },
+        "pt": {
+          "title": "O save não carrega porque um clã tem um estandarte vazio",
+          "whatHappened": "Um clã perdeu o estandarte na campanha, por exemplo ao sair de um reino, e o mundo foi salvo assim. Agora o servidor para toda vez que carrega este save. Este é um bug conhecido do Coop.",
+          "whatToDo": "Na ferramenta do servidor clique em Restaurar cópia do save e escolha um backup automático deste save de antes do problema. Você perde o que jogou depois desse backup, mas a campanha volta.",
+          "whatNotToDo": "Não apague o save nem mude sua lista de mods por isso. Isso não conserta o estandarte."
+        },
+        "ru": {
+          "title": "Сохранение не загружается, потому что у клана пустое знамя",
+          "whatHappened": "Клан потерял знамя в кампании, например когда покинул королевство, и мир был сохранён в таком виде. Теперь сервер останавливается каждый раз, когда загружает это сохранение. Это известная ошибка Coop.",
+          "whatToDo": "В инструменте сервера нажми «Вернуть копию сохранения» и выбери автоматическую копию этого сохранения, сделанную до проблемы. Ты потеряешь игру после этой копии, но кампания вернётся.",
+          "whatNotToDo": "Не удаляй сохранение и не меняй список модов ради этого. Это не исправит знамя."
+        },
+        "tr": {
+          "title": "Bir klanın sancağı boş olduğu için kayıt yüklenmiyor",
+          "whatHappened": "Bir klan seferde sancağını kaybetti, örneğin bir krallıktan ayrıldığında, ve dünya bu hâliyle kaydedildi. Artık sunucu bu kaydı her yüklediğinde duruyor. Bu bilinen bir Coop hatası.",
+          "whatToDo": "Sunucu aracında Kayıt yedeğini geri yükle düğmesine tıkla ve bu kaydın sorundan önceki otomatik bir yedeğini seç. O yedekten sonra oynadıklarını kaybedersin ama sefer geri gelir.",
+          "whatNotToDo": "Bunun için kaydı silme ya da mod listeni değiştirme. Bu sancağı düzeltmez."
         }
       }
     }
