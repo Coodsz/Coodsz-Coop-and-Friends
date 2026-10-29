@@ -149,6 +149,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [AI Influence](https://steamcommunity.com/sharedfiles/filedetails/?id=3584621421) | Not checked yet |  |  |  |  |
 | [AI Personalities](https://www.nexusmods.com/mountandblade2bannerlord/mods/6725) | Not checked yet |  |  |  |  |
 | [AI Values Life](https://www.nexusmods.com/mountandblade2bannerlord/mods/481) | Not checked yet |  |  |  |  |
+| AIValuesLife | Not checked yet | 1 works, 0 broken | 2026-10-28 |  |  |
 | [Allegiance Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2886206108) | Not checked yet |  |  |  |  |
 | [Always Show Titles](https://steamcommunity.com/sharedfiles/filedetails/?id=2945284452) | Not checked yet |  |  |  |  |
 | [Ancient Civilizationss](https://www.nexusmods.com/mountandblade2bannerlord/mods/5859) | Not checked yet |  |  |  |  |
@@ -173,7 +174,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [B.A.R.D. - Sturgian Army Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2875089081) | Not checked yet |  |  |  |  |
 | [B.A.R.D. - Vlandian Army Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2875386075) | Not checked yet |  |  |  |  |
 | [Baijin Troops](https://steamcommunity.com/sharedfiles/filedetails/?id=2890099774) | Not checked yet |  |  |  |  |
-| [Balanced Tournament Armor](https://steamcommunity.com/sharedfiles/filedetails/?id=2875978806) | Not checked yet |  |  |  |  |
+| [Balanced Tournament Armor](https://steamcommunity.com/sharedfiles/filedetails/?id=2875978806) | Not checked yet | 1 works, 0 broken | 2026-10-28 |  |  |
 | [Bandit Black Hole](https://www.nexusmods.com/mountandblade2bannerlord/mods/7433) | Not checked yet |  |  |  |  |
 | [Bandit Militias](https://www.nexusmods.com/mountandblade2bannerlord/mods/1768) | Not checked yet |  |  |  |  |
 | [Bandit Variety](https://www.nexusmods.com/mountandblade2bannerlord/mods/3041) | Not checked yet |  |  |  |  |
@@ -598,4 +599,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet |  |  |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-570 mods.
+571 mods.
