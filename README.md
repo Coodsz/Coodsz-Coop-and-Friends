@@ -9,13 +9,16 @@ Launchers and a dedicated server tool for a normal Coop game, and for a TAOM map
 - .NET 8 Desktop Runtime, x64, if Windows asks for it: https://dotnet.microsoft.com/download/dotnet/8.0
 
 ## Download
-Get `Coodsz-Coop-and-Friends-vX.Y.Z.zip` from the [latest release](https://github.com/Coodsz/Coodsz-Coop-and-Friends/releases/latest). Unzip it before you open anything. You get these program folders:
+Get the `Coodsz-Coop-Tools` zip from the [latest release](https://github.com/Coodsz/Coodsz-Coop-and-Friends/releases/latest). Unzip it before you open anything. Its `Coodsz Coop Tools` folder holds the two programs.
 
-- `Coodsz Coop and Friends`: players on the vanilla map. Open `Coodsz Coop and Friends.exe`.
-- `Coodsz and Friends`: players on the TAOM map. Open `Coodsz and Friends.exe`.
-- `Coodsz Host`: the host. Open `CoodszHost.exe`. The window title is Coodsz and Friends Server Coop Manager Dedicated Tool.
+- `Coodsz Coop Client Launcher.exe` is for players, on the vanilla map and on More Nations Remastered.
+- `Coodsz Coop Server Tool.exe` is for the host.
 
-If Windows says Unknown publisher, choose **More info**, then **Run anyway**.
+Both programs carry their own .NET, so there's nothing else to install. The other zip on the release page is only there so older versions can update themselves, and you don't need it.
+
+Used Coodsz Coop and Friends, Coodsz and Friends or Coodsz Host before? They update themselves into these two programs and keep your setups, mod lists and settings. Coodsz and Friends is now the **More Nations** switch in the Client Launcher, under **Campaign map**.
+
+Unzip each Coodsz zip into its own folder. If Windows says Unknown publisher, choose **More info**, then **Run anyway**.
 
 ## Players
 Close Bannerlord and open the launcher that matches the map you are playing. Under **Saved setup**, pick your setup. The **Campaign map** box switches to the map that setup saved. The locked Vanilla setup loads the vanilla map, and the locked More Nations setup loads the Remastered map. Then join through the host's Steam lobby, or connect directly to the host's address and UDP port.
