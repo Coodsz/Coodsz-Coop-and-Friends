@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.10.29.3",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
+  "version": "2026.10.30.4",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -1050,6 +1050,277 @@
           "whatHappened": "Coop sunucusu, bir sefer haritası modunda yeni bir sefer başladıktan birkaç dakika sonra çöktü. Modun haritasını okudu, ama sonra SandBox'tan vanilla haritanın yol verilerini yükledi ve bu veriler o haritaya uymuyor. Bu bilinen bir Coop hatası.",
           "whatToDo": "Coop bunu düzeltene kadar, Sunucu sayfasında Sefer haritası olarak Vanilla sefer haritası'nı seç ve yeni bir sefer başlat, ya da harita modunu kapalı tut.",
           "whatNotToDo": "Bunun için kaydı silme ya da harita modunu yeniden kurma. İkisi de bunu düzeltmez."
+        }
+      }
+    },
+    {
+      "id": "smart-app-control-blocked",
+      "side": "both",
+      "priority": 92,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "server", "regex": "(?i)Application Control policy has blocked this file|(?:Could not load|FileLoadException|failed to load)[^\\r\\n]*0x800711C7" },
+          { "file": "serverLog", "regex": "(?i)Application Control policy has blocked this file|(?:Could not load|FileLoadException|failed to load)[^\\r\\n]*0x800711C7", "newestOnly": true },
+          { "file": "hostConsole", "regex": "(?i)Application Control policy has blocked this file|(?:Could not load|FileLoadException|failed to load)[^\\r\\n]*0x800711C7", "newestOnly": true },
+          { "file": "coopClient", "regex": "(?i)Application Control policy has blocked this file|(?:Could not load|FileLoadException|failed to load)[^\\r\\n]*0x800711C7", "newestOnly": true },
+          { "file": "coopReport", "regex": "(?i)Application Control policy has blocked this file|(?:Could not load|FileLoadException|failed to load)[^\\r\\n]*0x800711C7", "newestOnly": true },
+          { "file": "rgl", "regex": "(?i)Application Control policy has blocked this file|(?:Could not load|FileLoadException|failed to load)[^\\r\\n]*0x800711C7", "newestOnly": true }
+        ]
+      },
+      "title": "Windows Smart App Control blocked a Coop file",
+      "whatHappened": "Smart App Control, a Windows 11 security setting, blocked a file that Coop or a mod needs, so it could not load. The file itself is fine, Windows stopped it from running.",
+      "whatToDo": "Turn off Smart App Control, then start the game or the server again.\n\nIn Windows Security, open this page and set Smart App Control to Off.\nApp & browser control > Smart App Control settings\n\nSmart App Control blocked a file Coop needs, and with it off the file loads. Turning it back on later may need a reset of Windows on some versions, so check that first if it matters to you.",
+      "whatNotToDo": "Don't reinstall Coop or turn your mods off for this. The files are fine, Windows blocked them.",
+      "reportNeeded": false,
+      "sendMyLogs": true,
+      "translations": {
+        "ar": {
+          "title": "التحكم الذكي في التطبيقات في Windows حظر ملفًا من Coop",
+          "whatHappened": "حظر التحكم الذكي في التطبيقات، وهو إعداد أمان في Windows 11، ملفًا يحتاجه Coop أو أحد التعديلات، فلم يتم تحميله. الملف نفسه سليم، لكن Windows منعه من العمل.",
+          "whatToDo": "أوقف التحكم الذكي في التطبيقات، ثم شغّل اللعبة أو الخادم مرة أخرى.\n\nفي أمن Windows افتح هذه الصفحة واضبط التحكم الذكي في التطبيقات على إيقاف.\nالتحكم في التطبيقات والمستعرض > إعدادات التحكم الذكي في التطبيقات\n\nحظر التحكم الذكي في التطبيقات ملفًا يحتاجه Coop، وعند إيقافه يتم تحميل الملف. قد تحتاج إعادة تشغيله لاحقًا إلى إعادة تعيين Windows في بعض الإصدارات، فتحقق من ذلك أولًا إذا كان يهمك.",
+          "whatNotToDo": "لا تُعد تثبيت Coop ولا توقف تعديلاتك لهذا السبب. الملفات سليمة، Windows هو الذي حظرها."
+        },
+        "de": {
+          "title": "Die intelligente App Steuerung von Windows hat eine Coop Datei blockiert",
+          "whatHappened": "Die intelligente App Steuerung, eine Sicherheitseinstellung von Windows 11, hat eine Datei blockiert, die Coop oder ein Mod braucht, deshalb konnte sie nicht geladen werden. Die Datei selbst ist in Ordnung, Windows hat nur verhindert, dass sie läuft.",
+          "whatToDo": "Schalte die intelligente App Steuerung aus und starte dann das Spiel oder den Server neu.\n\nÖffne in Windows Sicherheit diese Seite und stell die intelligente App Steuerung auf Aus.\nApp & Browsersteuerung > Einstellungen für intelligente App Steuerung\n\nDie intelligente App Steuerung hat eine Datei blockiert, die Coop braucht, und wenn sie aus ist, lädt die Datei. Sie später wieder einzuschalten kann bei manchen Windows Versionen ein Zurücksetzen von Windows brauchen, also prüf das vorher, wenn es dir wichtig ist.",
+          "whatNotToDo": "Installiere Coop deshalb nicht neu und schalte deine Mods nicht aus. Die Dateien sind in Ordnung, Windows hat sie blockiert."
+        },
+        "fr": {
+          "title": "Le contrôle intelligent des applications de Windows a bloqué un fichier de Coop",
+          "whatHappened": "Le contrôle intelligent des applications, un réglage de sécurité de Windows 11, a bloqué un fichier dont Coop ou un mod a besoin, donc il n'a pas pu être chargé. Le fichier n'est pas abîmé, Windows l'a juste empêché de se lancer.",
+          "whatToDo": "Désactive le contrôle intelligent des applications, puis relance le jeu ou le serveur.\n\nDans Sécurité Windows, ouvre cette page et règle le contrôle intelligent des applications sur Désactivé.\nContrôle des applications et du navigateur > Paramètres du contrôle intelligent des applications\n\nLe contrôle intelligent des applications a bloqué un fichier dont Coop a besoin, et une fois désactivé le fichier se charge. Le réactiver plus tard peut demander une réinitialisation de Windows sur certaines versions, alors vérifie d'abord si ça compte pour toi.",
+          "whatNotToDo": "Ne réinstalle pas Coop et ne désactive pas tes mods pour ça. Les fichiers vont bien, Windows les a bloqués."
+        },
+        "pt": {
+          "title": "O Controle Inteligente de Aplicativos do Windows bloqueou um arquivo do Coop",
+          "whatHappened": "O Controle Inteligente de Aplicativos, uma configuração de segurança do Windows 11, bloqueou um arquivo que o Coop ou um mod precisa, então ele não carregou. O arquivo está bom, o Windows só impediu que ele rodasse.",
+          "whatToDo": "Desligue o Controle Inteligente de Aplicativos e depois abra o jogo ou o servidor de novo.\n\nNa Segurança do Windows, abra esta página e coloque o Controle Inteligente de Aplicativos em Desativado.\nControle de aplicativos e do navegador > Configurações do Controle Inteligente de Aplicativos\n\nO Controle Inteligente de Aplicativos bloqueou um arquivo que o Coop precisa, e com ele desligado o arquivo carrega. Ligar ele de novo depois pode precisar de uma redefinição do Windows em algumas versões, então confira isso antes se for importante para você.",
+          "whatNotToDo": "Não reinstale o Coop nem desligue seus mods por causa disso. Os arquivos estão bons, o Windows bloqueou eles."
+        },
+        "ru": {
+          "title": "Интеллектуальное управление приложениями Windows заблокировало файл Coop",
+          "whatHappened": "Интеллектуальное управление приложениями, настройка безопасности Windows 11, заблокировало файл, который нужен Coop или моду, поэтому он не загрузился. С самим файлом всё в порядке, Windows просто не дала ему запуститься.",
+          "whatToDo": "Выключи интеллектуальное управление приложениями, затем снова запусти игру или сервер.\n\nВ Безопасности Windows открой эту страницу и выбери Выкл.\nУправление приложениями и браузером > Параметры интеллектуального управления приложениями\n\nИнтеллектуальное управление приложениями заблокировало файл, нужный Coop, а когда оно выключено, файл загружается. В некоторых версиях Windows, чтобы потом включить его снова, может понадобиться сброс Windows, так что сначала проверь это, если для тебя это важно.",
+          "whatNotToDo": "Не переустанавливай Coop и не выключай моды ради этого. Файлы в порядке, их заблокировала Windows."
+        },
+        "tr": {
+          "title": "Windows Akıllı Uygulama Denetimi bir Coop dosyasını engelledi",
+          "whatHappened": "Windows 11'in bir güvenlik ayarı olan Akıllı Uygulama Denetimi, Coop'un ya da bir modun ihtiyaç duyduğu bir dosyayı engelledi, bu yüzden dosya yüklenemedi. Dosyanın kendisinde sorun yok, Windows sadece çalışmasını durdurdu.",
+          "whatToDo": "Akıllı Uygulama Denetimi'ni kapat, sonra oyunu ya da sunucuyu yeniden başlat.\n\nWindows Güvenliği'nde bu sayfayı aç ve Akıllı Uygulama Denetimi'ni Kapalı yap.\nUygulama ve tarayıcı denetimi > Akıllı Uygulama Denetimi ayarları\n\nAkıllı Uygulama Denetimi Coop'un ihtiyaç duyduğu bir dosyayı engelledi, kapalıyken dosya yüklenir. Bazı sürümlerde onu daha sonra tekrar açmak için Windows'u sıfırlamak gerekebilir, bu senin için önemliyse önce bunu kontrol et.",
+          "whatNotToDo": "Bunun için Coop'u yeniden kurma ya da modlarını kapatma. Dosyalar sağlam, onları Windows engelledi."
+        }
+      }
+    },
+    {
+      "id": "game-bin-foreign-common-dll",
+      "side": "client",
+      "priority": 90,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "coopClient", "regex": "Could not load type '[^']+' from assembly 'Common, Version=(?!1\\.0\\.0\\.0\\b)(?<version>\\d+(?:\\.\\d+){1,3})", "newestOnly": true },
+          { "file": "coopReport", "regex": "Could not load type '[^']+' from assembly 'Common, Version=(?!1\\.0\\.0\\.0\\b)(?<version>\\d+(?:\\.\\d+){1,3})", "newestOnly": true },
+          { "file": "rgl", "regex": "Could not load type '[^']+' from assembly 'Common, Version=(?!1\\.0\\.0\\.0\\b)(?<version>\\d+(?:\\.\\d+){1,3})", "newestOnly": true }
+        ]
+      },
+      "title": "A different Common.dll is loaded",
+      "whatHappened": "The game loaded a Common.dll that isn't the one Coop comes with, and Coop can't load with it. Most likely another mod or an old install left one in the game's bin folder, where Bannerlord doesn't put one.",
+      "whatToDo": "Move the extra Common.dll out of the game's bin folder.\n\nClose the game and move this file out to your Desktop.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (version {version})\n\nBannerlord doesn't come with a Common.dll there, so another mod or an old install left it, and the game loads it instead of Coop's own. Once it's gone Coop loads again, so start the game again to check. If that folder has no Common.dll, send your logs.",
+      "reportNeeded": false,
+      "sendMyLogs": true,
+      "translations": {
+        "ar": {
+          "title": "يتم تحميل Common.dll مختلف",
+          "whatHappened": "حمّلت اللعبة ملف Common.dll ليس الملف الذي يأتي مع Coop، ولا يستطيع Coop التحميل معه. على الأرجح ترك تعديل آخر أو تثبيت قديم واحدًا في مجلد bin الخاص باللعبة، حيث لا تضع Bannerlord واحدًا.",
+          "whatToDo": "انقل ملف Common.dll الزائد خارج مجلد bin الخاص باللعبة.\n\nأغلق اللعبة وانقل هذا الملف إلى سطح المكتب.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (الإصدار {version})\n\nلا تأتي Bannerlord بملف Common.dll هناك، لذا تركه تعديل آخر أو تثبيت قديم، وتحمّله اللعبة بدل ملف Coop. بعد نقله يعود Coop للتحميل، فشغّل اللعبة مرة أخرى للتأكد. إذا لم يكن في ذلك المجلد Common.dll، فأرسل سجلاتك."
+        },
+        "de": {
+          "title": "Eine andere Common.dll wird geladen",
+          "whatHappened": "Das Spiel hat eine Common.dll geladen, die nicht die von Coop ist, und damit kann Coop nicht laden. Wahrscheinlich hat ein anderer Mod oder eine alte Installation eine im bin Ordner des Spiels gelassen, wo Bannerlord keine hinlegt.",
+          "whatToDo": "Verschieb die zusätzliche Common.dll aus dem bin Ordner des Spiels.\n\nSchließ das Spiel und verschieb diese Datei auf deinen Desktop.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (Version {version})\n\nBannerlord bringt dort keine Common.dll mit, also hat ein anderer Mod oder eine alte Installation sie dort gelassen, und das Spiel lädt sie statt der von Coop. Wenn sie weg ist, lädt Coop wieder, also starte das Spiel neu und prüf es. Wenn in diesem Ordner keine Common.dll liegt, schick deine Logs."
+        },
+        "fr": {
+          "title": "Un autre Common.dll est chargé",
+          "whatHappened": "Le jeu a chargé un Common.dll qui n'est pas celui fourni avec Coop, et Coop ne peut pas se charger avec. Très probablement un autre mod ou une ancienne installation en a laissé un dans le dossier bin du jeu, où Bannerlord n'en met pas.",
+          "whatToDo": "Déplace le Common.dll en trop hors du dossier bin du jeu.\n\nFerme le jeu et déplace ce fichier sur ton Bureau.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (version {version})\n\nBannerlord n'a pas de Common.dll à cet endroit, donc un autre mod ou une ancienne installation l'a laissé, et le jeu le charge à la place de celui de Coop. Une fois retiré, Coop se charge de nouveau, alors relance le jeu pour vérifier. Si ce dossier n'a pas de Common.dll, envoie tes journaux."
+        },
+        "pt": {
+          "title": "Um Common.dll diferente está sendo carregado",
+          "whatHappened": "O jogo carregou um Common.dll que não é o que vem com o Coop, e o Coop não carrega com ele. O mais provável é que outro mod ou uma instalação antiga tenha deixado um na pasta bin do jogo, onde o Bannerlord não coloca nenhum.",
+          "whatToDo": "Tire o Common.dll a mais da pasta bin do jogo.\n\nFeche o jogo e mova este arquivo para a sua Área de Trabalho.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (versão {version})\n\nO Bannerlord não vem com um Common.dll ali, então outro mod ou uma instalação antiga deixou ele, e o jogo carrega ele no lugar do Common.dll do Coop. Sem ele o Coop carrega de novo, então abra o jogo de novo para conferir. Se essa pasta não tiver um Common.dll, envie seus logs."
+        },
+        "ru": {
+          "title": "Загружается другой Common.dll",
+          "whatHappened": "Игра загрузила Common.dll, который не идёт с Coop, и с ним Coop не загружается. Скорее всего его оставил другой мод или старая установка в папке bin игры, куда Bannerlord его не кладёт.",
+          "whatToDo": "Убери лишний Common.dll из папки bin игры.\n\nЗакрой игру и перенеси этот файл на рабочий стол.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (версия {version})\n\nВ Bannerlord там нет Common.dll, значит его оставил другой мод или старая установка, и игра загружает его вместо файла Coop. Без него Coop снова загружается, так что запусти игру снова и проверь. Если в этой папке нет Common.dll, отправь свои логи."
+        },
+        "tr": {
+          "title": "Farklı bir Common.dll yükleniyor",
+          "whatHappened": "Oyun, Coop ile gelen olmayan bir Common.dll yükledi ve Coop bununla yüklenemiyor. Büyük ihtimalle başka bir mod ya da eski bir kurulum oyunun bin klasöründe bir tane bıraktı, Bannerlord oraya böyle bir dosya koymaz.",
+          "whatToDo": "Fazladan Common.dll dosyasını oyunun bin klasöründen çıkar.\n\nOyunu kapat ve bu dosyayı Masaüstüne taşı.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (sürüm {version})\n\nBannerlord orada bir Common.dll ile gelmez, yani onu başka bir mod ya da eski bir kurulum bıraktı ve oyun Coop'unki yerine onu yüklüyor. O gidince Coop tekrar yüklenir, kontrol etmek için oyunu yeniden başlat. O klasörde Common.dll yoksa günlüklerini gönder."
+        }
+      }
+    },
+    {
+      "id": "game-bin-old-harmony",
+      "side": "client",
+      "priority": 90,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "coopClient", "regex": "Method not found: '[^']*\\bHarmonyLib\\.Harmony\\.PatchCategory\\(", "newestOnly": true },
+          { "file": "coopReport", "regex": "Method not found: '[^']*\\bHarmonyLib\\.Harmony\\.PatchCategory\\(", "newestOnly": true },
+          { "file": "rgl", "regex": "Method not found: '[^']*\\bHarmonyLib\\.Harmony\\.PatchCategory\\(", "newestOnly": true }
+        ]
+      },
+      "title": "An old 0Harmony.dll is loaded before the Harmony mod",
+      "whatHappened": "A mod asked Harmony for something only newer versions have, so the game had loaded an old 0Harmony.dll. Most likely it sits in the game's bin folder, where Bannerlord doesn't put one, and the game loads it before the Harmony mod's own copy.",
+      "whatToDo": "Move the old 0Harmony.dll out of the game's bin folder.\n\nClose the game and move this file out to your Desktop.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord doesn't put a 0Harmony.dll there, and the game loads it before the Harmony mod's newer copy, so a mod that needs a newer Harmony fails. Once it's gone the Harmony mod's copy loads. If that folder has no 0Harmony.dll, send your logs.",
+      "reportNeeded": false,
+      "sendMyLogs": true,
+      "translations": {
+        "ar": {
+          "title": "يتم تحميل 0Harmony.dll قديم قبل تعديل Harmony",
+          "whatHappened": "طلب أحد التعديلات من Harmony شيئًا لا يوجد إلا في الإصدارات الأحدث، أي أن اللعبة حمّلت 0Harmony.dll قديمًا. على الأرجح هو موجود في مجلد bin الخاص باللعبة، حيث لا تضع Bannerlord واحدًا، فتحمّله اللعبة قبل النسخة الخاصة بتعديل Harmony.",
+          "whatToDo": "انقل ملف 0Harmony.dll القديم خارج مجلد bin الخاص باللعبة.\n\nأغلق اللعبة وانقل هذا الملف إلى سطح المكتب.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nلا تضع Bannerlord ملف 0Harmony.dll هناك، وتحمّله اللعبة قبل النسخة الأحدث من تعديل Harmony، فيفشل أي تعديل يحتاج Harmony أحدث. بعد نقله تُحمَّل نسخة تعديل Harmony. إذا لم يكن في ذلك المجلد 0Harmony.dll، فأرسل سجلاتك."
+        },
+        "de": {
+          "title": "Eine alte 0Harmony.dll wird vor dem Harmony Mod geladen",
+          "whatHappened": "Ein Mod wollte etwas von Harmony, das nur neuere Versionen haben, also hat das Spiel eine alte 0Harmony.dll geladen. Wahrscheinlich liegt sie im bin Ordner des Spiels, wo Bannerlord keine hinlegt, und das Spiel lädt sie vor der eigenen Kopie des Harmony Mods.",
+          "whatToDo": "Verschieb die alte 0Harmony.dll aus dem bin Ordner des Spiels.\n\nSchließ das Spiel und verschieb diese Datei auf deinen Desktop.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord legt dort keine 0Harmony.dll hin, und das Spiel lädt sie vor der neueren Kopie des Harmony Mods, deshalb scheitert ein Mod, der ein neueres Harmony braucht. Wenn sie weg ist, lädt die Kopie des Harmony Mods. Wenn in diesem Ordner keine 0Harmony.dll liegt, schick deine Logs."
+        },
+        "fr": {
+          "title": "Un ancien 0Harmony.dll est chargé avant le mod Harmony",
+          "whatHappened": "Un mod a demandé à Harmony quelque chose que seules les versions récentes ont, donc le jeu avait chargé un ancien 0Harmony.dll. Il est très probablement dans le dossier bin du jeu, où Bannerlord n'en met pas, et le jeu le charge avant la copie du mod Harmony.",
+          "whatToDo": "Déplace l'ancien 0Harmony.dll hors du dossier bin du jeu.\n\nFerme le jeu et déplace ce fichier sur ton Bureau.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord ne met pas de 0Harmony.dll à cet endroit, et le jeu le charge avant la copie plus récente du mod Harmony, donc un mod qui a besoin d'un Harmony récent échoue. Une fois retiré, la copie du mod Harmony se charge. Si ce dossier n'a pas de 0Harmony.dll, envoie tes journaux."
+        },
+        "pt": {
+          "title": "Um 0Harmony.dll antigo é carregado antes do mod Harmony",
+          "whatHappened": "Um mod pediu ao Harmony algo que só versões mais novas têm, então o jogo tinha carregado um 0Harmony.dll antigo. O mais provável é que ele esteja na pasta bin do jogo, onde o Bannerlord não coloca nenhum, e o jogo carrega ele antes da cópia do próprio mod Harmony.",
+          "whatToDo": "Tire o 0Harmony.dll antigo da pasta bin do jogo.\n\nFeche o jogo e mova este arquivo para a sua Área de Trabalho.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nO Bannerlord não coloca um 0Harmony.dll ali, e o jogo carrega ele antes da cópia mais nova do mod Harmony, então um mod que precisa de um Harmony mais novo falha. Sem ele a cópia do mod Harmony carrega. Se essa pasta não tiver um 0Harmony.dll, envie seus logs."
+        },
+        "ru": {
+          "title": "Старый 0Harmony.dll загружается раньше мода Harmony",
+          "whatHappened": "Мод попросил у Harmony то, что есть только в новых версиях, значит игра загрузила старый 0Harmony.dll. Скорее всего он лежит в папке bin игры, куда Bannerlord его не кладёт, и игра загружает его раньше копии самого мода Harmony.",
+          "whatToDo": "Убери старый 0Harmony.dll из папки bin игры.\n\nЗакрой игру и перенеси этот файл на рабочий стол.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord не кладёт туда 0Harmony.dll, а игра загружает его раньше более новой копии мода Harmony, поэтому мод, которому нужен новый Harmony, падает. Без него загружается копия мода Harmony. Если в этой папке нет 0Harmony.dll, отправь свои логи."
+        },
+        "tr": {
+          "title": "Harmony modundan önce eski bir 0Harmony.dll yükleniyor",
+          "whatHappened": "Bir mod Harmony'den sadece yeni sürümlerde olan bir şey istedi, yani oyun eski bir 0Harmony.dll yüklemişti. Büyük ihtimalle oyunun bin klasöründe duruyor, Bannerlord oraya böyle bir dosya koymaz ve oyun onu Harmony modunun kendi kopyasından önce yükler.",
+          "whatToDo": "Eski 0Harmony.dll dosyasını oyunun bin klasöründen çıkar.\n\nOyunu kapat ve bu dosyayı Masaüstüne taşı.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord oraya 0Harmony.dll koymaz ve oyun onu Harmony modunun daha yeni kopyasından önce yükler, bu yüzden daha yeni Harmony isteyen bir mod çöker. O gidince Harmony modunun kopyası yüklenir. O klasörde 0Harmony.dll yoksa günlüklerini gönder."
+        }
+      }
+    },
+    {
+      "id": "steam-join-unreachable",
+      "side": "client",
+      "priority": 35,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "coopClient", "regex": "(?i)Could not reach the co-?op host through Steam|Timed out attempting to negotiate rendezvous", "newestOnly": true },
+          { "file": "rgl", "regex": "(?i)Could not reach the co-?op host through Steam|Timed out attempting to negotiate rendezvous", "newestOnly": true },
+          { "file": "launcher", "regex": "(?i)Could not reach the co-?op host through Steam|Timed out attempting to negotiate rendezvous", "newestOnly": true }
+        ],
+        "none": [
+          { "file": "coopClient", "contains": "Steam tunnel to the host established", "newestOnly": true }
+        ]
+      },
+      "title": "Your game couldn't reach the host through Steam",
+      "whatHappened": "Your game tried to connect to the host through Steam, but the connection never came up. Cloudflare WARP or another program that changes your DNS often blocks it.",
+      "whatToDo": "Check the host is still in their session and ask for a new invite.\n\nIf that doesn't help, close Cloudflare WARP or any other DNS changer, then join again. WARP and other programs that change your DNS often block the Steam connection to the host. If it still fails, ask the host for the server's address and port and join with those instead of through Steam.",
+      "reportNeeded": false,
+      "sendMyLogs": true,
+      "labels": [
+        "join"
+      ],
+      "translations": {
+        "ar": {
+          "title": "لم تتمكن لعبتك من الوصول إلى المضيف عبر Steam",
+          "whatHappened": "حاولت لعبتك الاتصال بالمضيف عبر Steam، لكن الاتصال لم يتم أبدًا. غالبًا ما يحظره Cloudflare WARP أو برنامج آخر يغيّر DNS لديك.",
+          "whatToDo": "تأكد أن المضيف ما زال في جلسته واطلب دعوة جديدة.\n\nإذا لم ينفع ذلك، فأغلق Cloudflare WARP أو أي برنامج آخر يغيّر DNS، ثم انضم مرة أخرى. غالبًا ما يحظر WARP والبرامج الأخرى التي تغيّر DNS اتصال Steam بالمضيف. إذا استمر الفشل، فاطلب من المضيف عنوان الخادم والمنفذ وانضم بهما بدل Steam."
+        },
+        "de": {
+          "title": "Dein Spiel hat den Host über Steam nicht erreicht",
+          "whatHappened": "Dein Spiel wollte sich über Steam mit dem Host verbinden, aber die Verbindung kam nie zustande. Cloudflare WARP oder ein anderes Programm, das deinen DNS ändert, blockiert das oft.",
+          "whatToDo": "Prüf, ob der Host noch in seiner Sitzung ist, und bitte um eine neue Einladung.\n\nWenn das nicht hilft, schließ Cloudflare WARP oder jedes andere Programm, das deinen DNS ändert, und tritt dann erneut bei. WARP und andere Programme, die deinen DNS ändern, blockieren oft die Steam Verbindung zum Host. Wenn es immer noch nicht klappt, frag den Host nach Adresse und Port des Servers und tritt damit bei statt über Steam."
+        },
+        "fr": {
+          "title": "Ton jeu n'a pas pu joindre l'hôte via Steam",
+          "whatHappened": "Ton jeu a essayé de se connecter à l'hôte via Steam, mais la connexion ne s'est jamais établie. Cloudflare WARP ou un autre programme qui change ton DNS la bloque souvent.",
+          "whatToDo": "Vérifie que l'hôte est toujours dans sa session et demande une nouvelle invitation.\n\nSi ça n'aide pas, ferme Cloudflare WARP ou tout autre programme qui change ton DNS, puis rejoins à nouveau. WARP et les autres programmes qui changent ton DNS bloquent souvent la connexion Steam vers l'hôte. Si ça échoue encore, demande à l'hôte l'adresse et le port du serveur et rejoins avec eux au lieu de passer par Steam."
+        },
+        "pt": {
+          "title": "Seu jogo não conseguiu alcançar o host pela Steam",
+          "whatHappened": "Seu jogo tentou se conectar ao host pela Steam, mas a conexão nunca abriu. O Cloudflare WARP ou outro programa que muda o seu DNS costuma bloquear isso.",
+          "whatToDo": "Confira se o host ainda está na sessão dele e peça um convite novo.\n\nSe não ajudar, feche o Cloudflare WARP ou qualquer outro programa que mude o seu DNS e entre de novo. O WARP e outros programas que mudam o seu DNS costumam bloquear a conexão da Steam com o host. Se ainda falhar, peça ao host o endereço e a porta do servidor e entre com eles em vez de pela Steam."
+        },
+        "ru": {
+          "title": "Игре не удалось связаться с хостом через Steam",
+          "whatHappened": "Игра пыталась подключиться к хосту через Steam, но соединение так и не установилось. Часто его блокирует Cloudflare WARP или другая программа, которая меняет DNS.",
+          "whatToDo": "Проверь, что хост всё ещё в своей сессии, и попроси новое приглашение.\n\nЕсли не помогло, закрой Cloudflare WARP или любую другую программу, которая меняет DNS, и подключись снова. WARP и другие программы, которые меняют DNS, часто блокируют соединение Steam с хостом. Если всё равно не выходит, спроси у хоста адрес и порт сервера и подключись по ним, а не через Steam."
+        },
+        "tr": {
+          "title": "Oyunun Steam üzerinden hosta ulaşamadı",
+          "whatHappened": "Oyunun Steam üzerinden hosta bağlanmaya çalıştı ama bağlantı hiç kurulmadı. Cloudflare WARP ya da DNS'ini değiştiren başka bir program bunu sık sık engeller.",
+          "whatToDo": "Hostun hâlâ oturumunda olduğunu kontrol et ve yeni bir davet iste.\n\nBu işe yaramazsa Cloudflare WARP'ı ya da DNS'ini değiştiren başka bir programı kapat, sonra tekrar katıl. WARP ve DNS'ini değiştiren diğer programlar hosta giden Steam bağlantısını sık sık engeller. Hâlâ olmuyorsa hosttan sunucunun adresini ve portunu iste ve Steam yerine onlarla katıl."
+        }
+      }
+    },
+    {
+      "id": "onedrive-documents-coopdata",
+      "side": "both",
+      "priority": 75,
+      "category": "setup",
+      "match": {
+        "all": [
+          { "files": ["server", "serverLog", "hostConsole", "coopClient", "coopReport", "rgl"], "regex": "(?i)(?:Save-History Cleanup Failed|Unable to save|Access to the path|Could not find a part of the path)[^\\r\\n]*?[\\\\/]OneDrive[^\\\\/\\r\\n]*[\\\\/]+(?:[^\\\\/\\r\\n]+[\\\\/]+)*?CoopData\\b|[\\\\/]OneDrive[^\\\\/\\r\\n]*[\\\\/]+(?:[^\\\\/\\r\\n]+[\\\\/]+)*?CoopData\\b[^\\r\\n]*?(?:Save-History Cleanup Failed|Unable to save|is denied|being used by another process)", "newestOnly": true }
+        ]
+      },
+      "title": "OneDrive is syncing your Documents folder",
+      "whatHappened": "Your Documents folder is inside OneDrive, and Coop keeps its saves and settings there in CoopData. When OneDrive moves or syncs those files while Coop uses them, Coop can't save or clean up its files.",
+      "whatToDo": "Stop OneDrive from syncing your Documents folder.\n\nCopy this folder somewhere safe first.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nIn OneDrive settings, open this page and turn Documents off.\nSync and backup > Manage backup\n\nOneDrive moving or syncing CoopData while Coop uses it breaks Coop's saves, and once Documents is out of OneDrive Coop can save again. If it keeps happening, uninstall OneDrive as the Coop Discord helpers advise, then start the game or the server again.",
+      "whatNotToDo": "Don't reinstall Coop or turn your mods off for this. They are not the problem.",
+      "reportNeeded": false,
+      "sendMyLogs": true,
+      "translations": {
+        "ar": {
+          "title": "يقوم OneDrive بمزامنة مجلد المستندات لديك",
+          "whatHappened": "مجلد المستندات لديك موجود داخل OneDrive، ويحفظ Coop حفظاته وإعداداته هناك في CoopData. عندما ينقل OneDrive هذه الملفات أو يزامنها أثناء استخدام Coop لها، لا يستطيع Coop الحفظ أو تنظيف ملفاته.",
+          "whatToDo": "أوقف OneDrive عن مزامنة مجلد المستندات.\n\nانسخ هذا المجلد إلى مكان آمن أولًا.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nفي إعدادات OneDrive افتح هذه الصفحة وأوقف المستندات.\nالمزامنة والنسخ الاحتياطي > إدارة النسخ الاحتياطي\n\nنقل OneDrive لمجلد CoopData أو مزامنته أثناء استخدام Coop له يفسد حفظات Coop، وعندما تخرج المستندات من OneDrive يستطيع Coop الحفظ مرة أخرى. إذا استمر ذلك، فأزل تثبيت OneDrive كما ينصح مساعدو Discord الخاص بـ Coop، ثم شغّل اللعبة أو الخادم مرة أخرى.",
+          "whatNotToDo": "لا تُعد تثبيت Coop ولا توقف تعديلاتك لهذا السبب. ليست هي المشكلة."
+        },
+        "de": {
+          "title": "OneDrive synchronisiert deinen Dokumente Ordner",
+          "whatHappened": "Dein Dokumente Ordner liegt in OneDrive, und Coop speichert dort in CoopData seine Spielstände und Einstellungen. Wenn OneDrive diese Dateien verschiebt oder synchronisiert, während Coop sie benutzt, kann Coop nicht speichern oder seine Dateien aufräumen.",
+          "whatToDo": "Hör auf, deinen Dokumente Ordner mit OneDrive zu synchronisieren.\n\nKopier zuerst diesen Ordner an einen sicheren Ort.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nÖffne in den OneDrive Einstellungen diese Seite und schalte Dokumente aus.\nSynchronisieren und sichern > Sicherung verwalten\n\nWenn OneDrive CoopData verschiebt oder synchronisiert, während Coop es benutzt, gehen die Spielstände von Coop kaputt, und sobald Dokumente nicht mehr in OneDrive liegt, kann Coop wieder speichern. Wenn es weiter passiert, deinstalliere OneDrive, wie es die Helfer im Coop Discord raten, und starte dann das Spiel oder den Server neu.",
+          "whatNotToDo": "Installiere Coop deshalb nicht neu und schalte deine Mods nicht aus. Die sind nicht das Problem."
+        },
+        "fr": {
+          "title": "OneDrive synchronise ton dossier Documents",
+          "whatHappened": "Ton dossier Documents est dans OneDrive, et Coop y garde ses sauvegardes et ses réglages dans CoopData. Quand OneDrive déplace ou synchronise ces fichiers pendant que Coop les utilise, Coop ne peut pas sauvegarder ni nettoyer ses fichiers.",
+          "whatToDo": "Empêche OneDrive de synchroniser ton dossier Documents.\n\nCopie d'abord ce dossier dans un endroit sûr.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nDans les paramètres de OneDrive, ouvre cette page et désactive Documents.\nSynchronisation et sauvegarde > Gérer la sauvegarde\n\nQuand OneDrive déplace ou synchronise CoopData pendant que Coop l'utilise, les sauvegardes de Coop cassent, et une fois Documents sorti de OneDrive Coop peut de nouveau sauvegarder. Si ça continue, désinstalle OneDrive comme le conseillent les helpers du Discord Coop, puis relance le jeu ou le serveur.",
+          "whatNotToDo": "Ne réinstalle pas Coop et ne désactive pas tes mods pour ça. Ce n'est pas eux le problème."
+        },
+        "pt": {
+          "title": "O OneDrive está sincronizando sua pasta Documentos",
+          "whatHappened": "Sua pasta Documentos fica dentro do OneDrive, e o Coop guarda os saves e as configurações dele ali, em CoopData. Quando o OneDrive move ou sincroniza esses arquivos enquanto o Coop usa eles, o Coop não consegue salvar nem limpar os arquivos dele.",
+          "whatToDo": "Faça o OneDrive parar de sincronizar a sua pasta Documentos.\n\nPrimeiro copie esta pasta para um lugar seguro.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nNas configurações do OneDrive, abra esta página e desligue Documentos.\nSincronizar e fazer backup > Gerenciar backup\n\nO OneDrive mover ou sincronizar o CoopData enquanto o Coop usa ele quebra os saves do Coop, e quando Documentos sai do OneDrive o Coop consegue salvar de novo. Se continuar acontecendo, desinstale o OneDrive, como os ajudantes do Discord do Coop recomendam, e depois abra o jogo ou o servidor de novo.",
+          "whatNotToDo": "Não reinstale o Coop nem desligue seus mods por causa disso. Eles não são o problema."
+        },
+        "ru": {
+          "title": "OneDrive синхронизирует твою папку Документы",
+          "whatHappened": "Твоя папка Документы лежит в OneDrive, а Coop хранит там свои сохранения и настройки, в CoopData. Когда OneDrive перемещает или синхронизирует эти файлы, пока Coop ими пользуется, Coop не может сохранить игру или убрать свои файлы.",
+          "whatToDo": "Останови синхронизацию папки Документы в OneDrive.\n\nСначала скопируй эту папку в надёжное место.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nВ параметрах OneDrive открой эту страницу и выключи Документы.\nСинхронизация и резервное копирование > Управление резервным копированием\n\nКогда OneDrive перемещает или синхронизирует CoopData, пока Coop им пользуется, сохранения Coop ломаются, а когда Документы больше не в OneDrive, Coop снова может сохранять. Если это повторяется, удали OneDrive, как советуют помощники в Discord Coop, потом снова запусти игру или сервер.",
+          "whatNotToDo": "Не переустанавливай Coop и не выключай моды ради этого. Дело не в них."
+        },
+        "tr": {
+          "title": "OneDrive Belgeler klasörünü eşitliyor",
+          "whatHappened": "Belgeler klasörün OneDrive'ın içinde ve Coop kayıtlarını ve ayarlarını orada, CoopData içinde tutuyor. OneDrive bu dosyaları Coop kullanırken taşıyınca ya da eşitleyince Coop kayıt yapamıyor ya da dosyalarını temizleyemiyor.",
+          "whatToDo": "OneDrive'ın Belgeler klasörünü eşitlemesini durdur.\n\nÖnce bu klasörü güvenli bir yere kopyala.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nOneDrive ayarlarında bu sayfayı aç ve Belgeler'i kapat.\nEşitleme ve yedekleme > Yedeklemeyi yönet\n\nOneDrive, Coop kullanırken CoopData'yı taşıyınca ya da eşitleyince Coop'un kayıtları bozuluyor, Belgeler OneDrive'dan çıkınca Coop yeniden kayıt yapabilir. Devam ederse Coop Discord yardımcılarının önerdiği gibi OneDrive'ı kaldır, sonra oyunu ya da sunucuyu yeniden başlat.",
+          "whatNotToDo": "Bunun için Coop'u yeniden kurma ya da modlarını kapatma. Sorun onlarda değil."
         }
       }
     }
