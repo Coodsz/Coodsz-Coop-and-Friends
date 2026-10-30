@@ -592,6 +592,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [WutheringWavesMod](https://steamcommunity.com/sharedfiles/filedetails/?id=3435761060) | Not checked yet |  |  |  |  |
 | [Xingchen Warring States Weapon](https://steamcommunity.com/sharedfiles/filedetails/?id=3415841732) | Not checked yet |  |  |  |  |
 | [Xorberax's Cut Through Everyone](https://www.nexusmods.com/mountandblade2bannerlord/mods/344) | Not checked yet |  |  |  |  |
+| Xorberax's Cut Through Everyone by Lovetskyi | Not checked yet | 1 works, 0 broken | 2026-10-30 |  |  |
 | [Xorberax's Training Field](https://www.nexusmods.com/mountandblade2bannerlord/mods/258) | Not checked yet |  |  |  |  |
 | [Yari and Blackpowder](https://steamcommunity.com/sharedfiles/filedetails/?id=3556585206) | Not checked yet |  |  |  |  |
 | [Yigu ThreeKingdoms](https://steamcommunity.com/sharedfiles/filedetails/?id=3555363340) | Not checked yet |  |  |  |  |
@@ -599,4 +600,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet |  |  |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-571 mods.
+572 mods.
