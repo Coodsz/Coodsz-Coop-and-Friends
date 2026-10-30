@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "2026.10.28.2",
+  "version": "2026.10.29.3",
   "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash.",
   "signatures": [
     {
@@ -835,6 +835,221 @@
           "whatHappened": "Sunucu başlamadı, çünkü Steam'in Atölye'den indirdiği Coop sunucu klasöründe bir dosya eksik. Steam'in oyun dosyalarının bütünlüğünü doğrulama seçeneği yalnızca Bannerlord'un kendisine bakar, Atölye modlarına bakmaz, bu yüzden bu dosyayı geri getiremez.",
           "whatToDo": "Sunucu aracını kapat. Steam'de Bannerlord Coop'un Atölye sayfasını aç, Abonelikten çık'a tıkla ve Steam onu kaldırana kadar bekle. Sonra Abone ol'a tıkla, tamamen inmesini bekle ve sunucuyu yeniden başlat.",
           "whatNotToDo": "Kendi Bannerlord klasöründen Coop sunucu klasörüne dosya kopyalama. Sunucunun Coop ile gelen dosyalara ihtiyacı var."
+        }
+      }
+    },
+    {
+      "id": "coop-old-mylittlewarband",
+      "side": "server",
+      "tools": [
+        "coop"
+      ],
+      "priority": 85,
+      "category": "mod-mismatch",
+      "match": {
+        "any": [
+          {
+            "file": "hostConsole",
+            "regex": "\\[MyLittleWarband\\] (?:patch|finalizer) failed: .*MBCharacterSkills\\.get_Skills\\(\\)",
+            "newestOnly": true
+          },
+          {
+            "file": "server",
+            "regex": "\\[MyLittleWarband\\] (?:patch|finalizer) failed: .*MBCharacterSkills\\.get_Skills\\(\\)"
+          },
+          {
+            "file": "serverLog",
+            "regex": "\\[MyLittleWarband\\] (?:patch|finalizer) failed: .*MBCharacterSkills\\.get_Skills\\(\\)",
+            "newestOnly": true
+          }
+        ]
+      },
+      "title": "My Little Warband is too old for this Bannerlord",
+      "whatHappened": "My Little Warband was last updated for an older Bannerlord, and no newer version is out. It calls game code the current Bannerlord no longer has, so the server stopped while it loaded the campaign.",
+      "whatToDo": "To play now, turn My Little Warband off and start a new campaign. The Server Tool won't load a campaign made with it once it's off, because removing a mod can break a campaign. Keep your old save for when My Little Warband gets updated.",
+      "whatNotToDo": "Don't resubscribe or reinstall My Little Warband for this. Every download is the same old version.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "My Little Warband أقدم من إصدار Bannerlord هذا",
+          "whatHappened": "آخر تحديث لـ My Little Warband كان لإصدار أقدم من Bannerlord، ولا توجد نسخة أحدث منه. إنه يستدعي شيفرة لم تعد موجودة في Bannerlord الحالية، لذلك توقف الخادم أثناء تحميل الحملة.",
+          "whatToDo": "لتلعب الآن، أوقف My Little Warband وابدأ حملة جديدة. أداة الخادم لن تحمّل حملة صُنعت به بعد إيقافه، لأن إزالة تعديل قد تُفسد الحملة. احتفظ بحفظك القديم لحين تحديث My Little Warband.",
+          "whatNotToDo": "لا تُلغِ الاشتراك ثم تشترك من جديد ولا تُعِد تثبيت My Little Warband من أجل هذا. كل تنزيل هو النسخة القديمة نفسها."
+        },
+        "de": {
+          "title": "My Little Warband ist zu alt für dieses Bannerlord",
+          "whatHappened": "My Little Warband wurde zuletzt für ein älteres Bannerlord aktualisiert, und es gibt keine neuere Version. Es ruft Spielcode auf, den das aktuelle Bannerlord nicht mehr hat, deshalb hat der Server beim Laden der Kampagne angehalten.",
+          "whatToDo": "Um jetzt zu spielen, schalte My Little Warband aus und starte eine neue Kampagne. Das Server Tool lädt keine Kampagne, die damit gemacht wurde, sobald es aus ist, weil das Entfernen einer Mod eine Kampagne kaputt machen kann. Behalte deinen alten Spielstand für den Fall, dass My Little Warband aktualisiert wird.",
+          "whatNotToDo": "Abonniere My Little Warband deshalb nicht neu und installiere es nicht neu. Jeder Download ist dieselbe alte Version."
+        },
+        "fr": {
+          "title": "My Little Warband est trop ancien pour ce Bannerlord",
+          "whatHappened": "My Little Warband a été mis à jour pour la dernière fois pour une version plus ancienne de Bannerlord, et aucune version plus récente n'existe. Il appelle du code du jeu que le Bannerlord actuel n'a plus, donc le serveur s'est arrêté pendant le chargement de la campagne.",
+          "whatToDo": "Pour jouer maintenant, désactive My Little Warband et commence une nouvelle campagne. L'outil serveur ne charge pas une campagne faite avec lui une fois qu'il est désactivé, car retirer un mod peut casser une campagne. Garde ton ancienne sauvegarde pour le jour où My Little Warband sera mis à jour.",
+          "whatNotToDo": "Ne te réabonne pas à My Little Warband et ne le réinstalle pas pour ça. Chaque téléchargement donne la même ancienne version."
+        },
+        "pt": {
+          "title": "O My Little Warband é antigo demais para este Bannerlord",
+          "whatHappened": "O My Little Warband foi atualizado pela última vez para uma versão mais antiga do Bannerlord, e não existe versão mais nova. Ele chama código do jogo que o Bannerlord atual não tem mais, então o servidor parou enquanto carregava a campanha.",
+          "whatToDo": "Para jogar agora, desative o My Little Warband e comece uma campanha nova. A ferramenta do servidor não carrega uma campanha feita com ele depois que ele é desativado, porque remover um mod pode estragar uma campanha. Guarde seu save antigo para quando o My Little Warband for atualizado.",
+          "whatNotToDo": "Não cancele e refaça a inscrição nem reinstale o My Little Warband por isso. Todo download é a mesma versão antiga."
+        },
+        "ru": {
+          "title": "My Little Warband слишком старый для этой версии Bannerlord",
+          "whatHappened": "My Little Warband последний раз обновлялся для более старой версии Bannerlord, и новой версии нет. Он вызывает код игры, которого в текущей Bannerlord больше нет, поэтому сервер остановился во время загрузки кампании.",
+          "whatToDo": "Чтобы играть сейчас, выключи My Little Warband и начни новую кампанию. Инструмент сервера не загрузит кампанию, сделанную с ним, после того как он выключен, потому что удаление мода может сломать кампанию. Сохрани старое сохранение на случай, если My Little Warband обновят.",
+          "whatNotToDo": "Не переподписывайся на My Little Warband и не переустанавливай его ради этого. Каждая загрузка даёт ту же старую версию."
+        },
+        "tr": {
+          "title": "My Little Warband bu Bannerlord için fazla eski",
+          "whatHappened": "My Little Warband en son Bannerlord'un daha eski bir sürümü için güncellendi ve daha yeni bir sürümü yok. Güncel Bannerlord'da artık olmayan oyun kodunu çağırıyor, bu yüzden sunucu seferi yüklerken durdu.",
+          "whatToDo": "Şimdi oynamak için My Little Warband'ı kapat ve yeni bir sefer başlat. Sunucu aracı, kapatıldıktan sonra onunla yapılmış bir seferi yüklemez, çünkü bir modu kaldırmak seferi bozabilir. Eski kaydını My Little Warband güncellendiğinde kullanmak için sakla.",
+          "whatNotToDo": "Bunun için My Little Warband'a yeniden abone olma ve onu yeniden kurma. Her indirme aynı eski sürüm."
+        }
+      }
+    },
+    {
+      "id": "coop-workshop-server-template-missing",
+      "side": "server",
+      "tools": [
+        "coop",
+        "ad1259"
+      ],
+      "priority": 85,
+      "category": "setup",
+      "match": {
+        "all": [
+          {
+            "file": "server",
+            "contains": "The fresh-campaign template is missing",
+            "tail": 60
+          },
+          {
+            "file": "server",
+            "contains": "3770450698\\DedicatedServer",
+            "tail": 60
+          }
+        ]
+      },
+      "title": "The new campaign file is missing from the Coop server download",
+      "whatHappened": "A new campaign could not start because default_new_game.sav is missing from the Coop server folder that Steam downloaded from the Workshop. Every new Coop campaign starts from that file. Steam's Verify integrity of game files only checks Bannerlord itself, not Workshop mods, so it can't bring this file back.",
+      "whatToDo": "Close the Server Tool. In Steam open the Workshop page of Bannerlord Coop, click Unsubscribe and wait until Steam removes it. Then click Subscribe, let it download completely, open the Server Tool and make the new campaign again. If your antivirus quarantined default_new_game.sav, restoring it works too.",
+      "whatNotToDo": "Don't copy save files into the server folders by hand. Your campaigns that already exist are not touched.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "ملف الحملة الجديدة ناقص في تنزيل خادم Coop",
+          "whatHappened": "تعذّر بدء حملة جديدة لأن default_new_game.sav ناقص في مجلد خادم Coop الذي نزّله Steam من الورشة. كل حملة Coop جديدة تبدأ من هذا الملف. خيار التحقق من سلامة ملفات اللعبة في Steam يفحص Bannerlord نفسها فقط وليس تعديلات الورشة، لذلك لا يستطيع إعادة هذا الملف.",
+          "whatToDo": "أغلق أداة الخادم. في Steam افتح صفحة Bannerlord Coop في الورشة، وانقر إلغاء الاشتراك وانتظر حتى يحذفه Steam. ثم انقر اشتراك، ودعه يكتمل تنزيله، وافتح أداة الخادم وأنشئ الحملة الجديدة مرة أخرى. إذا عزل برنامج مكافحة الفيروسات الملف default_new_game.sav فإن استعادته تنفع أيضًا.",
+          "whatNotToDo": "لا تنسخ ملفات الحفظ إلى مجلدات الخادم يدويًا. حملاتك الموجودة لم تُمس."
+        },
+        "de": {
+          "title": "Im Coop Server Download fehlt die Datei für neue Kampagnen",
+          "whatHappened": "Eine neue Kampagne konnte nicht starten, weil default_new_game.sav im Coop Serverordner fehlt, den Steam aus dem Workshop geladen hat. Jede neue Coop Kampagne startet aus dieser Datei. Die Steam Prüfung der Spieldateien prüft nur Bannerlord selbst und keine Workshop Mods, deshalb holt sie diese Datei nicht zurück.",
+          "whatToDo": "Schließe das Server Tool. Öffne in Steam die Workshop Seite von Bannerlord Coop, klicke auf Abonnement entfernen und warte, bis Steam es gelöscht hat. Klicke dann auf Abonnieren, lass es vollständig herunterladen, öffne das Server Tool und erstelle die neue Kampagne noch einmal. Wenn dein Antivirus default_new_game.sav in Quarantäne gesteckt hat, hilft auch das Wiederherstellen.",
+          "whatNotToDo": "Kopiere keine Speicherdateien von Hand in die Serverordner. Deine bestehenden Kampagnen bleiben unberührt."
+        },
+        "fr": {
+          "title": "Le fichier des nouvelles campagnes manque dans le téléchargement du serveur Coop",
+          "whatHappened": "Une nouvelle campagne n'a pas pu démarrer parce que default_new_game.sav manque dans le dossier serveur de Coop que Steam a téléchargé depuis le Workshop. Chaque nouvelle campagne Coop part de ce fichier. La vérification de l'intégrité des fichiers de Steam ne vérifie que Bannerlord, pas les mods du Workshop, donc elle ne peut pas remettre ce fichier.",
+          "whatToDo": "Ferme l'outil serveur. Dans Steam, ouvre la page Workshop de Bannerlord Coop, clique sur Se désabonner et attends que Steam le supprime. Clique ensuite sur S'abonner, laisse le téléchargement se terminer, ouvre l'outil serveur et crée la nouvelle campagne à nouveau. Si ton antivirus a mis default_new_game.sav en quarantaine, le restaurer marche aussi.",
+          "whatNotToDo": "Ne copie pas de fichiers de sauvegarde à la main dans les dossiers du serveur. Tes campagnes existantes ne sont pas touchées."
+        },
+        "pt": {
+          "title": "Falta o arquivo de campanha nova no download do servidor do Coop",
+          "whatHappened": "Uma campanha nova não pôde começar porque falta default_new_game.sav na pasta do servidor do Coop que a Steam baixou da Oficina. Toda campanha nova do Coop começa a partir desse arquivo. A verificação de integridade dos arquivos da Steam só confere o Bannerlord, não os mods da Oficina, então ela não consegue trazer esse arquivo de volta.",
+          "whatToDo": "Feche a ferramenta do servidor. Na Steam abra a página do Bannerlord Coop na Oficina, clique em Cancelar inscrição e espere a Steam remover o mod. Depois clique em Inscrever, deixe baixar por completo, abra a ferramenta do servidor e crie a campanha nova de novo. Se o seu antivírus colocou default_new_game.sav em quarentena, restaurar o arquivo também resolve.",
+          "whatNotToDo": "Não copie arquivos de save para as pastas do servidor à mão. Suas campanhas que já existem não são tocadas."
+        },
+        "ru": {
+          "title": "В загрузке сервера Coop нет файла для новых кампаний",
+          "whatHappened": "Новая кампания не смогла начаться, потому что в папке сервера Coop, которую Steam скачал из Мастерской, нет default_new_game.sav. Каждая новая кампания Coop начинается с этого файла. Проверка целостности файлов игры в Steam проверяет только саму Bannerlord, а не моды из Мастерской, поэтому она не вернёт этот файл.",
+          "whatToDo": "Закрой инструмент сервера. В Steam открой страницу Bannerlord Coop в Мастерской, нажми Отписаться и подожди, пока Steam его удалит. Потом нажми Подписаться, дождись полной загрузки, открой инструмент сервера и создай новую кампанию ещё раз. Если антивирус поместил default_new_game.sav в карантин, восстановление тоже поможет.",
+          "whatNotToDo": "Не копируй файлы сохранений в папки сервера вручную. Твои существующие кампании не затронуты."
+        },
+        "tr": {
+          "title": "Coop sunucu indirmesinde yeni sefer dosyası eksik",
+          "whatHappened": "Yeni bir sefer başlayamadı, çünkü Steam'in Atölye'den indirdiği Coop sunucu klasöründe default_new_game.sav eksik. Her yeni Coop seferi bu dosyadan başlar. Steam'in oyun dosyalarının bütünlüğünü doğrulama seçeneği yalnızca Bannerlord'un kendisine bakar, Atölye modlarına bakmaz, bu yüzden bu dosyayı geri getiremez.",
+          "whatToDo": "Sunucu aracını kapat. Steam'de Bannerlord Coop'un Atölye sayfasını aç, Abonelikten çık'a tıkla ve Steam onu kaldırana kadar bekle. Sonra Abone ol'a tıkla, tamamen inmesini bekle, sunucu aracını aç ve yeni seferi yeniden oluştur. Antivirüsün default_new_game.sav dosyasını karantinaya aldıysa, geri yüklemek de işe yarar.",
+          "whatNotToDo": "Kayıt dosyalarını sunucu klasörlerine elle kopyalama. Var olan seferlerine dokunulmadı."
+        }
+      }
+    },
+    {
+      "id": "coop-ds-mapmod-distance-cache",
+      "side": "server",
+      "tools": [
+        "coop"
+      ],
+      "priority": 85,
+      "category": "coop-bug",
+      "match": {
+        "exitCodes": [
+          -532462766
+        ],
+        "all": [
+          {
+            "file": "server",
+            "regex": "Main_map read OK, navmesh CRC=(?!1465536726(?!\\d))\\d+",
+            "tail": 15
+          },
+          {
+            "file": "server",
+            "regex": "(?i)SandBox[\\\\/]+ModuleData[\\\\/]+DistanceCaches[\\\\/]+settlements_distance_cache_Default\\.bin",
+            "tail": 15
+          }
+        ],
+        "none": [
+          { "module": "DedicatedServer.AD1259CoopCompat" },
+          { "module": "BurningEmpires.CoopCompat" },
+          { "module": "MoreNationsRemastered" },
+          {
+            "file": "server",
+            "contains": "campaign map from"
+          }
+        ]
+      },
+      "title": "A new campaign on a map mod crashes the Coop server",
+      "whatHappened": "The Coop server crashed a few minutes into a new campaign on a campaign map mod. It read the map mod's map, but then loaded the travel data of the Vanilla map from SandBox, which does not fit that map. This is a known Coop bug.",
+      "whatToDo": "Until Coop fixes it, pick Vanilla campaign Map as the Campaign map on the Server page and start a new campaign, or keep the map mod turned off.",
+      "whatNotToDo": "Don't delete the save or reinstall the map mod for this. Neither one fixes it.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "حملة جديدة على تعديل خريطة توقف خادم Coop",
+          "whatHappened": "توقف خادم Coop بعد بضع دقائق من بدء حملة جديدة على تعديل خريطة حملة. قرأ خريطة التعديل، لكنه حمّل بعدها بيانات التنقل الخاصة بالخريطة الأصلية من SandBox، وهي لا تناسب تلك الخريطة. هذا خطأ معروف في Coop.",
+          "whatToDo": "إلى أن يصلح Coop هذا، اختر خريطة الحملة الأصلية في خريطة الحملة في صفحة الخادم وابدأ حملة جديدة، أو أبقِ تعديل الخريطة متوقفًا.",
+          "whatNotToDo": "لا تحذف الحفظ ولا تُعد تثبيت تعديل الخريطة لهذا السبب. لا شيء منهما يصلحه."
+        },
+        "de": {
+          "title": "Eine neue Kampagne mit einem Karten Mod lässt den Coop Server abstürzen",
+          "whatHappened": "Der Coop Server ist ein paar Minuten nach dem Start einer neuen Kampagne mit einem Kampagnenkarten Mod abgestürzt. Er hat die Karte des Mods gelesen, danach aber die Reisedaten der Vanilla Karte aus SandBox geladen, und die passen nicht zu dieser Karte. Das ist ein bekannter Coop Fehler.",
+          "whatToDo": "Bis Coop das behebt, wähle auf der Seite Server bei Kampagnenkarte die Vanilla Kampagnenkarte und starte eine neue Kampagne, oder lass den Karten Mod ausgeschaltet.",
+          "whatNotToDo": "Lösche den Spielstand nicht und installiere den Karten Mod deshalb nicht neu. Beides behebt es nicht."
+        },
+        "fr": {
+          "title": "Une nouvelle campagne sur un mod de carte fait planter le serveur Coop",
+          "whatHappened": "Le serveur Coop a planté quelques minutes après le début d'une nouvelle campagne sur un mod de carte de campagne. Il a lu la carte du mod, mais a ensuite chargé les données de trajet de la carte vanilla depuis SandBox, qui ne correspondent pas à cette carte. C'est un bug connu de Coop.",
+          "whatToDo": "En attendant que Coop le corrige, choisis Carte de campagne vanilla dans Carte de campagne sur la page Serveur et démarre une nouvelle campagne, ou laisse le mod de carte désactivé.",
+          "whatNotToDo": "Ne supprime pas la sauvegarde et ne réinstalle pas le mod de carte pour ça. Ni l'un ni l'autre ne règle le problème."
+        },
+        "pt": {
+          "title": "Uma campanha nova em um mod de mapa derruba o servidor do Coop",
+          "whatHappened": "O servidor do Coop travou alguns minutos depois do início de uma campanha nova em um mod de mapa de campanha. Ele leu o mapa do mod, mas depois carregou os dados de viagem do mapa vanilla a partir do SandBox, e eles não servem para esse mapa. Isso é um bug conhecido do Coop.",
+          "whatToDo": "Até o Coop corrigir isso, escolha Mapa de campanha vanilla em Mapa da campanha na página Servidor e comece uma campanha nova, ou deixe o mod de mapa desligado.",
+          "whatNotToDo": "Não apague o save nem reinstale o mod de mapa por causa disso. Nenhum dos dois resolve."
+        },
+        "ru": {
+          "title": "Новая кампания на моде карты роняет сервер Coop",
+          "whatHappened": "Сервер Coop упал через несколько минут после начала новой кампании на моде карты кампании. Он прочитал карту мода, но потом загрузил данные о путях ванильной карты из SandBox, а они не подходят к этой карте. Это известная ошибка Coop.",
+          "whatToDo": "Пока Coop это не исправит, выбери Ванильная карта кампании в поле Карта кампании на странице Сервер и начни новую кампанию, или держи мод карты выключенным.",
+          "whatNotToDo": "Не удаляй сохранение и не переустанавливай мод карты. Это не поможет."
+        },
+        "tr": {
+          "title": "Harita modunda yeni bir sefer Coop sunucusunu çökertiyor",
+          "whatHappened": "Coop sunucusu, bir sefer haritası modunda yeni bir sefer başladıktan birkaç dakika sonra çöktü. Modun haritasını okudu, ama sonra SandBox'tan vanilla haritanın yol verilerini yükledi ve bu veriler o haritaya uymuyor. Bu bilinen bir Coop hatası.",
+          "whatToDo": "Coop bunu düzeltene kadar, Sunucu sayfasında Sefer haritası olarak Vanilla sefer haritası'nı seç ve yeni bir sefer başlat, ya da harita modunu kapalı tut.",
+          "whatNotToDo": "Bunun için kaydı silme ya da harita modunu yeniden kurma. İkisi de bunu düzeltmez."
         }
       }
     }
