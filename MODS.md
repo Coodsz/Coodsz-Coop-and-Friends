@@ -159,6 +159,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [ArrangeMarriageForFamily](https://steamcommunity.com/sharedfiles/filedetails/?id=2880762493) | Not checked yet |  |  |  |  |
 | [Art of War](https://www.nexusmods.com/mountandblade2bannerlord/mods/3970) | Not checked yet |  |  |  |  |
 | Artems Chariots | Not checked yet |  |  |  | Asked about in the thread; not tested in Coop yet. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
+| Assassin's Creed Combat | Not checked yet | 1 works, 0 broken | 2026-10-30 |  |  |
 | [Attack Hideouts During Daytime](https://steamcommunity.com/sharedfiles/filedetails/?id=2875752021) | Not checked yet |  |  |  |  |
 | [Attribute Per Level](https://www.nexusmods.com/mountandblade2bannerlord/mods/121) | Not checked yet |  |  |  |  |
 | [Auto Equip Companions](https://steamcommunity.com/sharedfiles/filedetails/?id=3457590233) | Not checked yet |  |  |  |  |
@@ -600,4 +601,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet |  |  |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-572 mods.
+573 mods.
