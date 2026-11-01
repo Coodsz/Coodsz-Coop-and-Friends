@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.10.30.4",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
+  "version": "2026.10.31.1",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -1321,6 +1321,103 @@
           "whatHappened": "Belgeler klasörün OneDrive'ın içinde ve Coop kayıtlarını ve ayarlarını orada, CoopData içinde tutuyor. OneDrive bu dosyaları Coop kullanırken taşıyınca ya da eşitleyince Coop kayıt yapamıyor ya da dosyalarını temizleyemiyor.",
           "whatToDo": "OneDrive'ın Belgeler klasörünü eşitlemesini durdur.\n\nÖnce bu klasörü güvenli bir yere kopyala.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nOneDrive ayarlarında bu sayfayı aç ve Belgeler'i kapat.\nEşitleme ve yedekleme > Yedeklemeyi yönet\n\nOneDrive, Coop kullanırken CoopData'yı taşıyınca ya da eşitleyince Coop'un kayıtları bozuluyor, Belgeler OneDrive'dan çıkınca Coop yeniden kayıt yapabilir. Devam ederse Coop Discord yardımcılarının önerdiği gibi OneDrive'ı kaldır, sonra oyunu ya da sunucuyu yeniden başlat.",
           "whatNotToDo": "Bunun için Coop'u yeniden kurma ya da modlarını kapatma. Sorun onlarda değil."
+        }
+      }
+    },
+    {
+      "id": "taom-coopcompat-dll-missing",
+      "side": "server",
+      "tools": ["taom"],
+      "priority": 92,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "server", "regex": "TAOM\\.CoopCompat preflight failed.*DLL is missing", "newestOnly": true },
+          { "file": "hostConsole", "regex": "TAOM\\.CoopCompat preflight failed.*DLL is missing", "newestOnly": true }
+        ]
+      },
+      "title": "A TAOM.CoopCompat file is missing from the server",
+      "whatHappened": "A TAOM.CoopCompat file is missing from the server folder, so TAOM.CoopCompat stopped the start during its own check. Antivirus most likely removed it. The save was not loaded yet, so your save is fine.",
+      "whatToDo": "Update the TAOM Server Tool and press Start server. It puts the file back. If it goes again, click Fix antivirus.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "ملف من TAOM.CoopCompat مفقود من الخادم",
+          "whatHappened": "ملف من TAOM.CoopCompat مفقود من مجلد الخادم، لذلك أوقف TAOM.CoopCompat التشغيل أثناء فحصه الخاص. على الأرجح حذفه مكافح الفيروسات. لم يكن الحفظ قد حُمّل بعد، لذلك حفظك سليم.",
+          "whatToDo": "حدّث TAOM Server Tool واضغط تشغيل الخادم. سيعيد الملف. إذا اختفى مرة أخرى، انقر على إصلاح مكافح الفيروسات."
+        },
+        "de": {
+          "title": "Eine Datei von TAOM.CoopCompat fehlt auf dem Server",
+          "whatHappened": "Eine Datei von TAOM.CoopCompat fehlt im Serverordner, deshalb hat TAOM.CoopCompat den Start bei seiner eigenen Prüfung gestoppt. Wahrscheinlich hat ein Antivirus sie entfernt. Der Spielstand war noch nicht geladen, dein Spielstand ist also in Ordnung.",
+          "whatToDo": "Aktualisiere das TAOM Server Tool und drücke Server starten. Es legt die Datei zurück. Verschwindet sie wieder, klicke auf Antivirus beheben."
+        },
+        "fr": {
+          "title": "Un fichier TAOM.CoopCompat manque sur le serveur",
+          "whatHappened": "Un fichier TAOM.CoopCompat manque dans le dossier du serveur, donc TAOM.CoopCompat a arrêté le démarrage pendant sa propre vérification. Très probablement un antivirus l'a supprimé. La sauvegarde n'était pas encore chargée, donc ta sauvegarde va bien.",
+          "whatToDo": "Mets à jour le TAOM Server Tool et appuie sur Démarrer le serveur. Il remet le fichier. S'il disparaît encore, clique sur Réparer l'antivirus."
+        },
+        "pt": {
+          "title": "Um arquivo do TAOM.CoopCompat está faltando no servidor",
+          "whatHappened": "Um arquivo do TAOM.CoopCompat está faltando na pasta do servidor, então o TAOM.CoopCompat parou o início durante a própria verificação. O mais provável é que um antivírus tenha removido. O save ainda não tinha carregado, então o seu save está bem.",
+          "whatToDo": "Atualize o TAOM Server Tool e aperte Iniciar servidor. Ele coloca o arquivo de volta. Se ele sumir de novo, clique em Corrigir antivírus."
+        },
+        "ru": {
+          "title": "На сервере не хватает файла TAOM.CoopCompat",
+          "whatHappened": "В папке сервера не хватает файла TAOM.CoopCompat, поэтому TAOM.CoopCompat остановил запуск во время своей проверки. Скорее всего его удалил антивирус. Сохранение ещё не загрузилось, так что с ним всё в порядке.",
+          "whatToDo": "Обновите TAOM Server Tool и нажмите Запустить сервер. Он вернёт файл. Если файл снова пропадёт, нажмите Исправить антивирус."
+        },
+        "tr": {
+          "title": "Sunucuda bir TAOM.CoopCompat dosyası eksik",
+          "whatHappened": "Sunucu klasöründe bir TAOM.CoopCompat dosyası eksik, bu yüzden TAOM.CoopCompat kendi kontrolü sırasında başlatmayı durdurdu. Büyük ihtimalle antivirüs onu sildi. Kayıt henüz yüklenmemişti, yani kaydın sağlam.",
+          "whatToDo": "TAOM Server Tool'u güncelle ve Sunucuyu başlat'a bas. Dosyayı geri koyar. Yine giderse Antivirüsü düzelt'e tıkla."
+        }
+      }
+    },
+    {
+      "id": "coop-mod-common-dll-clash",
+      "side": "client",
+      "tools": ["coop"],
+      "priority": 89,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "crashStack", "regex": "TypeLoadException: Could not load type 'Common\\.[^']+' from assembly 'Common, Version=(?!1\\.0\\.0\\.0\\b)(?<version>\\d+(?:\\.\\d+){1,3})" }
+        ]
+      },
+      "title": "Another mod's Common.dll clashes with Coop",
+      "whatHappened": "The game loaded a Common.dll, version {version}, that isn't the one Coop comes with, so Coop could not load and the game closed while it loaded the mods.",
+      "whatToDo": "Another mod brings a file named Common.dll that clashes with Coop. Turn off the mod you added last, then Test to main menu.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "ملف Common.dll من مود آخر يتعارض مع Coop",
+          "whatHappened": "حمّلت اللعبة ملف Common.dll، الإصدار {version}، ليس الملف الذي يأتي مع Coop، فلم يستطع Coop التحميل وأُغلقت اللعبة أثناء تحميل المودات.",
+          "whatToDo": "يجلب مود آخر ملفًا اسمه Common.dll يتعارض مع Coop. أوقف المود الذي أضفته آخر مرة، ثم اضغط اختبار حتى القائمة الرئيسية."
+        },
+        "de": {
+          "title": "Die Common.dll eines anderen Mods stört Coop",
+          "whatHappened": "Das Spiel hat eine Common.dll in Version {version} geladen, die nicht die von Coop ist, deshalb konnte Coop nicht laden und das Spiel hat sich beim Laden der Mods geschlossen.",
+          "whatToDo": "Ein anderer Mod bringt eine Datei namens Common.dll mit, die sich mit Coop nicht verträgt. Schalte den Mod aus, den du zuletzt hinzugefügt hast, und drücke dann Test bis Hauptmenü."
+        },
+        "fr": {
+          "title": "Le Common.dll d'un autre mod entre en conflit avec Coop",
+          "whatHappened": "Le jeu a chargé un Common.dll, version {version}, qui n'est pas celui fourni avec Coop, donc Coop n'a pas pu se charger et le jeu s'est fermé pendant le chargement des mods.",
+          "whatToDo": "Un autre mod apporte un fichier nommé Common.dll qui entre en conflit avec Coop. Désactive le mod que tu as ajouté en dernier, puis clique sur Test jusqu'au menu principal."
+        },
+        "pt": {
+          "title": "O Common.dll de outro mod entra em conflito com o Coop",
+          "whatHappened": "O jogo carregou um Common.dll, versão {version}, que não é o que vem com o Coop, então o Coop não carregou e o jogo fechou enquanto carregava os mods.",
+          "whatToDo": "Outro mod traz um arquivo chamado Common.dll que entra em conflito com o Coop. Desligue o mod que você adicionou por último e depois clique em Testar até o menu principal."
+        },
+        "ru": {
+          "title": "Common.dll другого мода конфликтует с Coop",
+          "whatHappened": "Игра загрузила Common.dll версии {version}, который не идёт с Coop, поэтому Coop не смог загрузиться и игра закрылась во время загрузки модов.",
+          "whatToDo": "Другой мод приносит файл Common.dll, который конфликтует с Coop. Выключите мод, который вы добавили последним, затем нажмите Тест до главного меню."
+        },
+        "tr": {
+          "title": "Başka bir modun Common.dll dosyası Coop ile çakışıyor",
+          "whatHappened": "Oyun Coop ile gelen olmayan, {version} sürümlü bir Common.dll yükledi, bu yüzden Coop yüklenemedi ve oyun modları yüklerken kapandı.",
+          "whatToDo": "Başka bir mod Coop ile çakışan Common.dll adlı bir dosya getiriyor. En son eklediğin modu kapat, sonra Ana menüye kadar test et'e tıkla."
         }
       }
     }
