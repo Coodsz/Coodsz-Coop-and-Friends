@@ -20,9 +20,9 @@ the day of the newest counted report.
 
 ## How to report a mod
 
-Click **Report a mod** at the top of Coodsz Coop and Friends (or **Report** on the bar after a game)
-and pick Works or Broken for each mod. No GitHub account is needed. A report counts here about a
-day later.
+In Coodsz Coop and Friends, click **Report** beside a mod on the Mods page, or **Report a mod** on the
+Logs and help page (or **Report** on the bar after a game), and pick Works or Broken for each mod. No
+GitHub account is needed. A report counts here about a day later.
 With a GitHub account you can also use the [report form](https://github.com/Coodsz/Coodsz-Coop-and-Friends/issues/new?template=mod-compat.yml).
 
 | Mod | Status | Players | Last report | Checked with Coop | Note |
