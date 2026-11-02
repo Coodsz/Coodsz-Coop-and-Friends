@@ -47,7 +47,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Crafting Piece Sorter](https://www.nexusmods.com/mountandblade2bannerlord/mods/6961) | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | Crafting Tier Indicator | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | Diplomacy Coop Compat | Works | 1 works, 0 broken | 2026-10-26 | v0.1.6 | Coodsz patch for Diplomacy, comes with the Coodsz tools. Made for Coop 0.1.6. Turns off war exhaustion and messengers in Coop and sends its buttons through the server. Load it right after Diplomacy, on the server and every player. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
-| [Dismemberment (Plus)](https://steamcommunity.com/sharedfiles/filedetails/?id=2875093027) | Works | 1 works, 0 broken | 2026-10-28 | v0.1.6 | Works in Coop. The host and every player need the same version. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [Dismemberment (Plus)](https://steamcommunity.com/sharedfiles/filedetails/?id=2875093027) | Works | 2 works, 0 broken | 2026-11-01 | v0.1.6 | Works in Coop. The host and every player need the same version. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Encyclopedia Extender Reforged](https://steamcommunity.com/sharedfiles/filedetails/?id=2953564744) | Works | 1 works, 0 broken | 2026-10-24 | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Encyclopedia Filters Extended](https://steamcommunity.com/sharedfiles/filedetails/?id=2916000111) | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Family Tree](https://steamcommunity.com/sharedfiles/filedetails/?id=2959469806) | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
@@ -230,7 +230,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [BetterPartyTooltip](https://www.nexusmods.com/mountandblade2bannerlord/mods/7643) | Not checked yet |  |  |  |  |
 | [BetterTroopHUD](https://steamcommunity.com/sharedfiles/filedetails/?id=2999591774) | Not checked yet |  |  |  |  |
 | [BloodMod - More Blood and Gore](https://www.nexusmods.com/mountandblade2bannerlord/mods/1591) | Not checked yet |  |  |  |  |
-| [Bodyguards](https://steamcommunity.com/sharedfiles/filedetails/?id=2880365016) | Not checked yet |  |  |  |  |
+| [Bodyguards](https://steamcommunity.com/sharedfiles/filedetails/?id=2880365016) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [Breakable Polearms](https://steamcommunity.com/sharedfiles/filedetails/?id=3080363208) | Not checked yet |  |  |  |  |
 | [Broken mods fixes](https://www.nexusmods.com/mountandblade2bannerlord/mods/2613) | Not checked yet |  |  |  |  |
 | [Brynhild The Shieldmaiden](https://steamcommunity.com/sharedfiles/filedetails/?id=2883954746) | Not checked yet |  |  |  |  |
@@ -238,10 +238,10 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [BuyPatrols](https://www.nexusmods.com/mountandblade2bannerlord/mods/343) | Not checked yet |  |  |  |  |
 | [Calradia At War](https://steamcommunity.com/sharedfiles/filedetails/?id=2878689343) | Not checked yet |  |  |  |  |
 | [Calradia Expanded](https://www.nexusmods.com/mountandblade2bannerlord/mods/1389) | Not checked yet |  |  |  |  |
-| [Calradia Rising Armory](https://steamcommunity.com/sharedfiles/filedetails/?id=3469351983) | Not checked yet |  |  |  |  |
+| [Calradia Rising Armory](https://steamcommunity.com/sharedfiles/filedetails/?id=3469351983) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [Calradian Patrols V2](https://steamcommunity.com/sharedfiles/filedetails/?id=2859407083) | Not checked yet |  |  |  |  |
 | [Calradic Campaign](https://steamcommunity.com/sharedfiles/filedetails/?id=2933062399) | Not checked yet |  |  |  |  |
-| [Camel Troops and Aserai Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2887096699) | Not checked yet |  |  |  |  |
+| [Camel Troops and Aserai Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2887096699) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [Caravans Give Trade XP](https://www.nexusmods.com/mountandblade2bannerlord/mods/907) | Not checked yet |  |  |  |  |
 | [Carrier - Banners and Torches](https://www.nexusmods.com/mountandblade2bannerlord/mods/3354) | Not checked yet |  |  |  |  |
 | [Change Settlement Culture](https://www.nexusmods.com/mountandblade2bannerlord/mods/510) | Not checked yet |  |  |  |  |
@@ -278,7 +278,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [COOP Server Settings Lock](https://steamcommunity.com/sharedfiles/filedetails/?id=3794802607) | Not checked yet | 1 works, 0 broken | 2026-10-29 | v0.1.6 | Retired and not needed. By S1MA$H. It is gone from the Workshop, Nexus and ModDB and is no longer part of the Coodsz setup. Coop checks that the host and the players load the same mods, so the host and every player turn it off together. The host now sets the values it fixed on the Server Tool's MCM page, and players get the host's values. Saves made with it still start without it on the Coodsz Server Tool. Source: Coodsz, 2026-10-29. |
 | [Courier](https://www.nexusmods.com/mountandblade2bannerlord/mods/9048) | Not checked yet |  |  |  |  |
 | [Crash Doctor](https://steamcommunity.com/sharedfiles/filedetails/?id=3717685432) | Not checked yet |  |  |  |  |
-| [Crusaders](https://steamcommunity.com/sharedfiles/filedetails/?id=2927895725) | Not checked yet |  |  |  |  |
+| [Crusaders](https://steamcommunity.com/sharedfiles/filedetails/?id=2927895725) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [Cultural Kingdoms](https://steamcommunity.com/sharedfiles/filedetails/?id=3647153514) | Not checked yet |  |  |  |  |
 | [Culture Switch - Companions](https://steamcommunity.com/sharedfiles/filedetails/?id=2905239873) | Not checked yet |  |  |  |  |
 | [Culture Switch - Vassals](https://steamcommunity.com/sharedfiles/filedetails/?id=2905660587) | Not checked yet |  |  |  |  |
@@ -306,7 +306,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Elite Mercenaries](https://steamcommunity.com/sharedfiles/filedetails/?id=2883108405) | Not checked yet |  |  |  |  |
 | [Elite Mercenaries Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2928812888) | Not checked yet |  |  |  |  |
 | [Elite trooper expand](https://steamcommunity.com/sharedfiles/filedetails/?id=2875307298) | Not checked yet |  |  |  |  |
-| [Enable Achievement](https://steamcommunity.com/sharedfiles/filedetails/?id=2880190747) | Not checked yet |  |  |  |  |
+| [Enable Achievement](https://steamcommunity.com/sharedfiles/filedetails/?id=2880190747) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [Encyclopedia Extender](https://steamcommunity.com/sharedfiles/filedetails/?id=2875180306) | Not checked yet |  |  |  |  |
 | [Enlisted](https://www.nexusmods.com/mountandblade2bannerlord/mods/9193) | Not checked yet |  |  |  |  |
 | [Enter Castle/Town With Horse](https://steamcommunity.com/sharedfiles/filedetails/?id=2883598274) | Not checked yet |  |  |  |  |
@@ -465,7 +465,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Realistic Combat Adjustments](https://www.nexusmods.com/mountandblade2bannerlord/mods/7116) | Not checked yet |  |  |  |  |
 | [Realistic Combat Sounds](https://www.nexusmods.com/mountandblade2bannerlord/mods/3765) | Not checked yet |  |  |  |  |
 | [Realistic Practical Holsters](https://www.nexusmods.com/mountandblade2bannerlord/mods/5935) | Not checked yet |  |  |  |  |
-| [Realistic Weather](https://steamcommunity.com/sharedfiles/filedetails/?id=2862531759) | Not checked yet |  |  |  |  |
+| [Realistic Weather](https://steamcommunity.com/sharedfiles/filedetails/?id=2862531759) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [Rebuild Looted Villages Redux](https://www.nexusmods.com/mountandblade2bannerlord/mods/6304) | Not checked yet |  |  |  |  |
 | [Recruit Everyone](https://steamcommunity.com/sharedfiles/filedetails/?id=2875837088) | Not checked yet |  |  |  |  |
 | [Recruit Exiled Clans](https://steamcommunity.com/sharedfiles/filedetails/?id=3618730894) | Not checked yet |  |  |  |  |
@@ -598,7 +598,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Yari and Blackpowder](https://steamcommunity.com/sharedfiles/filedetails/?id=3556585206) | Not checked yet |  |  |  |  |
 | [Yigu ThreeKingdoms](https://steamcommunity.com/sharedfiles/filedetails/?id=3555363340) | Not checked yet |  |  |  |  |
 | [You Keep What You Kill](https://steamcommunity.com/sharedfiles/filedetails/?id=2903901025) | Not checked yet |  |  |  |  |
-| [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet |  |  |  |  |
+| [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
 573 mods.
