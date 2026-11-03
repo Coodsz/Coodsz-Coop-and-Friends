@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "vacation-2026-11",
+  "enabled": true,
+  "tools": ["coop", "taom", "ad1259", "be"],
+  "title": {
+    "en": "Coodsz is on vacation",
+    "ar": "Coodsz في إجازة",
+    "de": "Coodsz ist im Urlaub",
+    "fr": "Coodsz est en vacances",
+    "pt": "Coodsz está de férias",
+    "ru": "Coodsz в отпуске",
+    "tr": "Coodsz tatilde"
+  },
+  "text": {
+    "en": "If you have a question, a concern or a problem, click Send my logs. A bot answers while Coodsz is away, and its reply shows in My reports.",
+    "ar": "إذا كان لديك سؤال أو أمر يقلقك أو مشكلة، اضغط أرسل سجلاتي. يرد بوت أثناء غياب Coodsz، ويظهر رده في تقاريري.",
+    "de": "Wenn du eine Frage, ein Anliegen oder ein Problem hast, klick auf Meine Logs senden. Solange Coodsz weg ist, antwortet ein Bot, und seine Antwort erscheint unter Meine Berichte.",
+    "fr": "Si vous avez une question, un souci ou un problème, cliquez sur Envoyer mes journaux. Un bot répond pendant l'absence de Coodsz, et sa réponse s'affiche dans Mes rapports.",
+    "pt": "Se você tiver uma dúvida, uma preocupação ou um problema, clique em Enviar meus logs. Um bot responde enquanto Coodsz está fora, e a resposta aparece em Meus relatórios.",
+    "ru": "Если у вас есть вопрос, сомнение или проблема, нажмите «Отправить мои логи». Пока Coodsz в отъезде, отвечает бот, и его ответ появится в разделе «Мои отчёты».",
+    "tr": "Bir soru, endişe ya da sorun olursa Günlüklerimi gönder'e tıkla. Coodsz yokken bir bot yanıt veriyor ve yanıtı Raporlarım'da görünüyor."
+  }
+}
