@@ -133,6 +133,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Village Enterprise](https://steamcommunity.com/sharedfiles/filedetails/?id=3620030171) | Broken |  |  | v0.1.6 | Broken in Coop; the enterprise resets when the server restarts. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest); old Coop 0.1.5 compatibility thread. |
 | War Sails | Broken |  |  | v0.1.6 | Coop does not support War Sails yet and refuses a player who has it turned on (DLC is not supported). Turn it off on the host and every player. Patch available: VanillaNaval.CoopCompatfix, not confirmed on 0.1.6. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | [Wheel of Time Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=3251984526) | Broken |  |  | v0.1.6 | Overhaul. Big overhauls do not work in Coop; only TAOM and AD1259 are supported, through their own Coodsz tools. Confirmed by Coodsz, 2026-10-24. |
+| Achievement Enabler | Not checked yet | 1 works, 0 broken | 2026-11-05 |  |  |
 | [Achievement Unblocker](https://www.nexusmods.com/mountandblade2bannerlord/mods/4587) | Not checked yet |  |  |  |  |
 | [Adjustable Bandits](https://steamcommunity.com/sharedfiles/filedetails/?id=2896450980) | Not checked yet |  |  |  |  |
 | [Adjustable Leveling](https://steamcommunity.com/sharedfiles/filedetails/?id=2896410558) | Not checked yet |  |  |  |  |
@@ -601,4 +602,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-573 mods.
+574 mods.

@@ -42,6 +42,7 @@
   //   The script keeps this comment block and rewrites the "mods" array, one entry per line, sorted by name.
   //   It also writes MODS.md in the repository root, the readable page of this list (the tools' Full mod list link).
   "mods": [
+    { "id": "MBGA_AchievementEnabler", "name": "Achievement Enabler", "status": "Unknown", "works": 1, "broken": 0, "lastReport": "2026-11-05", "testedWith": ["Bannerlord.CCsBanners","DismembermentPlus","ProvenSteel","swadian armoury","TournamentTracker"] },
     { "id": "Achievement Unblocker", "name": "Achievement Unblocker", "status": "Unknown", "nexus": 4587, "category": "Utility", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Adjustable Bandits", "name": "Adjustable Bandits", "status": "Unknown", "workshop": "2896450980", "nexus": 6599, "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Adjustable Leveling", "name": "Adjustable Leveling", "status": "Unknown", "workshop": "2896410558", "category": "Utility", "works": 0, "broken": 0, "idGuess": true },
