@@ -438,6 +438,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [NPC Revamp](https://www.nexusmods.com/mountandblade2bannerlord/mods/21) | Not checked yet |  |  |  |  |
 | Nuggets' Agriculture Estate and Xorberax Bank patch | Not checked yet |  |  |  | Alternative Coop patch by Nuggets for Agriculture Estate and the Bank module of Xorberax's Legacy, posted on the Coop Discord (old 0.1.5 thread, #other-mods). Made for Coop 0.1.5 and not updated since; may clash with Zexui's CoopModPatch. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | [Party AI Controls](https://steamcommunity.com/sharedfiles/filedetails/?id=3117962790) | Not checked yet |  |  |  |  |
+| Party AI Controls Reforged | Not checked yet | 1 works, 0 broken | 2026-11-07 |  |  |
 | [Party AI Overhaul and Commands](https://www.nexusmods.com/mountandblade2bannerlord/mods/493) | Not checked yet |  |  |  |  |
 | [Party And Clan Limit Extender Shokuho](https://steamcommunity.com/sharedfiles/filedetails/?id=3514722516) | Not checked yet |  |  |  |  |
 | [Party Screen Enhancements](https://steamcommunity.com/sharedfiles/filedetails/?id=2888739624) | Not checked yet |  |  |  |  |
@@ -602,4 +603,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-574 mods.
+575 mods.
