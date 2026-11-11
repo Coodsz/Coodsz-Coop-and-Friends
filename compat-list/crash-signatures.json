@@ -864,47 +864,47 @@
           }
         ]
       },
-      "title": "My Little Warband is too old for this Bannerlord",
-      "whatHappened": "My Little Warband was last updated for an older Bannerlord, and no newer version is out. It calls game code the current Bannerlord no longer has, so the server stopped while it loaded the campaign.",
-      "whatToDo": "To play now, turn My Little Warband off and start a new campaign. The Server Tool won't load a campaign made with it once it's off, because removing a mod can break a campaign. Keep your old save for when My Little Warband gets updated.",
-      "whatNotToDo": "Don't resubscribe or reinstall My Little Warband for this. Every download is the same old version.",
+      "title": "This My Little Warband is too old for this Bannerlord",
+      "whatHappened": "My Little Warband 1.2.7 from December 2023 (Workshop 2892150920 and Nexus) was made for an older Bannerlord. It calls game code the current Bannerlord no longer has, so the server stopped while it loaded the campaign.",
+      "whatToDo": "Use MrGangGang's My Little Warband from Steam Workshop 3627538517 instead, on the server and every player. Unsubscribe from the old one, or delete its folder in Modules if you got it from Nexus. The server and every player also need CoopModPatch, and My Little Warband goes in the server's mod list. Then start the server again.",
+      "whatNotToDo": "Don't resubscribe to or reinstall the old 1.2.7. Every download of it is the same old version.",
       "reportNeeded": false,
       "translations": {
         "ar": {
-          "title": "My Little Warband أقدم من إصدار Bannerlord هذا",
-          "whatHappened": "آخر تحديث لـ My Little Warband كان لإصدار أقدم من Bannerlord، ولا توجد نسخة أحدث منه. إنه يستدعي شيفرة لم تعد موجودة في Bannerlord الحالية، لذلك توقف الخادم أثناء تحميل الحملة.",
-          "whatToDo": "لتلعب الآن، أوقف My Little Warband وابدأ حملة جديدة. أداة الخادم لن تحمّل حملة صُنعت به بعد إيقافه، لأن إزالة تعديل قد تُفسد الحملة. احتفظ بحفظك القديم لحين تحديث My Little Warband.",
-          "whatNotToDo": "لا تُلغِ الاشتراك ثم تشترك من جديد ولا تُعِد تثبيت My Little Warband من أجل هذا. كل تنزيل هو النسخة القديمة نفسها."
+          "title": "نسخة My Little Warband هذه أقدم من إصدار Bannerlord هذا",
+          "whatHappened": "صُنعت My Little Warband 1.2.7 من ديسمبر 2023 (Workshop 2892150920 وNexus) لإصدار أقدم من Bannerlord. إنها تستدعي شيفرة لم تعد موجودة في Bannerlord الحالية، لذلك توقف الخادم أثناء تحميل الحملة.",
+          "whatToDo": "استخدم بدلًا منها My Little Warband من MrGangGang في Steam Workshop 3627538517، على الخادم وعند كل لاعب. ألغِ الاشتراك في النسخة القديمة، أو احذف مجلدها في Modules إن كنت حمّلتها من Nexus. يحتاج الخادم وكل لاعب أيضًا إلى CoopModPatch، وتُضاف My Little Warband إلى قائمة تعديلات الخادم. ثم شغّل الخادم من جديد.",
+          "whatNotToDo": "لا تشترك من جديد في النسخة القديمة 1.2.7 ولا تُعِد تثبيتها. كل تنزيل لها هو النسخة القديمة نفسها."
         },
         "de": {
-          "title": "My Little Warband ist zu alt für dieses Bannerlord",
-          "whatHappened": "My Little Warband wurde zuletzt für ein älteres Bannerlord aktualisiert, und es gibt keine neuere Version. Es ruft Spielcode auf, den das aktuelle Bannerlord nicht mehr hat, deshalb hat der Server beim Laden der Kampagne angehalten.",
-          "whatToDo": "Um jetzt zu spielen, schalte My Little Warband aus und starte eine neue Kampagne. Das Server Tool lädt keine Kampagne, die damit gemacht wurde, sobald es aus ist, weil das Entfernen einer Mod eine Kampagne kaputt machen kann. Behalte deinen alten Spielstand für den Fall, dass My Little Warband aktualisiert wird.",
-          "whatNotToDo": "Abonniere My Little Warband deshalb nicht neu und installiere es nicht neu. Jeder Download ist dieselbe alte Version."
+          "title": "Dieses My Little Warband ist zu alt für dieses Bannerlord",
+          "whatHappened": "My Little Warband 1.2.7 von Dezember 2023 (Workshop 2892150920 und Nexus) wurde für ein älteres Bannerlord gemacht. Es ruft Spielcode auf, den das aktuelle Bannerlord nicht mehr hat, deshalb hat der Server beim Laden der Kampagne angehalten.",
+          "whatToDo": "Nimm stattdessen MrGangGangs My Little Warband aus dem Steam Workshop 3627538517, auf dem Server und bei jedem Spieler. Beende das Abo der alten Version oder lösche ihren Ordner in Modules, wenn du sie von Nexus hast. Der Server und jeder Spieler brauchen auch CoopModPatch, und My Little Warband gehört in die Modliste des Servers. Starte dann den Server neu.",
+          "whatNotToDo": "Abonniere oder installiere die alte 1.2.7 nicht neu. Jeder Download davon ist dieselbe alte Version."
         },
         "fr": {
-          "title": "My Little Warband est trop ancien pour ce Bannerlord",
-          "whatHappened": "My Little Warband a été mis à jour pour la dernière fois pour une version plus ancienne de Bannerlord, et aucune version plus récente n'existe. Il appelle du code du jeu que le Bannerlord actuel n'a plus, donc le serveur s'est arrêté pendant le chargement de la campagne.",
-          "whatToDo": "Pour jouer maintenant, désactive My Little Warband et commence une nouvelle campagne. L'outil serveur ne charge pas une campagne faite avec lui une fois qu'il est désactivé, car retirer un mod peut casser une campagne. Garde ton ancienne sauvegarde pour le jour où My Little Warband sera mis à jour.",
-          "whatNotToDo": "Ne te réabonne pas à My Little Warband et ne le réinstalle pas pour ça. Chaque téléchargement donne la même ancienne version."
+          "title": "Ce My Little Warband est trop ancien pour ce Bannerlord",
+          "whatHappened": "My Little Warband 1.2.7 de décembre 2023 (Workshop 2892150920 et Nexus) a été fait pour une version plus ancienne de Bannerlord. Il appelle du code du jeu que le Bannerlord actuel n'a plus, donc le serveur s'est arrêté pendant le chargement de la campagne.",
+          "whatToDo": "Utilise plutôt le My Little Warband de MrGangGang du Steam Workshop 3627538517, sur le serveur et chez chaque joueur. Annule ton abonnement à l'ancien, ou supprime son dossier dans Modules si tu l'as pris sur Nexus. Le serveur et chaque joueur ont aussi besoin de CoopModPatch, et My Little Warband va dans la liste de mods du serveur. Puis relance le serveur.",
+          "whatNotToDo": "Ne te réabonne pas à l'ancien 1.2.7 et ne le réinstalle pas. Chaque téléchargement est la même vieille version."
         },
         "pt": {
-          "title": "O My Little Warband é antigo demais para este Bannerlord",
-          "whatHappened": "O My Little Warband foi atualizado pela última vez para uma versão mais antiga do Bannerlord, e não existe versão mais nova. Ele chama código do jogo que o Bannerlord atual não tem mais, então o servidor parou enquanto carregava a campanha.",
-          "whatToDo": "Para jogar agora, desative o My Little Warband e comece uma campanha nova. A ferramenta do servidor não carrega uma campanha feita com ele depois que ele é desativado, porque remover um mod pode estragar uma campanha. Guarde seu save antigo para quando o My Little Warband for atualizado.",
-          "whatNotToDo": "Não cancele e refaça a inscrição nem reinstale o My Little Warband por isso. Todo download é a mesma versão antiga."
+          "title": "Este My Little Warband é antigo demais para este Bannerlord",
+          "whatHappened": "O My Little Warband 1.2.7 de dezembro de 2023 (Workshop 2892150920 e Nexus) foi feito para uma versão mais antiga do Bannerlord. Ele chama código do jogo que o Bannerlord atual não tem mais, então o servidor parou enquanto carregava a campanha.",
+          "whatToDo": "Use no lugar o My Little Warband do MrGangGang da Steam Workshop 3627538517, no servidor e em todos os jogadores. Cancele a inscrição no antigo, ou apague a pasta dele em Modules se você o pegou na Nexus. O servidor e todos os jogadores também precisam do CoopModPatch, e o My Little Warband vai na lista de mods do servidor. Depois inicie o servidor de novo.",
+          "whatNotToDo": "Não refaça a inscrição nem reinstale o antigo 1.2.7. Todo download dele é a mesma versão antiga."
         },
         "ru": {
-          "title": "My Little Warband слишком старый для этой версии Bannerlord",
-          "whatHappened": "My Little Warband последний раз обновлялся для более старой версии Bannerlord, и новой версии нет. Он вызывает код игры, которого в текущей Bannerlord больше нет, поэтому сервер остановился во время загрузки кампании.",
-          "whatToDo": "Чтобы играть сейчас, выключи My Little Warband и начни новую кампанию. Инструмент сервера не загрузит кампанию, сделанную с ним, после того как он выключен, потому что удаление мода может сломать кампанию. Сохрани старое сохранение на случай, если My Little Warband обновят.",
-          "whatNotToDo": "Не переподписывайся на My Little Warband и не переустанавливай его ради этого. Каждая загрузка даёт ту же старую версию."
+          "title": "Эта версия My Little Warband слишком старая для этой версии Bannerlord",
+          "whatHappened": "My Little Warband 1.2.7 от декабря 2023 года (Workshop 2892150920 и Nexus) сделан для более старой версии Bannerlord. Он вызывает код игры, которого в текущей Bannerlord больше нет, поэтому сервер остановился при загрузке кампании.",
+          "whatToDo": "Используй вместо него My Little Warband от MrGangGang из Steam Workshop 3627538517, на сервере и у каждого игрока. Отпишись от старого или удали его папку в Modules, если скачал его с Nexus. Серверу и каждому игроку также нужен CoopModPatch, а My Little Warband нужно добавить в список модов сервера. Потом снова запусти сервер.",
+          "whatNotToDo": "Не подписывайся заново на старую 1.2.7 и не переустанавливай её. Любая загрузка даёт ту же старую версию."
         },
         "tr": {
-          "title": "My Little Warband bu Bannerlord için fazla eski",
-          "whatHappened": "My Little Warband en son Bannerlord'un daha eski bir sürümü için güncellendi ve daha yeni bir sürümü yok. Güncel Bannerlord'da artık olmayan oyun kodunu çağırıyor, bu yüzden sunucu seferi yüklerken durdu.",
-          "whatToDo": "Şimdi oynamak için My Little Warband'ı kapat ve yeni bir sefer başlat. Sunucu aracı, kapatıldıktan sonra onunla yapılmış bir seferi yüklemez, çünkü bir modu kaldırmak seferi bozabilir. Eski kaydını My Little Warband güncellendiğinde kullanmak için sakla.",
-          "whatNotToDo": "Bunun için My Little Warband'a yeniden abone olma ve onu yeniden kurma. Her indirme aynı eski sürüm."
+          "title": "Bu My Little Warband, bu Bannerlord için fazla eski",
+          "whatHappened": "Aralık 2023 tarihli My Little Warband 1.2.7 (Workshop 2892150920 ve Nexus) daha eski bir Bannerlord için yapıldı. Güncel Bannerlord'da artık olmayan oyun kodunu çağırıyor, bu yüzden sunucu seferi yüklerken durdu.",
+          "whatToDo": "Bunun yerine MrGangGang'in Steam Workshop 3627538517'deki My Little Warband'ını sunucuda ve her oyuncuda kullan. Eskisinin aboneliğini iptal et ya da Nexus'tan aldıysan Modules içindeki klasörünü sil. Sunucu ve her oyuncu CoopModPatch'e de ihtiyaç duyar, My Little Warband da sunucunun mod listesine girer. Sonra sunucuyu yeniden başlat.",
+          "whatNotToDo": "Eski 1.2.7'ye yeniden abone olma ve onu yeniden kurma. Her indirme aynı eski sürüm."
         }
       }
     },
