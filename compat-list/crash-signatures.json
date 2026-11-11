@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.10.31.1",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
+  "version": "2026.11.11.1",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log and Coop_client_<pid>.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -1418,6 +1418,62 @@
           "title": "Başka bir modun Common.dll dosyası Coop ile çakışıyor",
           "whatHappened": "Oyun Coop ile gelen olmayan, {version} sürümlü bir Common.dll yükledi, bu yüzden Coop yüklenemedi ve oyun modları yüklerken kapandı.",
           "whatToDo": "Başka bir mod Coop ile çakışan Common.dll adlı bir dosya getiriyor. En son eklediğin modu kapat, sonra Ana menüye kadar test et'e tıkla."
+        }
+      }
+    },
+    {
+      "id": "server-client-coop-in-server-folder",
+      "side": "server",
+      "tools": ["coop", "ad1259"],
+      "priority": 90,
+      "category": "setup",
+      "match": {
+        "all": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "FileLoadException:\\s*Assembly with same name is already loaded" },
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\bat\\s+[\\w.+`<>]*CoopDriver\\." }
+        ]
+      },
+      "title": "A game Coop was copied into the server's Coop folder",
+      "whatHappened": "The server stopped itself while it loaded Coop. A game (client) Coop was copied into the server's own Coop folder\nDedicatedServer\\engine\\Modules\\Coop\nand the server can't load it. Your save and your mods are not the problem.",
+      "whatToDo": "If the server is in the Workshop Coop, unsubscribe from Workshop item 3770450698 in Steam, subscribe again, wait for the download, then press Start server. Steam's Verify does not repair Workshop items. If you downloaded the server yourself, download the Coop server again and put its DedicatedServer folder in place of this one.",
+      "whatNotToDo": "Do not copy Coop files into the DedicatedServer folder. Do not turn your mods off for this.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "نُسخ Coop الخاص باللعبة إلى مجلد Coop في الخادم",
+          "whatHappened": "أوقف الخادم نفسه أثناء تحميل Coop. نُسخ Coop الخاص باللعبة (العميل) إلى مجلد Coop الخاص بالخادم\nDedicatedServer\\engine\\Modules\\Coop\nولا يستطيع الخادم تحميله. المشكلة ليست في حفظك ولا في موداتك.",
+          "whatToDo": "إذا كان الخادم داخل Coop من Workshop، فألغِ الاشتراك في عنصر Workshop رقم 3770450698 في Steam، ثم اشترك مجددًا، وانتظر التنزيل، ثم اضغط تشغيل الخادم. التحقق من الملفات في Steam لا يصلح عناصر Workshop. إذا نزّلت الخادم بنفسك، فنزّل خادم Coop مرة أخرى وضع مجلد DedicatedServer الخاص به مكان هذا المجلد.",
+          "whatNotToDo": "لا تنسخ ملفات Coop إلى مجلد DedicatedServer. لا توقف موداتك بسبب هذا."
+        },
+        "de": {
+          "title": "Ein Spiel Coop wurde in den Coop Ordner des Servers kopiert",
+          "whatHappened": "Der Server hat sich beim Laden von Coop selbst gestoppt. Ein Coop aus dem Spiel (Client) wurde in den eigenen Coop Ordner des Servers kopiert\nDedicatedServer\\engine\\Modules\\Coop\nund der Server kann es nicht laden. Dein Spielstand und deine Mods sind nicht das Problem.",
+          "whatToDo": "Wenn der Server im Workshop Coop liegt, deabonniere in Steam das Workshop Objekt 3770450698, abonniere es erneut, warte auf den Download und drück dann Server starten. Die Überprüfung in Steam repariert keine Workshop Objekte. Wenn du den Server selbst heruntergeladen hast, lade den Coop Server erneut herunter und setze seinen DedicatedServer Ordner an die Stelle von diesem.",
+          "whatNotToDo": "Kopiere keine Coop Dateien in den DedicatedServer Ordner. Schalte deine Mods dafür nicht aus."
+        },
+        "fr": {
+          "title": "Un Coop du jeu a été copié dans le dossier Coop du serveur",
+          "whatHappened": "Le serveur s'est arrêté tout seul pendant le chargement de Coop. Un Coop du jeu (client) a été copié dans le dossier Coop du serveur\nDedicatedServer\\engine\\Modules\\Coop\net le serveur ne peut pas le charger. Votre sauvegarde et vos mods ne sont pas en cause.",
+          "whatToDo": "Si le serveur est dans le Coop du Workshop, annulez l'abonnement à l'objet Workshop 3770450698 dans Steam, reprenez l'abonnement, attendez le téléchargement, puis cliquez sur Démarrer le serveur. La vérification de Steam ne répare pas les objets du Workshop. Si vous avez téléchargé le serveur à part, téléchargez de nouveau le serveur Coop et mettez son dossier DedicatedServer à la place de l'ancien.",
+          "whatNotToDo": "Ne copiez pas de fichiers Coop dans le dossier DedicatedServer. Ne désactivez pas vos mods pour ça."
+        },
+        "pt": {
+          "title": "Um Coop do jogo foi copiado para a pasta Coop do servidor",
+          "whatHappened": "O servidor parou sozinho enquanto carregava o Coop. Um Coop do jogo (cliente) foi copiado para a pasta Coop do próprio servidor\nDedicatedServer\\engine\\Modules\\Coop\ne o servidor não consegue carregar essa cópia. Seu save e seus mods não são o problema.",
+          "whatToDo": "Se o servidor está no Coop da Workshop, cancele a inscrição no item 3770450698 da Workshop na Steam, faça a inscrição de novo, espere o download e depois aperte Iniciar servidor. A verificação da Steam não conserta itens da Workshop. Se você baixou o servidor por conta própria, baixe o servidor do Coop de novo e coloque a pasta DedicatedServer dele no lugar desta.",
+          "whatNotToDo": "Não copie arquivos do Coop para a pasta DedicatedServer. Não desligue seus mods por causa disso."
+        },
+        "ru": {
+          "title": "Coop из игры скопирован в папку Coop сервера",
+          "whatHappened": "Сервер сам остановился, когда загружал Coop. В собственную папку Coop сервера скопирован Coop из игры (клиентский)\nDedicatedServer\\engine\\Modules\\Coop\nи сервер не может его загрузить. Дело не в вашем сохранении и не в модах.",
+          "whatToDo": "Если сервер лежит в Coop из Workshop, отпишитесь в Steam от предмета Workshop 3770450698, подпишитесь снова, дождитесь загрузки и нажмите Запустить сервер. Проверка файлов в Steam не чинит предметы Workshop. Если вы скачали сервер сами, скачайте сервер Coop заново и поставьте его папку DedicatedServer вместо этой.",
+          "whatNotToDo": "Не копируйте файлы Coop в папку DedicatedServer. Не отключайте моды по этой причине."
+        },
+        "tr": {
+          "title": "Oyunun Coop'u sunucunun Coop klasörüne kopyalanmış",
+          "whatHappened": "Sunucu Coop'u yüklerken kendini durdurdu. Sunucunun kendi Coop klasörüne oyunun (istemci) Coop'u kopyalanmış\nDedicatedServer\\engine\\Modules\\Coop\nve sunucu onu yükleyemiyor. Sorun kaydında ya da modlarında değil.",
+          "whatToDo": "Sunucu Workshop Coop'unun içindeyse Steam'de 3770450698 numaralı Workshop öğesinden aboneliğini kaldır, yeniden abone ol, indirmeyi bekle, sonra Sunucuyu başlat'a bas. Steam'in doğrulaması Workshop öğelerini onarmaz. Sunucuyu kendin indirdiysen Coop sunucusunu yeniden indir ve onun DedicatedServer klasörünü bunun yerine koy.",
+          "whatNotToDo": "DedicatedServer klasörüne Coop dosyaları kopyalama. Bunun için modlarını kapatma."
         }
       }
     }
