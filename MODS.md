@@ -42,7 +42,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [ButterLib](https://steamcommunity.com/sharedfiles/filedetails/?id=2859232415) | Works |  |  | v0.1.6 | Library other mods need. It stays on the list; its menus do not run on the dedicated server. |
 | [Camp Menu](https://steamcommunity.com/sharedfiles/filedetails/?id=3627110143) | Works |  |  | v0.1.6 | Runs in Coop; not fully tested. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [CC's Banners](https://steamcommunity.com/sharedfiles/filedetails/?id=2877445271) | Works |  |  | v0.1.6 | Works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
-| [CoopModPatch](https://steamcommunity.com/sharedfiles/filedetails/?id=3786391685) | Works |  |  | v0.1.6 | Coop patch by Zexui for Improved Garrisons, Settlement Culture Drift and My Little Warband, on Steam Workshop 3786391685. Made for Coop 0.1.5 and still used on 0.1.6. Load it above the mods it patches (between SandBox and those mods), on the server and every player. One MashTool server crashed with it and Improved Garrisons on 0.1.5, not resolved. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
+| [CoopModPatch](https://steamcommunity.com/sharedfiles/filedetails/?id=3786391685) | Works | 0 works, 1 broken | 2026-11-02 | v0.1.6 | Coop patch by Zexui for Improved Garrisons, Settlement Culture Drift and My Little Warband, on Steam Workshop 3786391685. Made for Coop 0.1.5 and still used on 0.1.6. Load it above the mods it patches (between SandBox and those mods), on the server and every player. One MashTool server crashed with it and Improved Garrisons on 0.1.5, not resolved. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | Crafting Order Indicator | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Crafting Piece Sorter](https://www.nexusmods.com/mountandblade2bannerlord/mods/6961) | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | Crafting Tier Indicator | Works |  |  | v0.1.6 | Interface mod; works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
@@ -66,7 +66,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Open Source Saddlery](https://steamcommunity.com/sharedfiles/filedetails/?id=3010990914) | Works |  |  | v0.1.6 | Load it after Open Source Armory and before Open Source Weaponry. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Open Source Weaponry](https://steamcommunity.com/sharedfiles/filedetails/?id=3010984416) | Works |  |  | v0.1.6 | Load it after Open Source Armory and Saddlery. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Perfect Fire Arrows](https://www.nexusmods.com/mountandblade2bannerlord/mods/3303) | Works |  |  | v0.1.6 | On the Coodsz Host working list, run on Coop v0.1.6 servers. The host and every player need the same version. |
-| [Player Settlement](https://steamcommunity.com/sharedfiles/filedetails/?id=3720376888) | Works |  |  | v0.1.6 | Works in Coop with PSCoopBridge and Agriculture Estate on the server and every player. Patch available: PSCoopBridge. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
+| [Player Settlement](https://steamcommunity.com/sharedfiles/filedetails/?id=3720376888) | Works | 0 works, 1 broken | 2026-11-01 | v0.1.6 | Works in Coop with PSCoopBridge and Agriculture Estate on the server and every player. Patch available: PSCoopBridge. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | [Proven Steel](https://steamcommunity.com/sharedfiles/filedetails/?id=3691572079) | Works |  |  | v0.1.6 | Works in Coop. Patch available: Proven Steel patch by mushymushymosh, load it below Proven Steel. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [PSCoopBridge](https://steamcommunity.com/sharedfiles/filedetails/?id=3806860145) | Works |  |  | v0.1.6 | Coop bridge by lore for Player Settlement and Agriculture Estate, on Steam Workshop 3806860145. Made for Coop 0.1.5, updated 2026-09-25 for the new Bannerlord and Coop, with a speed fix 2026-09-27 for when Player Settlement is off. Comes with the Coodsz tools. Load it and the mods it patches after Coop. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | [Raise your Banner](https://www.nexusmods.com/mountandblade2bannerlord/mods/3253) | Works |  |  | v0.1.6 | Comes with the Coodsz tools. Load Banner Fix before it. The Coodsz Server Tool hides this mod's Assets folder in the server copy by itself. Players keep theirs, don't delete it. Might crash when another party joins a battle in progress (not confirmed). Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest); old Coop 0.1.5 compatibility thread. |
@@ -160,6 +160,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [ArrangeMarriageForFamily](https://steamcommunity.com/sharedfiles/filedetails/?id=2880762493) | Not checked yet |  |  |  |  |
 | [Art of War](https://www.nexusmods.com/mountandblade2bannerlord/mods/3970) | Not checked yet |  |  |  |  |
 | Artems Chariots | Not checked yet |  |  |  | Asked about in the thread; not tested in Coop yet. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
+| ArtemsBetterUIVisuals | Not checked yet | 0 works, 1 broken | 2026-11-11 |  |  |
 | Assassin's Creed Combat | Not checked yet | 1 works, 0 broken | 2026-10-30 |  |  |
 | [Attack Hideouts During Daytime](https://steamcommunity.com/sharedfiles/filedetails/?id=2875752021) | Not checked yet |  |  |  |  |
 | [Attribute Per Level](https://www.nexusmods.com/mountandblade2bannerlord/mods/121) | Not checked yet |  |  |  |  |
@@ -202,6 +203,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Battle Instinct](https://www.nexusmods.com/mountandblade2bannerlord/mods/13484) | Not checked yet | 1 works, 0 broken | 2026-10-24 |  | Asked about in the thread; not tested in Coop yet. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
 | [Battle Mini Map](https://steamcommunity.com/sharedfiles/filedetails/?id=2876503777) | Not checked yet |  |  |  |  |
 | [Battlefield Duel](https://steamcommunity.com/sharedfiles/filedetails/?id=3412388072) | Not checked yet |  |  |  |  |
+| Battlefield Equipment | Not checked yet | 0 works, 1 broken | 2026-11-04 |  |  |
 | [BattleSize](https://www.nexusmods.com/mountandblade2bannerlord/mods/2803) | Not checked yet |  |  |  |  |
 | [BattleSize Resized](https://www.nexusmods.com/mountandblade2bannerlord/mods/8177) | Not checked yet |  |  |  |  |
 | [Beards Fix](https://steamcommunity.com/sharedfiles/filedetails/?id=2933297952) | Not checked yet |  |  |  |  |
@@ -453,6 +455,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Player Selection Switch](https://www.nexusmods.com/mountandblade2bannerlord/mods/6522) | Not checked yet |  |  |  |  |
 | [POC color randomizer mod](https://www.nexusmods.com/mountandblade2bannerlord/mods/792) | Not checked yet |  |  |  |  |
 | [Pregnancy Control Continued](https://www.nexusmods.com/mountandblade2bannerlord/mods/5478) | Not checked yet |  |  |  |  |
+| Procedural Scenes | Not checked yet | 0 works, 1 broken | 2026-11-08 |  |  |
 | [Project Korea](https://steamcommunity.com/sharedfiles/filedetails/?id=2980304763) | Not checked yet |  |  |  |  |
 | Proven Steel patch | Not checked yet |  |  |  | Coop patch by mushymushymosh for Proven Steel, posted on the Coop Discord (Coop 0.1.6 thread). Load it below Proven Steel. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08. |
 | [Quick Nearby Tournaments](https://steamcommunity.com/sharedfiles/filedetails/?id=2910268800) | Not checked yet | 1 works, 0 broken | 2026-10-25 |  |  |
@@ -603,4 +606,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-575 mods.
+578 mods.
