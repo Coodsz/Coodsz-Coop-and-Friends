@@ -4,6 +4,20 @@ Download and play Mount & Blade II: Bannerlord coop with friends.
 
 Launchers and a dedicated server tool for a normal Coop game, and for a TAOM map game that is not using the dedicated TAOM server tool from [Coodsz-TAOM](https://github.com/Coodsz/Coodsz-TAOM).
 
+## What it looks like
+
+![Coodsz Coop Server Tool dashboard](images/server-tool-dashboard.png)
+
+The Server Tool dashboard. Start the server here and see the mods, versions and the addresses your friends can use.
+
+![Coodsz Coop Client Launcher Play page](images/client-launcher-play.png)
+
+The Client Launcher Play page. It checks Bannerlord and Coop, says what to fix, then joins the server.
+
+![Coodsz Coop Server Tool Mods page](images/server-tool-mods.png)
+
+The Server Tool Mods page, with the load order and how each mod works in Coop.
+
 ## What you need
 - Your own Steam copy of Bannerlord **1.4.8**
 - .NET 8 Desktop Runtime, x64, if Windows asks for it: https://dotnet.microsoft.com/download/dotnet/8.0
