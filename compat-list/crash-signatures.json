@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.11.11.1",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, pt, ru, tr), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log and Coop_client_<pid>.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
+  "version": "2026.11.11.2",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, ja, ko, pt, ru, tr, zh-CN), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log and Coop_client_<pid>.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -51,6 +51,21 @@
           "title": "Devam eden bir kuşatma savaşına katıldıktan sonra bitmeyen yükleme",
           "whatHappened": "Zaten başlamış bir şehir kuşatması savaşına katıldın. Savaş senin tarafında başlayamadı, sonra her tick Number of teams is not 0 hatasıyla başarısız oldu, bu yüzden yükleme ekranı hiç bitmedi. Bu bilinen bir Coop hatası.",
           "whatToDo": "Oyunu kapat ve tekrar katıl. O kuşatma savaşı bitene kadar sefer haritasında bekle, sonra içine gir."
+        },
+        "ja": {
+          "title": "進行中の攻城戦に参加したあと、読み込みが終わらない",
+          "whatHappened": "すでに進行中の都市攻城戦に参加しました。戦闘がこちら側で開始できず、そのあと毎ティック Number of teams is not 0 というエラーが出て、読み込み画面が終わりませんでした。Coop の既知のバグです。",
+          "whatToDo": "ゲームを閉じて、もう一度参加してください。その攻城戦が終わるまでキャンペーンマップで待ってから入ってください。"
+        },
+        "ko": {
+          "title": "진행 중인 공성전에 참가한 뒤 로딩이 끝나지 않아요",
+          "whatHappened": "이미 진행 중인 도시 공성전에 참가했어요. 전투가 내 쪽에서 시작되지 못했고, 이후 매 틱마다 Number of teams is not 0 오류가 나서 로딩 화면이 끝나지 않았어요. Coop의 알려진 버그예요.",
+          "whatToDo": "게임을 닫고 다시 참가하세요. 그 공성전이 끝날 때까지 캠페인 지도에서 기다린 다음 들어가세요."
+        },
+        "zh-CN": {
+          "title": "加入正在进行的围城战后一直卡在加载界面",
+          "whatHappened": "你加入了一场已经在进行的城镇围城战。战斗在你这边没能启动，之后每一帧都报错 Number of teams is not 0，所以加载界面一直不结束。这是 Coop 已知的问题。",
+          "whatToDo": "关闭游戏后重新加入。请先在战役地图上等那场围城战结束，再进入。"
         }
       }
     },
@@ -112,6 +127,24 @@
           "whatHappened": "{mod} modunun Assets klasörü, paketler yüklenirken ve kayıt yüklenmeden önce sunucuyu çökertti. Özel sunucu bir modun ham Assets klasörünü yükleyemez. Kaydın sağlam.",
           "whatToDo": "Sunucuyu başlat düğmesine tekrar bas. Coodsz Host bu Assets klasörünü sunucu kopyasında gizledi (adını Assets.off yaptı), böylece sunucu onu atlar. Oyuncular kendi klasörlerini tutar.",
           "whatNotToDo": "Bunun için yedek yükleme ve kayıt düzeltmelerini çalıştırma. Sorun kayıt değildi. Bannerlord Coop'u taşıma ve bunun için {mod} modunu da kapatma."
+        },
+        "ja": {
+          "title": "MOD の Assets フォルダーでサーバーが落ちました",
+          "whatHappened": "{mod} の Assets フォルダーが原因で、サーバーがパッケージを読み込んでいる最中に落ちました。セーブを読み込む前でした。専用サーバーは MOD の生の Assets フォルダーを読み込めません。セーブには問題ありません。",
+          "whatToDo": "「サーバーを起動」をもう一度押してください。Coodsz Host がサーバー用のコピーでその Assets フォルダーを隠しました（名前を Assets.off に変更）。そのためサーバーは読み飛ばします。プレイヤー側のフォルダーはそのままです。",
+          "whatNotToDo": "これにバックアップの読み込みやセーブの修復は使わないでください。セーブは原因ではありませんでした。Bannerlord Coop を移動したり {mod} をオフにしたりする必要もありません。"
+        },
+        "ko": {
+          "title": "어떤 모드의 Assets 폴더 때문에 서버가 중단됐어요",
+          "whatHappened": "{mod}의 Assets 폴더 때문에 서버가 패키지를 불러오는 중에 중단됐어요. 저장 파일을 불러오기 전이었어요. 전용 서버는 모드의 원본 Assets 폴더를 불러올 수 없어요. 저장 파일에는 문제가 없어요.",
+          "whatToDo": "‘서버 시작’을 다시 누르세요. Coodsz Host가 서버용 사본에서 그 Assets 폴더를 숨겼어요(이름을 Assets.off로 바꿈). 그래서 서버가 건너뛰어요. 플레이어 쪽 폴더는 그대로예요.",
+          "whatNotToDo": "이 문제로 백업을 불러오거나 저장 파일 수정 기능을 실행하지 마세요. 저장 파일이 문제가 아니었어요. Bannerlord Coop을 옮기거나 {mod}을(를) 끄지도 마세요."
+        },
+        "zh-CN": {
+          "title": "某个模组的 Assets 文件夹让服务器崩溃了",
+          "whatHappened": "{mod} 的 Assets 文件夹在服务器加载包时让服务器崩溃了，这时还没有加载存档。专用服务器无法加载模组的原始 Assets 文件夹。你的存档没有问题。",
+          "whatToDo": "再次点击“启动服务器”。Coodsz Host 现在已在服务器副本里隐藏了那个 Assets 文件夹（改名为 Assets.off），服务器会跳过它。玩家自己那边的文件不受影响。",
+          "whatNotToDo": "不要为此加载备份，也不要运行存档修复。问题不在存档。也不要为此移走 Bannerlord Coop 或关闭 {mod}。"
         }
       }
     },
@@ -169,6 +202,24 @@
           "whatHappened": "CoopModPatch ihtiyaç duyduğu sunucu dosyalarını kopyaladı ve bir sonraki başlatmada yüklensinler diye sunucuyu bilerek durdurdu. Bu bir çökme değil.",
           "whatToDo": "Kurulum bitti. Sunucuyu başlat düğmesine tekrar bas.",
           "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve CoopModPatch'i kapatma. Sunucuyu sadece bir kez, kendini kurduktan sonra böyle durdurur."
+        },
+        "ja": {
+          "title": "CoopModPatch が初回セットアップを終えました",
+          "whatHappened": "CoopModPatch は必要なサーバーファイルをコピーし、次の起動で読み込まれるようにわざとサーバーを止めました。クラッシュではありません。",
+          "whatToDo": "セットアップは完了です。「サーバーを起動」をもう一度押してください。",
+          "whatNotToDo": "これで Bannerlord Coop を移動したり CoopModPatch をオフにしたりしないでください。自分のセットアップが終わった直後に、このようにサーバーを止めるのは一度だけです。"
+        },
+        "ko": {
+          "title": "CoopModPatch가 첫 설정을 마쳤어요",
+          "whatHappened": "CoopModPatch가 필요한 서버 파일을 복사한 뒤, 다음 시작 때 불러오도록 일부러 서버를 멈췄어요. 중단된 게 아니에요.",
+          "whatToDo": "설정이 끝났어요. ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "이 일로 Bannerlord Coop을 옮기거나 CoopModPatch를 끄지 마세요. 스스로 설정을 마친 뒤에 딱 한 번만 이렇게 서버를 멈춰요."
+        },
+        "zh-CN": {
+          "title": "CoopModPatch 完成了首次设置",
+          "whatHappened": "CoopModPatch 复制了它需要的服务器文件，并特意停止了服务器，好让这些文件在下次启动时加载。这不是崩溃。",
+          "whatToDo": "设置已完成。再次点击“启动服务器”。",
+          "whatNotToDo": "不要为此移走 Bannerlord Coop 或关闭 CoopModPatch。它只会在完成自身设置后这样停止服务器一次。"
         }
       }
     },
@@ -220,6 +271,21 @@
           "title": "Diplomacy açık ama Diplomacy Coop Compat yok",
           "whatHappened": "Diplomacy açık ama Diplomacy Coop Compat açık değil. Co op oyunda Diplomacy'nin elçileri ve bazı düğmeleri yalnızca hostun değiştirebileceği şeyleri değiştirir ve oyun kısa süre sonra bozulur.",
           "whatToDo": "Steam Workshop'ta Diplomacy Coop Compat'e abone ol (öğe 3824313421), mod listende aç ve tekrar oyna. Diplomacy'nin kendisi açık kalabilir."
+        },
+        "ja": {
+          "title": "Diplomacy がオンですが、Diplomacy Coop Compat がありません",
+          "whatHappened": "Diplomacy はオンですが、Diplomacy Coop Compat はオンになっていません。協力プレイでは、Diplomacy の使者や一部のボタンがホストだけが変更できるものを変えてしまい、そのあとすぐにゲームが壊れます。",
+          "whatToDo": "Steam Workshop で Diplomacy Coop Compat（アイテム 3824313421）をサブスクライブし、MOD リストでオンにして、もう一度プレイしてください。Diplomacy 自体はオンのままで大丈夫です。"
+        },
+        "ko": {
+          "title": "Diplomacy는 켜져 있는데 Diplomacy Coop Compat이 없어요",
+          "whatHappened": "Diplomacy는 켜져 있지만 Diplomacy Coop Compat은 켜져 있지 않아요. 협동 플레이에서 Diplomacy의 전령과 일부 버튼은 호스트만 바꿀 수 있는 것들을 바꾸고, 그 뒤 곧 게임이 망가져요.",
+          "whatToDo": "Steam Workshop에서 Diplomacy Coop Compat(항목 3824313421)을 구독하고, 모드 목록에서 켠 다음 다시 플레이하세요. Diplomacy는 켜 둔 채로 괜찮아요."
+        },
+        "zh-CN": {
+          "title": "已开启 Diplomacy，但没有 Diplomacy Coop Compat",
+          "whatHappened": "已开启 Diplomacy，但没有开启 Diplomacy Coop Compat。在联机合作中，Diplomacy 的信使和部分按钮会改动只有房主才能改动的内容，游戏很快就会出问题。",
+          "whatToDo": "在 Steam Workshop 订阅 Diplomacy Coop Compat（物品 3824313421），在模组列表中开启它，然后重新游玩。Diplomacy 本身可以保持开启。"
         }
       }
     },
@@ -273,6 +339,21 @@
           "title": "Katılım bağlandıktan hemen sonra kapandı",
           "whatHappened": "Oyunun hosta ulaştı, sonra sefer yüklenmeden bağlantı kapandı. Bu neredeyse her zaman modlarının sunucudaki modlarla eşleşmediği anlamına gelir.",
           "whatToDo": "Bağlan'ı aç ve bu sunucunun tüm modlarını getiren düğmeyi kullan, böylece mod listen sunucuyla eşleşir. Sonra tekrar katıl. Son katılımından beri mod eklediysen ya da çıkardıysan, hosta sunucunun hangi modları çalıştırdığını sor."
+        },
+        "ja": {
+          "title": "接続した直後に参加が閉じました",
+          "whatHappened": "ゲームはホストに届きましたが、キャンペーンが読み込まれる前に接続が閉じました。ほぼ確実に、あなたの MOD がサーバーの MOD と合っていないことを意味します。",
+          "whatToDo": "「接続」を開いて「このサーバーの MOD をすべて取得」を押し、MOD リストをサーバーに合わせてください。そのあともう一度参加してください。前回の参加以降に MOD を追加または削除した場合は、サーバーがどの MOD を使っているかホストに聞いてください。"
+        },
+        "ko": {
+          "title": "연결하자마자 참가가 닫혔어요",
+          "whatHappened": "게임이 호스트에는 닿았지만, 캠페인이 로드되기 전에 연결이 닫혔어요. 거의 항상 내 모드가 서버의 모드와 맞지 않다는 뜻이에요.",
+          "whatToDo": "‘연결’을 열고 ‘이 서버의 모드 모두 받기’를 눌러서 내 모드 목록을 서버와 맞추세요. 그런 다음 다시 참가하세요. 지난번 참가 이후 모드를 추가하거나 뺐다면, 호스트에게 서버가 어떤 모드를 쓰는지 물어보세요."
+        },
+        "zh-CN": {
+          "title": "连接后加入马上被关闭了",
+          "whatHappened": "你的游戏已经连上了房主，但在战役加载之前连接就被关闭了。这几乎总是说明你的模组和服务器上的模组不一致。",
+          "whatToDo": "打开“连接”，点击“获取此服务器的全部模组”，让你的模组列表和服务器一致，然后重新加入。如果你上次加入之后添加或移除过模组，请问房主服务器在运行哪些模组。"
         }
       }
     },
@@ -322,6 +403,21 @@
           "title": "Oyun normal şekilde kapandı",
           "whatHappened": "Oyundan normal yoldan çıktın. Bannerlord kapanırken -1 çıkış koduyla biter ve Coop, 0 olmayan her çıkış kodu için bir çökme raporu oluşturur. Ne hata ne de çökme vardı.",
           "whatToDo": "Düzeltilecek bir şey yok. Oynamak istediğinde oyunu yeniden başlat."
+        },
+        "ja": {
+          "title": "ゲームが正常に終了しました",
+          "whatHappened": "ゲームを通常の方法で終了しました。Bannerlord は終了時に終了コード -1 を返し、Coop は 0 以外の終了コードのたびにクラッシュレポートを作ります。エラーもクラッシュもありませんでした。",
+          "whatToDo": "直すことはありません。遊びたくなったらゲームをまた起動してください。"
+        },
+        "ko": {
+          "title": "게임이 정상적으로 종료됐어요",
+          "whatHappened": "게임을 정상적인 방법으로 종료했어요. Bannerlord는 종료할 때 종료 코드 -1을 내고, Coop은 0이 아닌 종료 코드마다 충돌 보고서를 만들어요. 오류도 충돌도 없었어요.",
+          "whatToDo": "고칠 건 없어요. 플레이하고 싶을 때 게임을 다시 시작하세요."
+        },
+        "zh-CN": {
+          "title": "游戏正常关闭了",
+          "whatHappened": "你是用正常的方式退出游戏的。Bannerlord 退出时会返回退出代码 -1，而 Coop 对每个不是 0 的退出代码都会生成崩溃报告。没有出错，也没有崩溃。",
+          "whatToDo": "无需处理。想玩的时候再启动游戏就行。"
         }
       }
     },
@@ -391,6 +487,24 @@
           "whatHappened": "Sunucu 1 çıkış koduyla ve hiçbir hata olmadan durdu. Hatasız 1 çıkış kodu genelde işlemin dışarıdan kapatıldığı anlamına gelir, bir antivirüs, Görev Yöneticisi ya da bir betik tarafından. Bir Windows Insider sürümü de bunu yapabilir.",
           "whatToDo": "Antivirüs geçmişine bak ve engellendiyse DedicatedServer klasörüne izin ver. Hiçbir betiğin ya da aracın dotnet.exe'yi veya sunucuyu kapatmadığından emin ol. Bu bilgisayar bir Windows Insider sürümü kullanıyorsa normal bir Windows sürümü dene. Sonra Sunucuyu başlat düğmesine tekrar bas.",
           "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        },
+        "ja": {
+          "title": "サーバーがエラーなしで終了コード 1 で閉じました",
+          "whatHappened": "サーバーはエラーなしで終了コード 1 で止まりました。エラーのない終了コード 1 は、たいていウイルス対策ソフト、タスクマネージャー、スクリプトなど外部からプロセスが閉じられたことを意味します。Windows Insider ビルドでも起こることがあります。",
+          "whatToDo": "ウイルス対策ソフトの履歴を確認し、DedicatedServer フォルダーがブロックされていたら許可してください。dotnet.exe やサーバーを閉じるスクリプトやツールがないか確認してください。この PC が Windows Insider ビルドなら、通常の Windows ビルドを試してください。そのあと「サーバーを起動」をもう一度押してください。",
+          "whatNotToDo": "これで Bannerlord Coop を移動したり MOD をオフにしたりしないでください。ログには MOD やセーブを示すものはありません。"
+        },
+        "ko": {
+          "title": "서버가 오류 없이 종료 코드 1로 닫혔어요",
+          "whatHappened": "서버가 오류 없이 종료 코드 1로 멈췄어요. 오류 없는 종료 코드 1은 보통 백신, 작업 관리자, 스크립트처럼 밖에서 프로세스를 닫았다는 뜻이에요. Windows Insider 빌드에서도 이럴 수 있어요.",
+          "whatToDo": "백신 기록을 확인하고, DedicatedServer 폴더가 차단됐다면 허용하세요. dotnet.exe나 서버를 닫는 스크립트나 도구가 없는지 확인하세요. 이 PC가 Windows Insider 빌드라면 일반 Windows 빌드를 써 보세요. 그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "이 일로 Bannerlord Coop을 옮기거나 모드를 끄지 마세요. 로그에는 모드나 저장 파일을 가리키는 내용이 없어요."
+        },
+        "zh-CN": {
+          "title": "服务器以退出代码 1 关闭，没有报错",
+          "whatHappened": "服务器以退出代码 1 停止，没有任何报错。退出代码 1 且没有报错，通常表示进程被外部关闭了，比如被杀毒软件、任务管理器或某个脚本关闭。Windows Insider 版本也可能导致这种情况。",
+          "whatToDo": "查看杀毒软件的历史记录，如果 DedicatedServer 文件夹被拦截，请将它加入允许列表。确认没有脚本或工具会关闭 dotnet.exe 或服务器。如果这台电脑用的是 Windows Insider 版本，请换成正常的 Windows 版本试试。然后再次点击“启动服务器”。",
+          "whatNotToDo": "不要为此移走 Bannerlord Coop 或关闭你的模组。日志里没有任何内容指向某个模组或存档。"
         }
       }
     },
@@ -460,6 +574,24 @@
           "whatHappened": "Sunucu -1 çıkış koduyla ve hiçbir hata olmadan durdu. Hatasız -1 çıkış kodu genelde işlemin dışarıdan kapatıldığı anlamına gelir, bir antivirüs, Görev Yöneticisi ya da bir betik tarafından. Bir Windows Insider sürümü de bunu yapabilir.",
           "whatToDo": "Antivirüs geçmişine bak ve engellendiyse DedicatedServer klasörüne izin ver. Hiçbir betiğin ya da aracın dotnet.exe'yi veya sunucuyu kapatmadığından emin ol. Bu bilgisayar bir Windows Insider sürümü kullanıyorsa normal bir Windows sürümü dene. Sonra Sunucuyu başlat düğmesine tekrar bas.",
           "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        },
+        "ja": {
+          "title": "サーバーがエラーなしで終了コード -1 で閉じました",
+          "whatHappened": "サーバーはエラーなしで終了コード -1 で止まりました。エラーのない終了コード -1 は、たいていウイルス対策ソフト、タスクマネージャー、スクリプトなど外部からプロセスが閉じられたことを意味します。Windows Insider ビルドでも起こることがあります。",
+          "whatToDo": "ウイルス対策ソフトの履歴を確認し、DedicatedServer フォルダーがブロックされていたら許可してください。dotnet.exe やサーバーを閉じるスクリプトやツールがないか確認してください。この PC が Windows Insider ビルドなら、通常の Windows ビルドを試してください。そのあと「サーバーを起動」をもう一度押してください。",
+          "whatNotToDo": "これで Bannerlord Coop を移動したり MOD をオフにしたりしないでください。ログには MOD やセーブを示すものはありません。"
+        },
+        "ko": {
+          "title": "서버가 오류 없이 종료 코드 -1로 닫혔어요",
+          "whatHappened": "서버가 오류 없이 종료 코드 -1로 멈췄어요. 오류 없는 종료 코드 -1은 보통 백신, 작업 관리자, 스크립트처럼 밖에서 프로세스를 닫았다는 뜻이에요. Windows Insider 빌드에서도 이럴 수 있어요.",
+          "whatToDo": "백신 기록을 확인하고, DedicatedServer 폴더가 차단됐다면 허용하세요. dotnet.exe나 서버를 닫는 스크립트나 도구가 없는지 확인하세요. 이 PC가 Windows Insider 빌드라면 일반 Windows 빌드를 써 보세요. 그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "이 일로 Bannerlord Coop을 옮기거나 모드를 끄지 마세요. 로그에는 모드나 저장 파일을 가리키는 내용이 없어요."
+        },
+        "zh-CN": {
+          "title": "服务器以退出代码 -1 关闭，没有报错",
+          "whatHappened": "服务器以退出代码 -1 停止，没有任何报错。退出代码 -1 且没有报错，通常表示进程被外部关闭了，比如被杀毒软件、任务管理器或某个脚本关闭。Windows Insider 版本也可能导致这种情况。",
+          "whatToDo": "查看杀毒软件的历史记录，如果 DedicatedServer 文件夹被拦截，请将它加入允许列表。确认没有脚本或工具会关闭 dotnet.exe 或服务器。如果这台电脑用的是 Windows Insider 版本，请换成正常的 Windows 版本试试。然后再次点击“启动服务器”。",
+          "whatNotToDo": "不要为此移走 Bannerlord Coop 或关闭你的模组。日志里没有任何内容指向某个模组或存档。"
         }
       }
     },
@@ -532,6 +664,24 @@
           "whatHappened": "Sunucu bu bilgisayardaki Steam istemcisiyle bağlantısını kaybetti ve oyunun Steam kısmı sunucuyu bilerek kapattı. Bu, sunucu çalışırken Steam kapandığında, yeniden başladığında, güncellendiğinde ya da oturumu kapattığında olur. Aynı bilgisayarda bir oyun kapandıktan hemen sonra da görüldü. Bu Coop'ta ya da modlarında bir çökme değil.",
           "whatToDo": "Sunucu çalışırken Steam'i açık ve oturumu açık tut, sonra Sunucuyu başlat düğmesine tekrar bas. Bu bilgisayarda kendi oyununu kapattığın anda yine olursa, incelenmesi için Günlüklerimi gönder'i kullan.",
           "whatNotToDo": "Bunun için Bannerlord Coop'u taşıma ve modlarını kapatma. Günlükte hiçbir şey bir moda ya da kayda işaret etmiyor."
+        },
+        "ja": {
+          "title": "サーバーが Steam とのつながりを失いました",
+          "whatHappened": "サーバーがこの PC の Steam クライアントとのつながりを失い、ゲームの Steam 部分がわざとサーバーを閉じました。サーバーの実行中に Steam が閉じたり、再起動したり、更新されたり、サインアウトしたりすると起こります。同じ PC の別のゲームを閉じた直後に起きたこともあります。Coop や MOD のクラッシュではありません。",
+          "whatToDo": "サーバーの実行中は Steam を開いたままサインインした状態にして、「サーバーを起動」をもう一度押してください。この PC で自分のゲームを閉じたちょうどそのときにまた起きるなら、「ログを送信」を使って調べられるようにしてください。",
+          "whatNotToDo": "これで Bannerlord Coop を移動したり MOD をオフにしたりしないでください。ログには MOD やセーブを示すものはありません。"
+        },
+        "ko": {
+          "title": "서버가 Steam과의 연결을 잃었어요",
+          "whatHappened": "서버가 이 PC의 Steam 클라이언트와의 연결을 잃었고, 게임의 Steam 부분이 일부러 서버를 닫았어요. 서버가 돌아가는 동안 Steam이 닫히거나, 다시 시작되거나, 업데이트되거나, 로그아웃될 때 생겨요. 같은 PC에서 다른 게임을 닫은 직후에 나타난 적도 있어요. Coop이나 모드가 중단된 게 아니에요.",
+          "whatToDo": "서버가 돌아가는 동안 Steam을 켜 두고 로그인한 상태로 유지한 다음, ‘서버 시작’을 다시 누르세요. 이 PC에서 내 게임을 닫는 바로 그때 또 생기면 ‘내 로그 보내기’를 눌러서 살펴볼 수 있게 해 주세요.",
+          "whatNotToDo": "이 일로 Bannerlord Coop을 옮기거나 모드를 끄지 마세요. 로그에는 모드나 저장 파일을 가리키는 내용이 없어요."
+        },
+        "zh-CN": {
+          "title": "服务器与 Steam 的连接断开了",
+          "whatHappened": "服务器与这台电脑上的 Steam 客户端失去了连接，游戏的 Steam 部分特意关闭了服务器。当 Steam 在服务器运行期间关闭、重启、更新或退出登录时就会这样。也有过在这台电脑上的另一个游戏刚关闭后马上出现的情况。这不是 Coop 或你的模组的崩溃。",
+          "whatToDo": "服务器运行期间请保持 Steam 打开并已登录，然后再次点击“启动服务器”。如果它又恰好在你关闭这台电脑上自己的游戏时发生，请点击“发送我的日志”，以便我们查看。",
+          "whatNotToDo": "不要为此移走 Bannerlord Coop 或关闭你的模组。日志里没有任何内容指向某个模组或存档。"
         }
       }
     },
@@ -582,6 +732,21 @@
           "title": "TAOM.CoopCompat başlatmayı kendi başlangıç denetimi sırasında durdurdu",
           "whatHappened": "TAOM.CoopCompat oyuncuları içeri almadan önce sunucuyu denetler. Bu denetim bu başlatmada başarısız oldu, bu yüzden sunucuyu bilerek durdurdu. Kayıt henüz yüklenmemişti, yani kayıt dosyan sağlam.",
           "whatToDo": "Sunucuyu başlat düğmesine yeniden bas. Aynı şekilde durmaya devam ederse bu raporu gönder."
+        },
+        "ja": {
+          "title": "TAOM.CoopCompat が自身の起動チェックで起動を止めました",
+          "whatHappened": "TAOM.CoopCompat は、プレイヤーを入れる前にサーバーをチェックします。今回の起動ではそのチェックに失敗したため、わざとサーバーを止めました。セーブはまだ読み込まれていないので、セーブには問題ありません。",
+          "whatToDo": "「サーバーを起動」をもう一度押してください。同じように止まり続ける場合は、このレポートを送ってください。"
+        },
+        "ko": {
+          "title": "TAOM.CoopCompat이 자체 시작 점검에서 시작을 멈췄어요",
+          "whatHappened": "TAOM.CoopCompat은 플레이어를 들이기 전에 서버를 점검해요. 이번 시작에서 그 점검이 실패해서 일부러 서버를 멈췄어요. 저장 파일은 아직 불러오기 전이라 문제가 없어요.",
+          "whatToDo": "‘서버 시작’을 다시 누르세요. 계속 같은 식으로 멈추면 이 보고서를 보내 주세요."
+        },
+        "zh-CN": {
+          "title": "TAOM.CoopCompat 在自己的启动检查中停止了启动",
+          "whatHappened": "TAOM.CoopCompat 会在放玩家进入之前检查服务器。这次启动时检查没有通过，所以它特意停止了服务器。当时还没有加载存档，所以你的存档没有问题。",
+          "whatToDo": "再次点击“启动服务器”。如果它一直这样停止，请发送这份报告。"
         }
       }
     },
@@ -631,6 +796,21 @@
           "title": "Harita arazisi yüklenirken grafik hatası",
           "whatHappened": "Bannerlord harita arazisi yüklenirken ekran kartında bir doku oluşturamadı (create_texture_array failed). Bu, Bannerlord ile ekran kartı ya da sürücüsü arasındaki bir sorun, Coop ya da Coodsz araçlarıyla ilgili değil.",
           "whatToDo": "Ekran kartı sürücünü NVIDIA, AMD ya da Intel sitesinden güncelle. Windows Insider önizleme sürümü kullanma. Oyunun video ayarlarında başka bir Terrain kalitesi dene. Tek oyunculu bir seferin yüklenip yüklenmediğine bak. Orada da aynı şekilde çöküyorsa sorun Coop değil."
+        },
+        "ja": {
+          "title": "マップの地形を読み込み中にグラフィックスエラーが出ました",
+          "whatHappened": "マップの地形を読み込み中に、Bannerlord がグラフィックスカード上でテクスチャを作れませんでした（create_texture_array failed）。これは Bannerlord とグラフィックスカードまたはそのドライバーの間の問題で、Coop や Coodsz のツールのせいではありません。",
+          "whatToDo": "NVIDIA、AMD、Intel のサイトからグラフィックスドライバーを更新してください。Windows Insider のプレビュービルドは使わないでください。ゲームのビデオ設定で地形の品質を別のものに変えてみてください。シングルプレイのキャンペーンが読み込めるかも確認してください。そちらでも同じようにクラッシュするなら、Coop のせいではありません。"
+        },
+        "ko": {
+          "title": "지도 지형을 불러오는 중 그래픽 오류가 났어요",
+          "whatHappened": "지도 지형을 불러오는 중에 Bannerlord가 그래픽 카드에서 텍스처를 만들지 못했어요(create_texture_array failed). Bannerlord와 그래픽 카드 또는 드라이버 사이의 문제이고, Coop이나 Coodsz 도구와는 상관없어요.",
+          "whatToDo": "NVIDIA, AMD, Intel 웹사이트에서 그래픽 드라이버를 업데이트하세요. Windows Insider 미리 보기 빌드는 쓰지 마세요. 게임의 비디오 설정에서 지형 품질을 바꿔 보세요. 싱글 플레이 캠페인이 로드되는지도 확인하세요. 거기서도 똑같이 중단된다면 Coop 때문이 아니에요."
+        },
+        "zh-CN": {
+          "title": "加载地图地形时出现显卡错误",
+          "whatHappened": "加载地图地形时，Bannerlord 无法在你的显卡上创建纹理（create_texture_array failed）。这是 Bannerlord 与显卡或其驱动之间的问题，和 Coop 以及 Coodsz 工具无关。",
+          "whatToDo": "到 NVIDIA、AMD 或 Intel 的网站更新显卡驱动。不要使用 Windows Insider 预览版本。在游戏的视频设置里换一个“地形质量”试试。再看看单人战役能不能加载。如果在单人战役里也同样崩溃，那就和 Coop 无关。"
         }
       }
     },
@@ -697,6 +877,24 @@
           "whatHappened": "Seferde bir çocuk doğdu ve Coop sunucuda ona isim veremedi, bu yüzden sunucu durdu. Bu bilinen bir Coop çökmesi.",
           "whatToDo": "Aracı en yeni sürüme güncelle, sonra sunucuyu yeniden başlat. Düzeltme araç güncellemesinde.",
           "whatNotToDo": "Bunu geçmek için daha eski bir kayıt yükleme. Hamilelik o kayıtta zaten var, bu yüzden aynı doğum onu yine çökertir."
+        },
+        "ja": {
+          "title": "子どもが生まれるとサーバーが落ちます",
+          "whatHappened": "キャンペーンで子どもが生まれましたが、Coop がサーバー上で名前を付けられず、サーバーが止まりました。Coop の既知のクラッシュです。",
+          "whatToDo": "ツールを最新バージョンに更新してから、サーバーをもう一度起動してください。修正はツールの更新に入っています。",
+          "whatNotToDo": "切り抜けるために以前のセーブを読み込まないでください。妊娠はそのセーブにもすでに含まれているので、同じ出産でまた落ちます。"
+        },
+        "ko": {
+          "title": "아이가 태어날 때 서버가 중단돼요",
+          "whatHappened": "캠페인에서 아이가 태어났는데 Coop이 서버에서 이름을 붙이지 못해서 서버가 멈췄어요. Coop의 알려진 충돌이에요.",
+          "whatToDo": "도구를 최신 버전으로 업데이트한 다음 서버를 다시 시작하세요. 수정은 도구 업데이트에 들어 있어요.",
+          "whatNotToDo": "넘어가려고 이전 저장 파일을 불러오지 마세요. 임신이 이미 그 저장 파일에 들어 있어서 같은 출산이 또 서버를 중단시켜요."
+        },
+        "zh-CN": {
+          "title": "孩子出生时服务器崩溃",
+          "whatHappened": "战役中有孩子出生，Coop 没能在服务器上给它起名字，于是服务器停止了。这是 Coop 已知的崩溃。",
+          "whatToDo": "把工具更新到最新版本，然后再次启动服务器。修复包含在工具更新里。",
+          "whatNotToDo": "不要通过加载更早的存档来绕过它。怀孕已经记录在那个存档里，同一次出生还会再次让它崩溃。"
         }
       }
     },
@@ -766,6 +964,24 @@
           "whatHappened": "Bir klan seferde sancağını kaybetti, örneğin bir krallıktan ayrıldığında, ve dünya bu hâliyle kaydedildi. Artık sunucu bu kaydı her yüklediğinde duruyor. Bu bilinen bir Coop hatası.",
           "whatToDo": "Sunucu aracında Kayıt yedeğini geri yükle düğmesine tıkla ve bu kaydın sorundan önceki otomatik bir yedeğini seç. O yedekten sonra oynadıklarını kaybedersin ama sefer geri gelir.",
           "whatNotToDo": "Bunun için kaydı silme ya da mod listeni değiştirme. Bu sancağı düzeltmez."
+        },
+        "ja": {
+          "title": "クランの旗が空のため、セーブが読み込めません",
+          "whatHappened": "キャンペーンであるクランが旗を失い（たとえば王国を離れたとき）、その状態のまま世界が保存されました。今は、このセーブを読み込むたびにサーバーが止まります。Coop の既知のバグです。",
+          "whatToDo": "Server Tool の「モジュール」ページで「セーブのバックアップを復元」を押し、問題が始まる前に作られたこのセーブの自動バックアップを選んでください。そのバックアップ以降のプレイは失われますが、キャンペーンは戻ります。",
+          "whatNotToDo": "これでセーブを削除したり MOD リストを変えたりしないでください。旗は直りません。"
+        },
+        "ko": {
+          "title": "클랜 깃발이 비어 있어서 저장 파일이 불러와지지 않아요",
+          "whatHappened": "캠페인에서 어떤 클랜이 깃발을 잃었어요. 예를 들어 왕국을 떠날 때요. 그리고 세계가 그 상태로 저장됐어요. 이제 이 저장 파일을 불러올 때마다 서버가 멈춰요. Coop의 알려진 버그예요.",
+          "whatToDo": "Server Tool의 ‘모드’ 페이지에서 ‘저장 파일 백업 복원’을 누르고, 문제가 시작되기 전에 만들어진 이 저장 파일의 자동 백업을 고르세요. 그 백업 이후에 플레이한 내용은 사라지지만 캠페인은 돌아와요.",
+          "whatNotToDo": "이 일로 저장 파일을 지우거나 모드 목록을 바꾸지 마세요. 깃발은 고쳐지지 않아요."
+        },
+        "zh-CN": {
+          "title": "因为某个氏族的旗帜为空，存档无法加载",
+          "whatHappened": "战役中有一个氏族丢失了旗帜，比如它离开王国的时候，而世界就这样被保存了下来。现在服务器每次加载这个存档都会停止。这是 Coop 已知的问题。",
+          "whatToDo": "在 Server Tool 的“模块”页面点击“还原存档备份”，选一个问题出现之前的、这个存档的自动备份。从那个备份之后玩的进度会丢失，但战役可以恢复。",
+          "whatNotToDo": "不要为此删除存档或更改模组列表。这些都无法修复旗帜。"
         }
       }
     },
@@ -835,6 +1051,24 @@
           "whatHappened": "Sunucu başlamadı, çünkü Steam'in Atölye'den indirdiği Coop sunucu klasöründe bir dosya eksik. Steam'in oyun dosyalarının bütünlüğünü doğrulama seçeneği yalnızca Bannerlord'un kendisine bakar, Atölye modlarına bakmaz, bu yüzden bu dosyayı geri getiremez.",
           "whatToDo": "Sunucu aracını kapat. Steam'de Bannerlord Coop'un Atölye sayfasını aç, Abonelikten çık'a tıkla ve Steam onu kaldırana kadar bekle. Sonra Abone ol'a tıkla, tamamen inmesini bekle ve sunucuyu yeniden başlat.",
           "whatNotToDo": "Kendi Bannerlord klasöründen Coop sunucu klasörüne dosya kopyalama. Sunucunun Coop ile gelen dosyalara ihtiyacı var."
+        },
+        "ja": {
+          "title": "Coop サーバーのダウンロードにファイルが足りません",
+          "whatHappened": "Steam が Workshop からダウンロードした Coop サーバーフォルダーにファイルが 1 つ足りないため、サーバーが起動しませんでした。Steam の「ゲームファイルの整合性を確認」は Bannerlord 本体だけをチェックし、Workshop の MOD は対象外なので、このファイルは復元できません。",
+          "whatToDo": "Server Tool を閉じてください。Steam で Bannerlord Coop の Workshop ページを開き、「サブスクライブ解除」を押して、Steam が削除するまで待ちます。そのあと「サブスクライブ」を押し、完全にダウンロードさせてから、サーバーをもう一度起動してください。",
+          "whatNotToDo": "自分の Bannerlord フォルダーのファイルを Coop サーバーフォルダーにコピーしないでください。サーバーには Coop に付いてくるファイルが必要です。"
+        },
+        "ko": {
+          "title": "Coop 서버 다운로드에서 파일이 빠져 있어요",
+          "whatHappened": "Steam이 Workshop에서 받은 Coop 서버 폴더에 파일 하나가 없어서 서버가 시작되지 않았어요. Steam의 ‘게임 파일 무결성 검사’는 Bannerlord 본체만 확인하고 Workshop 모드는 확인하지 않아서 이 파일을 되살릴 수 없어요.",
+          "whatToDo": "Server Tool을 닫으세요. Steam에서 Bannerlord Coop의 Workshop 페이지를 열고 ‘구독 취소’를 누른 다음 Steam이 지울 때까지 기다리세요. 그런 다음 ‘구독’을 누르고 완전히 다운로드되게 두었다가 서버를 다시 시작하세요.",
+          "whatNotToDo": "내 Bannerlord 폴더의 파일을 Coop 서버 폴더에 복사하지 마세요. 서버에는 Coop과 함께 오는 파일이 필요해요."
+        },
+        "zh-CN": {
+          "title": "Coop 服务器下载内容缺少文件",
+          "whatHappened": "服务器没有启动，因为 Steam 从 Workshop 下载的 Coop 服务器文件夹里缺少一个文件。Steam 的“验证游戏文件的完整性”只检查 Bannerlord 本体，不检查 Workshop 模组，所以它无法恢复这个文件。",
+          "whatToDo": "关闭 Server Tool。在 Steam 中打开 Bannerlord Coop 的 Workshop 页面，点击“取消订阅”，等 Steam 把它移除。然后点击“订阅”，等它完整下载完，再启动服务器。",
+          "whatNotToDo": "不要把你自己 Bannerlord 文件夹里的文件复制到 Coop 服务器文件夹里。服务器需要的是 Coop 自带的文件。"
         }
       }
     },
@@ -905,6 +1139,24 @@
           "whatHappened": "Aralık 2023 tarihli My Little Warband 1.2.7 (Workshop 2892150920 ve Nexus) daha eski bir Bannerlord için yapıldı. Güncel Bannerlord'da artık olmayan oyun kodunu çağırıyor, bu yüzden sunucu seferi yüklerken durdu.",
           "whatToDo": "Bunun yerine MrGangGang'in Steam Workshop 3627538517'deki My Little Warband'ını sunucuda ve her oyuncuda kullan. Eskisinin aboneliğini iptal et ya da Nexus'tan aldıysan Modules içindeki klasörünü sil. Sunucu ve her oyuncu CoopModPatch'e de ihtiyaç duyar, My Little Warband da sunucunun mod listesine girer. Sonra sunucuyu yeniden başlat.",
           "whatNotToDo": "Eski 1.2.7'ye yeniden abone olma ve onu yeniden kurma. Her indirme aynı eski sürüm."
+        },
+        "ja": {
+          "title": "この My Little Warband は今の Bannerlord には古すぎます",
+          "whatHappened": "2023 年 12 月の My Little Warband 1.2.7（Workshop 2892150920 と Nexus）は、古い Bannerlord 向けに作られています。今の Bannerlord にはないゲームコードを呼び出すため、サーバーがキャンペーンを読み込み中に止まりました。",
+          "whatToDo": "代わりに、サーバーと全プレイヤーで Steam Workshop 3627538517 の MrGangGang 版 My Little Warband を使ってください。古いものはサブスクライブ解除し、Nexus から入れた場合は Modules にあるそのフォルダーを削除してください。サーバーと全プレイヤーに CoopModPatch も必要で、My Little Warband はサーバーの MOD リストに入れます。そのあとサーバーをもう一度起動してください。",
+          "whatNotToDo": "古い 1.2.7 を再サブスクライブしたり再インストールしたりしないでください。どこからダウンロードしても同じ古いバージョンです。"
+        },
+        "ko": {
+          "title": "이 My Little Warband는 지금 Bannerlord에 비해 너무 오래됐어요",
+          "whatHappened": "2023년 12월의 My Little Warband 1.2.7(Workshop 2892150920 및 Nexus)은 더 오래된 Bannerlord용으로 만들어졌어요. 지금 Bannerlord에 없는 게임 코드를 호출해서, 서버가 캠페인을 불러오는 중에 멈췄어요.",
+          "whatToDo": "대신 서버와 모든 플레이어가 Steam Workshop 3627538517의 MrGangGang이 만든 My Little Warband를 쓰세요. 옛 버전은 구독을 취소하고, Nexus에서 받았다면 Modules 안의 폴더를 지우세요. 서버와 모든 플레이어에게 CoopModPatch도 필요하고, My Little Warband는 서버의 모드 목록에 넣어야 해요. 그런 다음 서버를 다시 시작하세요.",
+          "whatNotToDo": "옛 1.2.7을 다시 구독하거나 다시 설치하지 마세요. 그 버전은 어디서 받아도 같은 옛 버전이에요."
+        },
+        "zh-CN": {
+          "title": "这个 My Little Warband 对当前的 Bannerlord 来说太旧了",
+          "whatHappened": "2023 年 12 月的 My Little Warband 1.2.7（Workshop 2892150920 和 Nexus）是为更旧的 Bannerlord 制作的。它调用了当前 Bannerlord 里已经没有的游戏代码，所以服务器在加载战役时停止了。",
+          "whatToDo": "请改用 MrGangGang 制作的 My Little Warband，来自 Steam Workshop 3627538517，服务器和所有玩家都要用。取消订阅旧版本，如果旧版本是从 Nexus 下载的，就删除它在 Modules 里的文件夹。服务器和所有玩家还需要 CoopModPatch，并且 My Little Warband 要放进服务器的模组列表。然后再次启动服务器。",
+          "whatNotToDo": "不要重新订阅或重新安装旧的 1.2.7。它的每个下载都是同一个旧版本。"
         }
       }
     },
@@ -972,6 +1224,24 @@
           "whatHappened": "Yeni bir sefer başlayamadı, çünkü Steam'in Atölye'den indirdiği Coop sunucu klasöründe default_new_game.sav eksik. Her yeni Coop seferi bu dosyadan başlar. Steam'in oyun dosyalarının bütünlüğünü doğrulama seçeneği yalnızca Bannerlord'un kendisine bakar, Atölye modlarına bakmaz, bu yüzden bu dosyayı geri getiremez.",
           "whatToDo": "Sunucu aracını kapat. Steam'de Bannerlord Coop'un Atölye sayfasını aç, Abonelikten çık'a tıkla ve Steam onu kaldırana kadar bekle. Sonra Abone ol'a tıkla, tamamen inmesini bekle, sunucu aracını aç ve yeni seferi yeniden oluştur. Antivirüsün default_new_game.sav dosyasını karantinaya aldıysa, geri yüklemek de işe yarar.",
           "whatNotToDo": "Kayıt dosyalarını sunucu klasörlerine elle kopyalama. Var olan seferlerine dokunulmadı."
+        },
+        "ja": {
+          "title": "Coop サーバーのダウンロードに新規キャンペーン用ファイルが足りません",
+          "whatHappened": "Steam が Workshop からダウンロードした Coop サーバーフォルダーに default_new_game.sav がないため、新しいキャンペーンを開始できませんでした。Coop の新しいキャンペーンはすべてこのファイルから始まります。Steam の「ゲームファイルの整合性を確認」は Bannerlord 本体だけをチェックし、Workshop の MOD は対象外なので、このファイルは復元できません。",
+          "whatToDo": "Server Tool を閉じてください。Steam で Bannerlord Coop の Workshop ページを開き、「サブスクライブ解除」を押して、Steam が削除するまで待ちます。そのあと「サブスクライブ」を押し、完全にダウンロードさせてから、Server Tool を開いて新しいキャンペーンをもう一度作ってください。ウイルス対策ソフトが default_new_game.sav を隔離していた場合は、それを復元しても直ります。",
+          "whatNotToDo": "セーブファイルを手でサーバーフォルダーにコピーしないでください。すでにあるキャンペーンには影響しません。"
+        },
+        "ko": {
+          "title": "Coop 서버 다운로드에서 새 캠페인 파일이 빠져 있어요",
+          "whatHappened": "Steam이 Workshop에서 받은 Coop 서버 폴더에 default_new_game.sav가 없어서 새 캠페인을 시작할 수 없었어요. 새 Coop 캠페인은 모두 이 파일로 시작해요. Steam의 ‘게임 파일 무결성 검사’는 Bannerlord 본체만 확인하고 Workshop 모드는 확인하지 않아서 이 파일을 되살릴 수 없어요.",
+          "whatToDo": "Server Tool을 닫으세요. Steam에서 Bannerlord Coop의 Workshop 페이지를 열고 ‘구독 취소’를 누른 다음 Steam이 지울 때까지 기다리세요. 그런 다음 ‘구독’을 누르고 완전히 다운로드되게 둔 뒤, Server Tool을 열어 새 캠페인을 다시 만드세요. 백신이 default_new_game.sav를 격리했다면 복원해도 돼요.",
+          "whatNotToDo": "저장 파일을 서버 폴더에 직접 복사하지 마세요. 이미 있는 캠페인은 건드리지 않아요."
+        },
+        "zh-CN": {
+          "title": "Coop 服务器下载内容缺少新战役文件",
+          "whatHappened": "新战役无法开始，因为 Steam 从 Workshop 下载的 Coop 服务器文件夹里缺少 default_new_game.sav。每个新的 Coop 战役都是从这个文件开始的。Steam 的“验证游戏文件的完整性”只检查 Bannerlord 本体，不检查 Workshop 模组，所以它无法恢复这个文件。",
+          "whatToDo": "关闭 Server Tool。在 Steam 中打开 Bannerlord Coop 的 Workshop 页面，点击“取消订阅”，等 Steam 把它移除。然后点击“订阅”，等它完整下载完，打开 Server Tool 重新创建新战役。如果你的杀毒软件把 default_new_game.sav 隔离了，把它恢复出来也可以。",
+          "whatNotToDo": "不要手动把存档文件复制到服务器文件夹里。你已有的战役不会受到影响。"
         }
       }
     },
@@ -1050,6 +1320,24 @@
           "whatHappened": "Coop sunucusu, bir sefer haritası modunda yeni bir sefer başladıktan birkaç dakika sonra çöktü. Modun haritasını okudu, ama sonra SandBox'tan vanilla haritanın yol verilerini yükledi ve bu veriler o haritaya uymuyor. Bu bilinen bir Coop hatası.",
           "whatToDo": "Coop bunu düzeltene kadar, Sunucu sayfasında Sefer haritası olarak Vanilla sefer haritası'nı seç ve yeni bir sefer başlat, ya da harita modunu kapalı tut.",
           "whatNotToDo": "Bunun için kaydı silme ya da harita modunu yeniden kurma. İkisi de bunu düzeltmez."
+        },
+        "ja": {
+          "title": "マップ MOD で新しいキャンペーンを始めると Coop サーバーが落ちます",
+          "whatHappened": "キャンペーンマップ MOD での新しいキャンペーンの数分後に、Coop サーバーが落ちました。MOD のマップは読み込みましたが、そのあと SandBox にあるバニラのマップの移動データを読み込み、それがこのマップに合いません。Coop の既知のバグです。",
+          "whatToDo": "Coop が修正するまでは、「サーバー」ページで「キャンペーンマップ」を「バニラのキャンペーンマップ」にして新しいキャンペーンを始めるか、マップ MOD をオフのままにしてください。",
+          "whatNotToDo": "これでセーブを削除したりマップ MOD を再インストールしたりしないでください。どちらでも直りません。"
+        },
+        "ko": {
+          "title": "지도 모드로 새 캠페인을 하면 Coop 서버가 중단돼요",
+          "whatHappened": "캠페인 지도 모드로 새 캠페인을 시작하고 몇 분 뒤 Coop 서버가 중단됐어요. 지도 모드의 지도를 읽었는데, 그 뒤 SandBox에 있는 기본 지도의 이동 데이터를 불러왔고 그게 이 지도와 맞지 않아요. Coop의 알려진 버그예요.",
+          "whatToDo": "Coop이 고칠 때까지는 ‘서버’ 페이지에서 ‘캠페인 지도’를 ‘기본 게임 캠페인 지도’로 고르고 새 캠페인을 시작하거나, 지도 모드를 꺼 두세요.",
+          "whatNotToDo": "이 일로 저장 파일을 지우거나 지도 모드를 다시 설치하지 마세요. 둘 다 고쳐 주지 않아요."
+        },
+        "zh-CN": {
+          "title": "在地图模组上新建战役会让 Coop 服务器崩溃",
+          "whatHappened": "在使用战役地图模组的新战役中，Coop 服务器在几分钟后崩溃了。它读取了地图模组的地图，却又加载了 SandBox 里原版地图的行程数据，和这张地图对不上。这是 Coop 已知的问题。",
+          "whatToDo": "在 Coop 修复之前，请在“服务器”页面把“战役地图”选为“原版战役地图”，再新建战役，或者保持地图模组关闭。",
+          "whatNotToDo": "不要为此删除存档或重新安装地图模组。两者都修不好它。"
         }
       }
     },
@@ -1110,6 +1398,24 @@
           "whatHappened": "Windows 11'in bir güvenlik ayarı olan Akıllı Uygulama Denetimi, Coop'un ya da bir modun ihtiyaç duyduğu bir dosyayı engelledi, bu yüzden dosya yüklenemedi. Dosyanın kendisinde sorun yok, Windows sadece çalışmasını durdurdu.",
           "whatToDo": "Akıllı Uygulama Denetimi'ni kapat, sonra oyunu ya da sunucuyu yeniden başlat.\n\nWindows Güvenliği'nde bu sayfayı aç ve Akıllı Uygulama Denetimi'ni Kapalı yap.\nUygulama ve tarayıcı denetimi > Akıllı Uygulama Denetimi ayarları\n\nAkıllı Uygulama Denetimi Coop'un ihtiyaç duyduğu bir dosyayı engelledi, kapalıyken dosya yüklenir. Bazı sürümlerde onu daha sonra tekrar açmak için Windows'u sıfırlamak gerekebilir, bu senin için önemliyse önce bunu kontrol et.",
           "whatNotToDo": "Bunun için Coop'u yeniden kurma ya da modlarını kapatma. Dosyalar sağlam, onları Windows engelledi."
+        },
+        "ja": {
+          "title": "Windows のスマート アプリ コントロールが Coop のファイルをブロックしました",
+          "whatHappened": "Windows 11 のセキュリティ設定であるスマート アプリ コントロール（Smart App Control）が、Coop または MOD に必要なファイルをブロックしたため、読み込めませんでした。ファイル自体には問題がなく、Windows が実行を止めたのです。",
+          "whatToDo": "スマート アプリ コントロールをオフにして、ゲームまたはサーバーをもう一度起動してください。\n\nWindows セキュリティで次のページを開き、スマート アプリ コントロールを「オフ」にします。\nアプリとブラウザー コントロール > スマート アプリ コントロールの設定\n\nスマート アプリ コントロールが Coop に必要なファイルをブロックしており、オフにすればそのファイルが読み込まれます。あとでオンに戻すには、バージョンによっては Windows のリセットが必要になることがあるので、気になる場合は先に確認してください。",
+          "whatNotToDo": "これで Coop を再インストールしたり MOD をオフにしたりしないでください。ファイルは問題なく、Windows がブロックしただけです。"
+        },
+        "ko": {
+          "title": "Windows 스마트 앱 컨트롤이 Coop 파일을 차단했어요",
+          "whatHappened": "Windows 11의 보안 설정인 스마트 앱 컨트롤(Smart App Control)이 Coop이나 모드에 필요한 파일을 차단해서 불러올 수 없었어요. 파일 자체는 문제없고, Windows가 실행을 막은 거예요.",
+          "whatToDo": "스마트 앱 컨트롤을 끈 다음 게임이나 서버를 다시 시작하세요.\n\nWindows 보안에서 이 페이지를 열고 스마트 앱 컨트롤을 끔으로 바꾸세요.\n앱 및 브라우저 컨트롤 > 스마트 앱 컨트롤 설정\n\n스마트 앱 컨트롤이 Coop에 필요한 파일을 막았고, 끄면 그 파일이 로드돼요. 나중에 다시 켜려면 버전에 따라 Windows를 초기화해야 할 수 있으니, 신경 쓰인다면 먼저 확인하세요.",
+          "whatNotToDo": "이 일로 Coop을 다시 설치하거나 모드를 끄지 마세요. 파일은 문제없고, Windows가 막은 거예요."
+        },
+        "zh-CN": {
+          "title": "Windows 智能应用控制拦截了一个 Coop 文件",
+          "whatHappened": "智能应用控制（Smart App Control，Windows 11 的一项安全设置）拦截了 Coop 或某个模组需要的文件，导致它无法加载。文件本身没有问题，是 Windows 阻止了它运行。",
+          "whatToDo": "关闭智能应用控制，然后再次启动游戏或服务器。\n\n在 Windows 安全中心打开下面这个页面，把智能应用控制设为“关”。\n应用和浏览器控制 > 智能应用控制设置\n\n智能应用控制拦截了 Coop 需要的文件，关闭后这个文件就能加载。以后再打开它，在某些版本上可能需要重置 Windows，如果你在意这一点，请先确认。",
+          "whatNotToDo": "不要为此重新安装 Coop 或关闭你的模组。文件没有问题，是 Windows 拦截了它们。"
         }
       }
     },
@@ -1160,6 +1466,21 @@
           "title": "Farklı bir Common.dll yükleniyor",
           "whatHappened": "Oyun, Coop ile gelen olmayan bir Common.dll yükledi ve Coop bununla yüklenemiyor. Büyük ihtimalle başka bir mod ya da eski bir kurulum oyunun bin klasöründe bir tane bıraktı, Bannerlord oraya böyle bir dosya koymaz.",
           "whatToDo": "Fazladan Common.dll dosyasını oyunun bin klasöründen çıkar.\n\nOyunu kapat ve bu dosyayı Masaüstüne taşı.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (sürüm {version})\n\nBannerlord orada bir Common.dll ile gelmez, yani onu başka bir mod ya da eski bir kurulum bıraktı ve oyun Coop'unki yerine onu yüklüyor. O gidince Coop tekrar yüklenir, kontrol etmek için oyunu yeniden başlat. O klasörde Common.dll yoksa günlüklerini gönder."
+        },
+        "ja": {
+          "title": "別の Common.dll が読み込まれています",
+          "whatHappened": "ゲームが、Coop に付属するものではない Common.dll を読み込み、Coop はそれでは読み込めません。ほかの MOD や古いインストールがゲームの bin フォルダーに残した可能性が高いです。Bannerlord はそこに Common.dll を置きません。",
+          "whatToDo": "余分な Common.dll をゲームの bin フォルダーから移動してください。\n\nゲームを閉じて、このファイルをデスクトップに移動します。\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (version {version})\n\nBannerlord はそこに Common.dll を置きません。ほかの MOD や古いインストールが残したもので、ゲームは Coop 自身のものの代わりにそれを読み込みます。なくなれば Coop がまた読み込まれるので、ゲームをもう一度起動して確認してください。そのフォルダーに Common.dll がない場合は、ログを送ってください。"
+        },
+        "ko": {
+          "title": "다른 Common.dll이 로드됐어요",
+          "whatHappened": "게임이 Coop과 함께 오는 것이 아닌 Common.dll을 불러왔고, Coop은 그것과 함께 로드될 수 없어요. 다른 모드나 예전 설치가 게임의 bin 폴더에 하나 남겨 둔 것 같아요. Bannerlord는 그곳에 이 파일을 두지 않아요.",
+          "whatToDo": "남는 Common.dll을 게임의 bin 폴더에서 옮기세요.\n\n게임을 닫고 이 파일을 바탕 화면으로 옮기세요.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (version {version})\n\nBannerlord는 그곳에 Common.dll을 두지 않아요. 다른 모드나 예전 설치가 남겨 둔 것이고, 게임이 Coop의 것 대신 그것을 불러와요. 없어지면 Coop이 다시 로드되니, 게임을 다시 시작해서 확인하세요. 그 폴더에 Common.dll이 없다면 로그를 보내 주세요."
+        },
+        "zh-CN": {
+          "title": "加载了另一个 Common.dll",
+          "whatHappened": "游戏加载了一个不是 Coop 自带的 Common.dll，Coop 无法配合它加载。很可能是别的模组或旧的安装在游戏的 bin 文件夹里留下了一个，而 Bannerlord 本来不会在那里放这个文件。",
+          "whatToDo": "把多出来的 Common.dll 从游戏的 bin 文件夹里移走。\n\n关闭游戏，把下面这个文件移到桌面。\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\Common.dll (version {version})\n\nBannerlord 在那里本来没有 Common.dll，是别的模组或旧的安装留下的，游戏加载了它，而不是 Coop 自带的那个。移走之后 Coop 就能正常加载，所以请再次启动游戏确认一下。如果那个文件夹里没有 Common.dll，请发送你的日志。"
         }
       }
     },
@@ -1210,6 +1531,21 @@
           "title": "Harmony modundan önce eski bir 0Harmony.dll yükleniyor",
           "whatHappened": "Bir mod Harmony'den sadece yeni sürümlerde olan bir şey istedi, yani oyun eski bir 0Harmony.dll yüklemişti. Büyük ihtimalle oyunun bin klasöründe duruyor, Bannerlord oraya böyle bir dosya koymaz ve oyun onu Harmony modunun kendi kopyasından önce yükler.",
           "whatToDo": "Eski 0Harmony.dll dosyasını oyunun bin klasöründen çıkar.\n\nOyunu kapat ve bu dosyayı Masaüstüne taşı.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord oraya 0Harmony.dll koymaz ve oyun onu Harmony modunun daha yeni kopyasından önce yükler, bu yüzden daha yeni Harmony isteyen bir mod çöker. O gidince Harmony modunun kopyası yüklenir. O klasörde 0Harmony.dll yoksa günlüklerini gönder."
+        },
+        "ja": {
+          "title": "古い 0Harmony.dll が Harmony MOD より先に読み込まれています",
+          "whatHappened": "ある MOD が新しいバージョンにしかないものを Harmony に求めたため、ゲームが古い 0Harmony.dll を読み込んでいたことがわかりました。おそらくゲームの bin フォルダーにあります。Bannerlord はそこに置かず、ゲームは Harmony MOD 自身のコピーより先にそれを読み込みます。",
+          "whatToDo": "古い 0Harmony.dll をゲームの bin フォルダーから移動してください。\n\nゲームを閉じて、このファイルをデスクトップに移動します。\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord はそこに 0Harmony.dll を置きません。ゲームは Harmony MOD の新しいコピーより先にそれを読み込むため、新しい Harmony が必要な MOD が失敗します。なくなれば Harmony MOD のコピーが読み込まれます。そのフォルダーに 0Harmony.dll がない場合は、ログを送ってください。"
+        },
+        "ko": {
+          "title": "오래된 0Harmony.dll이 Harmony 모드보다 먼저 로드됐어요",
+          "whatHappened": "어떤 모드가 최신 버전에만 있는 기능을 Harmony에 요청했는데, 게임이 오래된 0Harmony.dll을 불러온 상태였어요. 아마 게임의 bin 폴더에 있을 거예요. Bannerlord는 그곳에 이 파일을 두지 않고, 게임은 Harmony 모드 자체의 사본보다 그것을 먼저 불러와요.",
+          "whatToDo": "오래된 0Harmony.dll을 게임의 bin 폴더에서 옮기세요.\n\n게임을 닫고 이 파일을 바탕 화면으로 옮기세요.\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord는 그곳에 0Harmony.dll을 두지 않고, 게임이 Harmony 모드의 더 새로운 사본보다 그것을 먼저 불러와서, 더 새로운 Harmony가 필요한 모드가 실패해요. 없어지면 Harmony 모드의 사본이 로드돼요. 그 폴더에 0Harmony.dll이 없다면 로그를 보내 주세요."
+        },
+        "zh-CN": {
+          "title": "旧的 0Harmony.dll 在 Harmony 模组之前被加载了",
+          "whatHappened": "有个模组向 Harmony 请求了只有较新版本才有的功能，所以游戏加载的是一个旧的 0Harmony.dll。很可能它放在游戏的 bin 文件夹里，而 Bannerlord 本来不会在那里放这个文件，游戏会先加载它，再加载 Harmony 模组自带的那份。",
+          "whatToDo": "把旧的 0Harmony.dll 从游戏的 bin 文件夹里移走。\n\n关闭游戏，把下面这个文件移到桌面。\n...\\Mount & Blade II Bannerlord\\bin\\Win64_Shipping_Client\\0Harmony.dll\n\nBannerlord 不会在那里放 0Harmony.dll，游戏会先加载它，再加载 Harmony 模组较新的那份，所以需要较新 Harmony 的模组就会失败。移走之后，就会加载 Harmony 模组自带的那份。如果那个文件夹里没有 0Harmony.dll，请发送你的日志。"
         }
       }
     },
@@ -1266,6 +1602,21 @@
           "title": "Oyunun Steam üzerinden hosta ulaşamadı",
           "whatHappened": "Oyunun Steam üzerinden hosta bağlanmaya çalıştı ama bağlantı hiç kurulmadı. Cloudflare WARP ya da DNS'ini değiştiren başka bir program bunu sık sık engeller.",
           "whatToDo": "Hostun hâlâ oturumunda olduğunu kontrol et ve yeni bir davet iste.\n\nBu işe yaramazsa Cloudflare WARP'ı ya da DNS'ini değiştiren başka bir programı kapat, sonra tekrar katıl. WARP ve DNS'ini değiştiren diğer programlar hosta giden Steam bağlantısını sık sık engeller. Hâlâ olmuyorsa hosttan sunucunun adresini ve portunu iste ve Steam yerine onlarla katıl."
+        },
+        "ja": {
+          "title": "Steam 経由でホストに届きませんでした",
+          "whatHappened": "ゲームは Steam 経由でホストに接続しようとしましたが、接続が確立しませんでした。Cloudflare WARP など DNS を変更するプログラムが原因でブロックされることがよくあります。",
+          "whatToDo": "ホストがまだセッションにいるか確認して、新しい招待をもらってください。\n\nそれでも直らなければ、Cloudflare WARP など DNS を変更するプログラムを閉じて、もう一度参加してください。WARP など DNS を変更するプログラムは、ホストへの Steam 接続をよくブロックします。それでも失敗する場合は、ホストにサーバーのアドレスとポートを聞いて、Steam の代わりにそれで参加してください。"
+        },
+        "ko": {
+          "title": "게임이 Steam으로 호스트에 닿지 못했어요",
+          "whatHappened": "게임이 Steam을 통해 호스트에 연결하려 했지만 연결이 끝내 이뤄지지 않았어요. Cloudflare WARP나 DNS를 바꾸는 다른 프로그램이 이를 막는 경우가 많아요.",
+          "whatToDo": "호스트가 아직 세션에 있는지 확인하고, 새 초대를 받아 보세요.\n\n그래도 안 되면 Cloudflare WARP나 DNS를 바꾸는 다른 프로그램을 닫고 다시 참가하세요. WARP처럼 DNS를 바꾸는 프로그램이 호스트로의 Steam 연결을 막는 경우가 많아요. 그래도 실패하면 호스트에게 서버 주소와 포트를 물어서, Steam 대신 그것으로 참가하세요."
+        },
+        "zh-CN": {
+          "title": "你的游戏无法通过 Steam 连上房主",
+          "whatHappened": "你的游戏尝试通过 Steam 连接房主，但连接始终没有建立。Cloudflare WARP 或其他会更改 DNS 的程序经常会阻止它。",
+          "whatToDo": "确认房主还在他的游戏会话里，并请他重新发一个邀请。\n\n如果这样还不行，请关闭 Cloudflare WARP 或任何其他更改 DNS 的程序，然后再次加入。WARP 和其他会更改 DNS 的程序经常会阻止到房主的 Steam 连接。如果仍然失败，请向房主要服务器的地址和端口，用它们加入，而不是通过 Steam。"
         }
       }
     },
@@ -1321,6 +1672,24 @@
           "whatHappened": "Belgeler klasörün OneDrive'ın içinde ve Coop kayıtlarını ve ayarlarını orada, CoopData içinde tutuyor. OneDrive bu dosyaları Coop kullanırken taşıyınca ya da eşitleyince Coop kayıt yapamıyor ya da dosyalarını temizleyemiyor.",
           "whatToDo": "OneDrive'ın Belgeler klasörünü eşitlemesini durdur.\n\nÖnce bu klasörü güvenli bir yere kopyala.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nOneDrive ayarlarında bu sayfayı aç ve Belgeler'i kapat.\nEşitleme ve yedekleme > Yedeklemeyi yönet\n\nOneDrive, Coop kullanırken CoopData'yı taşıyınca ya da eşitleyince Coop'un kayıtları bozuluyor, Belgeler OneDrive'dan çıkınca Coop yeniden kayıt yapabilir. Devam ederse Coop Discord yardımcılarının önerdiği gibi OneDrive'ı kaldır, sonra oyunu ya da sunucuyu yeniden başlat.",
           "whatNotToDo": "Bunun için Coop'u yeniden kurma ya da modlarını kapatma. Sorun onlarda değil."
+        },
+        "ja": {
+          "title": "OneDrive がドキュメントフォルダーを同期しています",
+          "whatHappened": "ドキュメントフォルダーが OneDrive の中にあり、Coop はセーブと設定をそこの CoopData に保存します。Coop が使っている間に OneDrive がそれらのファイルを移動したり同期したりすると、Coop は自分のファイルを保存も整理もできません。",
+          "whatToDo": "OneDrive がドキュメントフォルダーを同期しないようにしてください。\n\nまずこのフォルダーを安全な場所にコピーしてください。\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nOneDrive の設定で次のページを開き、ドキュメントをオフにします。\n同期とバックアップ > バックアップを管理\n\nCoop が使っている間に OneDrive が CoopData を移動したり同期したりすると Coop のセーブが壊れますが、ドキュメントが OneDrive から外れれば Coop はまた保存できます。それでも続く場合は、Coop Discord のヘルパーのすすめどおり OneDrive をアンインストールして、ゲームまたはサーバーをもう一度起動してください。",
+          "whatNotToDo": "これで Coop を再インストールしたり MOD をオフにしたりしないでください。原因ではありません。"
+        },
+        "ko": {
+          "title": "OneDrive가 내 문서 폴더를 동기화하고 있어요",
+          "whatHappened": "내 문서 폴더가 OneDrive 안에 있고, Coop은 저장 파일과 설정을 그곳의 CoopData에 둬요. Coop이 쓰는 동안 OneDrive가 그 파일을 옮기거나 동기화하면 Coop이 자신의 파일을 저장하거나 정리할 수 없어요.",
+          "whatToDo": "OneDrive가 내 문서 폴더를 동기화하지 않게 하세요.\n\n먼저 이 폴더를 안전한 곳에 복사해 두세요.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\nOneDrive 설정에서 이 페이지를 열고 문서를 끄세요.\n동기화 및 백업 > 백업 관리\n\nCoop이 쓰는 동안 OneDrive가 CoopData를 옮기거나 동기화하면 Coop의 저장이 깨지고, 문서가 OneDrive에서 빠지면 Coop이 다시 저장할 수 있어요. 계속 생기면 Coop Discord 도우미들이 권하는 대로 OneDrive를 지운 다음, 게임이나 서버를 다시 시작하세요.",
+          "whatNotToDo": "이 일로 Coop을 다시 설치하거나 모드를 끄지 마세요. 원인이 아니에요."
+        },
+        "zh-CN": {
+          "title": "OneDrive 正在同步你的“文档”文件夹",
+          "whatHappened": "你的“文档”文件夹在 OneDrive 里，而 Coop 把存档和设置放在那里的 CoopData 中。当 OneDrive 在 Coop 使用这些文件时移动或同步它们，Coop 就无法保存或清理自己的文件。",
+          "whatToDo": "停止让 OneDrive 同步你的“文档”文件夹。\n\n先把下面这个文件夹复制到安全的地方。\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\n在 OneDrive 设置里打开下面这个页面，把“文档”关掉。\n同步和备份 > 管理备份\n\nOneDrive 在 Coop 使用 CoopData 时移动或同步它，会破坏 Coop 的存档；“文档”不再受 OneDrive 管理后，Coop 就能再次保存。如果问题一直出现，就按 Coop Discord 的帮手们建议的那样卸载 OneDrive，然后再次启动游戏或服务器。",
+          "whatNotToDo": "不要为此重新安装 Coop 或关闭你的模组。它们不是问题所在。"
         }
       }
     },
@@ -1370,6 +1739,21 @@
           "title": "Sunucuda bir TAOM.CoopCompat dosyası eksik",
           "whatHappened": "Sunucu klasöründe bir TAOM.CoopCompat dosyası eksik, bu yüzden TAOM.CoopCompat kendi kontrolü sırasında başlatmayı durdurdu. Büyük ihtimalle antivirüs onu sildi. Kayıt henüz yüklenmemişti, yani kaydın sağlam.",
           "whatToDo": "TAOM Server Tool'u güncelle ve Sunucuyu başlat'a bas. Dosyayı geri koyar. Yine giderse Antivirüsü düzelt'e tıkla."
+        },
+        "ja": {
+          "title": "サーバーに TAOM.CoopCompat のファイルがありません",
+          "whatHappened": "サーバーフォルダーに TAOM.CoopCompat のファイルが 1 つなく、TAOM.CoopCompat が自身のチェックで起動を止めました。ウイルス対策ソフトが削除した可能性が高いです。セーブはまだ読み込まれていないので、セーブには問題ありません。",
+          "whatToDo": "TAOM Server Tool を更新して「サーバーを起動」を押してください。ファイルを元に戻します。また消えた場合は、「ウイルス対策を修正」を押してください。"
+        },
+        "ko": {
+          "title": "서버에 TAOM.CoopCompat 파일이 없어요",
+          "whatHappened": "서버 폴더에 TAOM.CoopCompat 파일 하나가 없어서 TAOM.CoopCompat이 자체 점검에서 시작을 멈췄어요. 백신이 지웠을 가능성이 가장 커요. 저장 파일은 아직 불러오기 전이라 문제가 없어요.",
+          "whatToDo": "TAOM Server Tool을 업데이트하고 ‘서버 시작’을 누르세요. 파일을 다시 넣어 줘요. 또 사라지면 ‘백신 문제 해결’을 누르세요."
+        },
+        "zh-CN": {
+          "title": "服务器上缺少一个 TAOM.CoopCompat 文件",
+          "whatHappened": "服务器文件夹里缺少一个 TAOM.CoopCompat 文件，所以 TAOM.CoopCompat 在自己的检查中停止了启动。很可能是杀毒软件把它删掉了。当时还没有加载存档，所以你的存档没有问题。",
+          "whatToDo": "更新 TAOM Server Tool，然后点击“启动服务器”。它会把文件放回去。如果它又消失了，请点击“修复杀毒软件问题”。"
         }
       }
     },
@@ -1418,6 +1802,21 @@
           "title": "Başka bir modun Common.dll dosyası Coop ile çakışıyor",
           "whatHappened": "Oyun Coop ile gelen olmayan, {version} sürümlü bir Common.dll yükledi, bu yüzden Coop yüklenemedi ve oyun modları yüklerken kapandı.",
           "whatToDo": "Başka bir mod Coop ile çakışan Common.dll adlı bir dosya getiriyor. En son eklediğin modu kapat, sonra Ana menüye kadar test et'e tıkla."
+        },
+        "ja": {
+          "title": "別の MOD の Common.dll が Coop と競合しています",
+          "whatHappened": "ゲームが、Coop に付属するものではない Common.dll（バージョン {version}）を読み込んだため、Coop が読み込めず、MOD を読み込み中にゲームが閉じました。",
+          "whatToDo": "別の MOD が、Coop と競合する Common.dll というファイルを持ち込んでいます。最後に追加した MOD をオフにして、「メインメニューまでテスト」を押してください。"
+        },
+        "ko": {
+          "title": "다른 모드의 Common.dll이 Coop과 충돌해요",
+          "whatHappened": "게임이 Coop과 함께 오는 것이 아닌 Common.dll(버전 {version})을 불러와서 Coop이 로드되지 못했고, 모드를 불러오는 중에 게임이 닫혔어요.",
+          "whatToDo": "다른 모드가 Coop과 충돌하는 Common.dll이라는 파일을 가져와요. 마지막으로 추가한 모드를 끄고 ‘메인 메뉴까지 테스트’를 누르세요."
+        },
+        "zh-CN": {
+          "title": "另一个模组的 Common.dll 与 Coop 冲突",
+          "whatHappened": "游戏加载了一个版本为 {version} 的 Common.dll，它不是 Coop 自带的，所以 Coop 无法加载，游戏在加载模组时关闭了。",
+          "whatToDo": "另一个模组带来了一个名为 Common.dll 的文件，与 Coop 冲突。请关闭你最后添加的那个模组，然后点击“测试到主菜单”。"
         }
       }
     },
@@ -1474,6 +1873,24 @@
           "whatHappened": "Sunucu Coop'u yüklerken kendini durdurdu. Sunucunun kendi Coop klasörüne oyunun (istemci) Coop'u kopyalanmış\nDedicatedServer\\engine\\Modules\\Coop\nve sunucu onu yükleyemiyor. Sorun kaydında ya da modlarında değil.",
           "whatToDo": "Sunucu Workshop Coop'unun içindeyse Steam'de 3770450698 numaralı Workshop öğesinden aboneliğini kaldır, yeniden abone ol, indirmeyi bekle, sonra Sunucuyu başlat'a bas. Steam'in doğrulaması Workshop öğelerini onarmaz. Sunucuyu kendin indirdiysen Coop sunucusunu yeniden indir ve onun DedicatedServer klasörünü bunun yerine koy.",
           "whatNotToDo": "DedicatedServer klasörüne Coop dosyaları kopyalama. Bunun için modlarını kapatma."
+        },
+        "ja": {
+          "title": "ゲーム用の Coop がサーバーの Coop フォルダーにコピーされました",
+          "whatHappened": "サーバーは Coop を読み込み中に自分で止まりました。ゲーム（クライアント）用の Coop が、サーバー自身の Coop フォルダー\nDedicatedServer\\engine\\Modules\\Coop\nにコピーされており、サーバーはそれを読み込めません。セーブと MOD は原因ではありません。",
+          "whatToDo": "サーバーが Workshop の Coop を使っている場合は、Steam で Workshop アイテム 3770450698 をサブスクライブ解除し、もう一度サブスクライブして、ダウンロードを待ってから「サーバーを起動」を押してください。Steam の整合性確認は Workshop アイテムを修復しません。サーバーを自分でダウンロードした場合は、Coop サーバーをもう一度ダウンロードして、その DedicatedServer フォルダーをこのフォルダーの代わりに置いてください。",
+          "whatNotToDo": "Coop のファイルを DedicatedServer フォルダーにコピーしないでください。これで MOD をオフにしないでください。"
+        },
+        "ko": {
+          "title": "게임용 Coop이 서버의 Coop 폴더에 복사됐어요",
+          "whatHappened": "서버가 Coop을 불러오는 중에 스스로 멈췄어요. 게임(클라이언트)용 Coop이 서버의 Coop 폴더\nDedicatedServer\\engine\\Modules\\Coop\n에 복사됐고, 서버는 그것을 불러올 수 없어요. 저장 파일과 모드는 문제가 아니에요.",
+          "whatToDo": "서버가 Workshop의 Coop을 쓴다면 Steam에서 Workshop 항목 3770450698의 구독을 취소하고 다시 구독한 뒤, 다운로드가 끝나길 기다렸다가 ‘서버 시작’을 누르세요. Steam의 무결성 검사는 Workshop 항목을 고치지 않아요. 서버를 직접 받았다면 Coop 서버를 다시 받아서 그 DedicatedServer 폴더를 이 폴더 대신 두세요.",
+          "whatNotToDo": "Coop 파일을 DedicatedServer 폴더에 복사하지 마세요. 이 일로 모드를 끄지도 마세요."
+        },
+        "zh-CN": {
+          "title": "游戏版 Coop 被复制到了服务器的 Coop 文件夹里",
+          "whatHappened": "服务器在加载 Coop 时自行停止了。一份游戏（客户端）版的 Coop 被复制到了服务器自己的 Coop 文件夹\nDedicatedServer\\engine\\Modules\\Coop\n里，服务器无法加载它。问题不在你的存档和模组。",
+          "whatToDo": "如果服务器用的是 Workshop 版 Coop，请在 Steam 中取消订阅 Workshop 物品 3770450698，再重新订阅，等它下载完，然后点击“启动服务器”。Steam 的“验证”不会修复 Workshop 物品。如果你是自己下载的服务器，请重新下载 Coop 服务器，并用它的 DedicatedServer 文件夹替换这一个。",
+          "whatNotToDo": "不要把 Coop 文件复制到 DedicatedServer 文件夹里。也不要为此关闭你的模组。"
         }
       }
     }
