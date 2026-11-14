@@ -1,4 +1,16 @@
 {
   "SchemaVersion": 1,
-  "Records": []
+  "Records": [
+    {
+      "Id": "DismembermentPlus",
+      "Verdict": "Works",
+      "TestedVersions": [
+        "v2.0.8.8"
+      ],
+      "TestedCoopVersion": "v0.1.8",
+      "Notes": "3 players reported works, 0 broken, with the Coodsz tools.",
+      "Url": "https://steamcommunity.com/sharedfiles/filedetails/?id=2875093027",
+      "UpdatedAt": "2026-11-13T13:14:19Z"
+    }
+  ]
 }
