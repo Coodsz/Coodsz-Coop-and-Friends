@@ -287,6 +287,7 @@
     { "id": "FastMode", "name": "Fast Mode", "status": "Broken", "coop": "v0.1.6", "note": "Optional official module. Coop refuses a player who has it turned on. Turn it off on the host and every player.", "category": "Utility", "works": 0, "broken": 0 },
     { "id": "Fast UI - Inventory and Party", "name": "Fast UI - Inventory and Party", "status": "Unknown", "note": "Updated for Bannerlord 1.4.8 and 1.5.3; the author asks for Coop testing. Not tested in Coop yet. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread.", "nexus": 9582, "category": "UI", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Faster Child Growth", "name": "Faster Child Growth", "status": "Unknown", "workshop": "3618489007", "category": "Utility", "works": 0, "broken": 0, "idGuess": true },
+    { "id": "FasterConstruction", "name": "Faster Construction", "status": "Unknown", "works": 0, "broken": 1, "lastReport": "2026-11-16" },
     { "id": "Fate Jeanne d'Arc", "name": "Fate Jeanne d'Arc", "status": "Unknown", "workshop": "3251246582", "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Female Troops Simplified", "name": "Female Troops Simplified", "status": "Unknown", "workshop": "2945030198", "category": "Troops", "works": 0, "broken": 0, "idGuess": true },
     { "id": "Fighting Together Relationship", "name": "Fighting Together Relationship", "status": "Unknown", "nexus": 463, "category": "Gameplay", "works": 0, "broken": 0, "idGuess": true },

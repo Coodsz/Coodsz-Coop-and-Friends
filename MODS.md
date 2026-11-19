@@ -326,6 +326,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Fast Dialogue](https://steamcommunity.com/sharedfiles/filedetails/?id=3034083929) | Not checked yet |  |  |  |  |
 | [Fast UI - Inventory and Party](https://www.nexusmods.com/mountandblade2bannerlord/mods/9582) | Not checked yet |  |  |  | Updated for Bannerlord 1.4.8 and 1.5.3; the author asks for Coop testing. Not tested in Coop yet. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | [Faster Child Growth](https://steamcommunity.com/sharedfiles/filedetails/?id=3618489007) | Not checked yet |  |  |  |  |
+| Faster Construction | Not checked yet | 0 works, 1 broken | 2026-11-16 |  |  |
 | [Fate Jeanne d'Arc](https://steamcommunity.com/sharedfiles/filedetails/?id=3251246582) | Not checked yet |  |  |  |  |
 | [Female Troops Simplified](https://steamcommunity.com/sharedfiles/filedetails/?id=2945030198) | Not checked yet |  |  |  |  |
 | [Fighting Together Relationship](https://www.nexusmods.com/mountandblade2bannerlord/mods/463) | Not checked yet |  |  |  |  |
@@ -606,4 +607,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-578 mods.
+579 mods.
