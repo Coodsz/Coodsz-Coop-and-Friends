@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "2026.11.11.2",
-  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, ja, ko, pt, ru, tr, zh-CN), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log and Coop_client_<pid>.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
+  "version": "2026.11.19.1",
+  "note": "Known crash patterns for the Coodsz tools (CrashSignatureMatcher in the tools, the crash report worker). The highest priority match wins. whatNotToDo is optional and only Coodsz Host prints it. translations (optional) holds the player text per language (ar, de, fr, ja, ko, pt, ru, tr, zh-CN), any field may be left out and falls back to English, and placeholders stay as they are. Reports to Coodsz always use the English text. Files: coopClient (Coop_client.log and Coop_client_<pid>.log), coopReport (Coop's crash report.txt), rgl (engine log), watchdog (watchdog log), server (Coodsz Host server window), serverLog (coop server log), hostConsole (Coodsz Host console and its exit lines), launcher (the launcher's logs), crashStack (crash-stack.txt, the summary read from the crash dump; tools built before it skip such a rule, so use it only in any). Rules: contains, regex, lastLine (regex on the last line that is not blank or ignored), module (a turned on module id). minCount, tail (only the last N lines) and ignore are optional. exitCodes lists the codes the signature needs. Player text uses {name} for a regex group (?<name>...). tools (optional) lists the tools a signature is for (coop, ad1259, taom, be, rot), missing means every tool. newestOnly (optional on a rule) reads only the first log of that kind, the newest or the one of the crash. files (optional on a rule, instead of file) lists several logs and the rule holds when it holds for one of them; tools built before files was added skip such a rule, so use it only in all or any, never in none. A line break in the player text starts a new line on the screen, so a path goes on its own line. sendMyLogs (optional) also runs a signature in Send my logs, shown there only as a hint while Send stays as it is; the tools take it only for a setup signature without exitCodes.",
   "signatures": [
     {
       "id": "coop-siege-teams-loop",
@@ -424,7 +424,7 @@
     {
       "id": "server-exit-code-1-silent",
       "side": "server",
-      "tools": ["coop", "ad1259", "be"],
+      "tools": ["coop", "ad1259", "be", "rot"],
       "priority": 5,
       "category": "silent-exit",
       "match": {
@@ -511,7 +511,7 @@
     {
       "id": "server-exit-code-minus-1-silent",
       "side": "server",
-      "tools": ["coop", "ad1259", "be"],
+      "tools": ["coop", "ad1259", "be", "rot"],
       "priority": 5,
       "category": "silent-exit",
       "match": {
@@ -905,7 +905,8 @@
       "category": "coop-bug",
       "tools": [
         "taom",
-        "be"
+        "be",
+        "rot"
       ],
       "match": {
         "any": [
@@ -1758,6 +1759,134 @@
       }
     },
     {
+      "id": "taom-coopcompat-new-module",
+      "side": "server",
+      "tools": ["taom"],
+      "priority": 93,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "server", "regex": "(?i)TAOM\\.CoopCompat preflight failed.*fc45cb12", "newestOnly": true },
+          { "file": "hostConsole", "regex": "(?i)TAOM\\.CoopCompat preflight failed.*fc45cb12", "newestOnly": true }
+        ]
+      },
+      "title": "The server has the TAOM.CoopCompat from the new TAOM download",
+      "whatHappened": "The TAOM.CoopCompat in the server folder is the one in the new TAOM download for Bannerlord 1.5.7, so the server's TAOM.CoopCompat check stopped the start. The save was not loaded yet, so your save is fine.",
+      "whatToDo": "These TAOM tools run TAOM 2.0.29.5 on Bannerlord 1.4.8 with Coop 0.1.6, so they leave that module alone. Use the TAOM download's own instructions for 1.5.7.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "الخادم فيه TAOM.CoopCompat من تنزيل TAOM الجديد",
+          "whatHappened": "الـ TAOM.CoopCompat في مجلد الخادم هو الموجود في تنزيل TAOM الجديد لـ Bannerlord 1.5.7، لذلك أوقف فحص TAOM.CoopCompat في الخادم التشغيل. لم يكن الحفظ قد حُمّل بعد، لذلك حفظك سليم.",
+          "whatToDo": "أدوات TAOM هذه تشغّل TAOM 2.0.29.5 على Bannerlord 1.4.8 مع Coop 0.1.6، لذلك لا تلمس تلك الوحدة. لـ 1.5.7 اتبع تعليمات تنزيل TAOM نفسه."
+        },
+        "de": {
+          "title": "Der Server hat das TAOM.CoopCompat aus dem neuen TAOM Download",
+          "whatHappened": "Das TAOM.CoopCompat im Serverordner ist das aus dem neuen TAOM Download für Bannerlord 1.5.7, deshalb hat die TAOM.CoopCompat Prüfung des Servers den Start gestoppt. Der Spielstand war noch nicht geladen, dein Spielstand ist also in Ordnung.",
+          "whatToDo": "Diese TAOM Tools nutzen TAOM 2.0.29.5 auf Bannerlord 1.4.8 mit Coop 0.1.6, deshalb lassen sie dieses Modul in Ruhe. Folge für 1.5.7 der Anleitung im TAOM Download."
+        },
+        "fr": {
+          "title": "Le serveur a le TAOM.CoopCompat du nouveau téléchargement TAOM",
+          "whatHappened": "Le TAOM.CoopCompat du dossier du serveur est celui du nouveau téléchargement TAOM pour Bannerlord 1.5.7, donc la vérification TAOM.CoopCompat du serveur a arrêté le démarrage. La sauvegarde n'était pas encore chargée, donc ta sauvegarde va bien.",
+          "whatToDo": "Ces outils TAOM font tourner TAOM 2.0.29.5 sur Bannerlord 1.4.8 avec Coop 0.1.6, donc ils ne touchent pas à ce module. Pour 1.5.7, suis les instructions du téléchargement TAOM lui même."
+        },
+        "pt": {
+          "title": "O servidor tem o TAOM.CoopCompat do novo download do TAOM",
+          "whatHappened": "O TAOM.CoopCompat na pasta do servidor é o do novo download do TAOM para o Bannerlord 1.5.7, então a verificação do TAOM.CoopCompat do servidor parou o início. O save ainda não tinha carregado, então o seu save está bem.",
+          "whatToDo": "Estas ferramentas do TAOM rodam o TAOM 2.0.29.5 no Bannerlord 1.4.8 com o Coop 0.1.6, então elas não mexem nesse módulo. Para o 1.5.7, siga as instruções do próprio download do TAOM."
+        },
+        "ru": {
+          "title": "На сервере TAOM.CoopCompat из новой загрузки TAOM",
+          "whatHappened": "TAOM.CoopCompat в папке сервера взят из новой загрузки TAOM для Bannerlord 1.5.7, поэтому проверка TAOM.CoopCompat на сервере остановила запуск. Сохранение ещё не загрузилось, так что с ним всё в порядке.",
+          "whatToDo": "Эти инструменты TAOM запускают TAOM 2.0.29.5 на Bannerlord 1.4.8 с Coop 0.1.6, поэтому они не трогают этот модуль. Для 1.5.7 следуйте инструкциям из самой загрузки TAOM."
+        },
+        "tr": {
+          "title": "Sunucuda yeni TAOM indirmesindeki TAOM.CoopCompat var",
+          "whatHappened": "Sunucu klasöründeki TAOM.CoopCompat, Bannerlord 1.5.7 için yeni TAOM indirmesindeki sürüm, bu yüzden sunucunun TAOM.CoopCompat kontrolü başlatmayı durdurdu. Kayıt henüz yüklenmemişti, yani kaydın sağlam.",
+          "whatToDo": "Bu TAOM araçları TAOM 2.0.29.5 sürümünü Bannerlord 1.4.8 üzerinde Coop 0.1.6 ile çalıştırır, bu yüzden o modüle dokunmaz. 1.5.7 için TAOM indirmesinin kendi talimatlarını izle."
+        },
+        "ja": {
+          "title": "サーバーに新しい TAOM ダウンロードの TAOM.CoopCompat があります",
+          "whatHappened": "サーバーフォルダーの TAOM.CoopCompat は Bannerlord 1.5.7 用の新しい TAOM ダウンロードに入っているもので、サーバーの TAOM.CoopCompat チェックが起動を止めました。セーブはまだ読み込まれていないので、セーブには問題ありません。",
+          "whatToDo": "これらの TAOM ツールは TAOM 2.0.29.5 を Bannerlord 1.4.8 と Coop 0.1.6 で動かすので、そのモジュールには手を付けません。1.5.7 では TAOM ダウンロード自体の手順に従ってください。"
+        },
+        "ko": {
+          "title": "서버에 새 TAOM 다운로드의 TAOM.CoopCompat이 있어요",
+          "whatHappened": "서버 폴더의 TAOM.CoopCompat은 Bannerlord 1.5.7용 새 TAOM 다운로드에 들어 있는 거라서, 서버의 TAOM.CoopCompat 점검이 시작을 멈췄어요. 저장 파일은 아직 불러오기 전이라 문제가 없어요.",
+          "whatToDo": "이 TAOM 도구들은 Bannerlord 1.4.8에서 Coop 0.1.6과 함께 TAOM 2.0.29.5를 실행하니까 그 모듈은 건드리지 않아요. 1.5.7에서는 TAOM 다운로드에 있는 안내를 따르세요."
+        },
+        "zh-CN": {
+          "title": "服务器上是新版 TAOM 下载包里的 TAOM.CoopCompat",
+          "whatHappened": "服务器文件夹里的 TAOM.CoopCompat 是 Bannerlord 1.5.7 新版 TAOM 下载包里的那个，所以服务器的 TAOM.CoopCompat 检查停止了启动。当时还没有加载存档，所以你的存档没有问题。",
+          "whatToDo": "这些 TAOM 工具在 Bannerlord 1.4.8 上配合 Coop 0.1.6 运行 TAOM 2.0.29.5，所以不会动那个模块。1.5.7 请按照 TAOM 下载包自带的说明操作。"
+        }
+      }
+    },
+    {
+      "id": "taom-coopcompat-file-changed",
+      "side": "server",
+      "tools": ["taom"],
+      "priority": 92,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "file": "server", "regex": "(?i)TAOM\\.CoopCompat preflight failed.*does not match the wrapper pin|required TAOM\\.CoopCompat module descriptor is missing", "newestOnly": true },
+          { "file": "hostConsole", "regex": "(?i)TAOM\\.CoopCompat preflight failed.*does not match the wrapper pin|required TAOM\\.CoopCompat module descriptor is missing", "newestOnly": true }
+        ]
+      },
+      "title": "A TAOM.CoopCompat file on the server changed or is gone",
+      "whatHappened": "A TAOM.CoopCompat file in the server folder is not the one the server expects, or its SubModule.xml is gone, so TAOM.CoopCompat stopped the start during its own check. Antivirus may have quarantined it. The save was not loaded yet, so your save is fine.",
+      "whatToDo": "Update the TAOM Server Tool and press Start server. It puts back the right file from the TAOM host kit. If it happens again, click Fix antivirus.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "ملف من TAOM.CoopCompat على الخادم تغيّر أو اختفى",
+          "whatHappened": "ملف من TAOM.CoopCompat في مجلد الخادم ليس الملف الذي يتوقعه الخادم، أو أن SubModule.xml الخاص به اختفى، لذلك أوقف TAOM.CoopCompat التشغيل أثناء فحصه الخاص. ربما وضعه برنامج مكافحة الفيروسات في الحجر. لم يكن الحفظ قد حُمّل بعد، لذلك حفظك سليم.",
+          "whatToDo": "حدّث TAOM Server Tool واضغط تشغيل الخادم. سيعيد الملف الصحيح من حزمة استضافة TAOM. إذا تكرر ذلك، انقر على إصلاح مكافح الفيروسات."
+        },
+        "de": {
+          "title": "Eine Datei von TAOM.CoopCompat auf dem Server wurde geändert oder fehlt",
+          "whatHappened": "Eine Datei von TAOM.CoopCompat im Serverordner ist nicht die, die der Server erwartet, oder seine SubModule.xml fehlt, deshalb hat TAOM.CoopCompat den Start bei seiner eigenen Prüfung gestoppt. Vielleicht hat ein Antivirus sie in Quarantäne verschoben. Der Spielstand war noch nicht geladen, dein Spielstand ist also in Ordnung.",
+          "whatToDo": "Aktualisiere das TAOM Server Tool und drücke Server starten. Es legt die richtige Datei aus dem TAOM Host Kit zurück. Passiert das wieder, klicke auf Antivirus beheben."
+        },
+        "fr": {
+          "title": "Un fichier TAOM.CoopCompat du serveur a changé ou a disparu",
+          "whatHappened": "Un fichier TAOM.CoopCompat du dossier du serveur n'est pas celui que le serveur attend, ou son SubModule.xml a disparu, donc TAOM.CoopCompat a arrêté le démarrage pendant sa propre vérification. Il se peut qu'un antivirus l'ait mis en quarantaine. La sauvegarde n'était pas encore chargée, donc ta sauvegarde va bien.",
+          "whatToDo": "Mets à jour le TAOM Server Tool et appuie sur Démarrer le serveur. Il remet le bon fichier depuis le kit d'hôte TAOM. Si ça recommence, clique sur Réparer l'antivirus."
+        },
+        "pt": {
+          "title": "Um arquivo do TAOM.CoopCompat no servidor mudou ou sumiu",
+          "whatHappened": "Um arquivo do TAOM.CoopCompat na pasta do servidor não é o que o servidor espera, ou o SubModule.xml dele sumiu, então o TAOM.CoopCompat parou o início durante a própria verificação. Um antivírus pode ter colocado ele em quarentena. O save ainda não tinha carregado, então o seu save está bem.",
+          "whatToDo": "Atualize o TAOM Server Tool e aperte Iniciar servidor. Ele coloca de volta o arquivo certo do kit de host do TAOM. Se acontecer de novo, clique em Corrigir antivírus."
+        },
+        "ru": {
+          "title": "Файл TAOM.CoopCompat на сервере изменился или пропал",
+          "whatHappened": "Файл TAOM.CoopCompat в папке сервера не тот, который ждёт сервер, или пропал его SubModule.xml, поэтому TAOM.CoopCompat остановил запуск во время своей проверки. Возможно, антивирус поместил его в карантин. Сохранение ещё не загрузилось, так что с ним всё в порядке.",
+          "whatToDo": "Обновите TAOM Server Tool и нажмите Запустить сервер. Он вернёт нужный файл из комплекта хоста TAOM. Если это повторится, нажмите Исправить антивирус."
+        },
+        "tr": {
+          "title": "Sunucudaki bir TAOM.CoopCompat dosyası değişti ya da kayboldu",
+          "whatHappened": "Sunucu klasöründeki bir TAOM.CoopCompat dosyası sunucunun beklediği dosya değil ya da SubModule.xml dosyası kayıp, bu yüzden TAOM.CoopCompat kendi kontrolü sırasında başlatmayı durdurdu. Antivirüs onu karantinaya almış olabilir. Kayıt henüz yüklenmemişti, yani kaydın sağlam.",
+          "whatToDo": "TAOM Server Tool'u güncelle ve Sunucuyu başlat'a bas. Doğru dosyayı TAOM host kitinden geri koyar. Yine olursa Antivirüsü düzelt'e tıkla."
+        },
+        "ja": {
+          "title": "サーバーの TAOM.CoopCompat のファイルが変わったか、なくなっています",
+          "whatHappened": "サーバーフォルダーの TAOM.CoopCompat のファイルがサーバーの想定と違うか、その SubModule.xml がなくなっていて、TAOM.CoopCompat が自身のチェックで起動を止めました。ウイルス対策ソフトが隔離した可能性があります。セーブはまだ読み込まれていないので、セーブには問題ありません。",
+          "whatToDo": "TAOM Server Tool を更新して「サーバーを起動」を押してください。TAOM のホストキットから正しいファイルを元に戻します。また起きた場合は、「ウイルス対策を修正」を押してください。"
+        },
+        "ko": {
+          "title": "서버의 TAOM.CoopCompat 파일이 바뀌었거나 없어졌어요",
+          "whatHappened": "서버 폴더의 TAOM.CoopCompat 파일이 서버가 기대하는 파일이 아니거나 SubModule.xml이 없어져서, TAOM.CoopCompat이 자체 점검에서 시작을 멈췄어요. 백신이 격리했을 수 있어요. 저장 파일은 아직 불러오기 전이라 문제가 없어요.",
+          "whatToDo": "TAOM Server Tool을 업데이트하고 ‘서버 시작’을 누르세요. TAOM 호스트 키트에서 올바른 파일을 다시 넣어 줘요. 또 그러면 ‘백신 문제 해결’을 누르세요."
+        },
+        "zh-CN": {
+          "title": "服务器上的一个 TAOM.CoopCompat 文件被改动或不见了",
+          "whatHappened": "服务器文件夹里的一个 TAOM.CoopCompat 文件不是服务器要的那个，或者它的 SubModule.xml 不见了，所以 TAOM.CoopCompat 在自己的检查中停止了启动。可能是杀毒软件把它隔离了。当时还没有加载存档，所以你的存档没有问题。",
+          "whatToDo": "更新 TAOM Server Tool，然后点击“启动服务器”。它会从 TAOM 主机套件放回正确的文件。如果再次发生，请点击“修复杀毒软件问题”。"
+        }
+      }
+    },
+    {
       "id": "coop-mod-common-dll-clash",
       "side": "client",
       "tools": ["coop"],
@@ -1891,6 +2020,936 @@
           "whatHappened": "服务器在加载 Coop 时自行停止了。一份游戏（客户端）版的 Coop 被复制到了服务器自己的 Coop 文件夹\nDedicatedServer\\engine\\Modules\\Coop\n里，服务器无法加载它。问题不在你的存档和模组。",
           "whatToDo": "如果服务器用的是 Workshop 版 Coop，请在 Steam 中取消订阅 Workshop 物品 3770450698，再重新订阅，等它下载完，然后点击“启动服务器”。Steam 的“验证”不会修复 Workshop 物品。如果你是自己下载的服务器，请重新下载 Coop 服务器，并用它的 DedicatedServer 文件夹替换这一个。",
           "whatNotToDo": "不要把 Coop 文件复制到 DedicatedServer 文件夹里。也不要为此关闭你的模组。"
+        }
+      }
+    },
+    {
+      "id": "coop-ds-war-sails-save-mismatch",
+      "side": "server",
+      "tools": ["coop", "ad1259", "taom", "be"],
+      "priority": 90,
+      "category": "setup",
+      "match": {
+        "exitCodes": [9],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\[DedicatedServer\\] FATAL: save .+ was (?:not )?created with NavalDLC" },
+          { "files": ["server", "serverLog", "hostConsole"], "contains": "\"refusal\":\"save-mismatch\"" }
+        ]
+      },
+      "title": "The save was made with a different War Sails setting",
+      "whatHappened": "The server stopped because this save and the server don't agree on War Sails (NavalDLC). A campaign made with War Sails can't load without it, and a campaign made without it can't gain War Sails later. Your save is not damaged.",
+      "whatToDo": "Pick a save made without War Sails, or start a new campaign. These tools can't host War Sails yet, so if \"warSails\" is true in mod-config.json in\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nset it to false first. Then press Start server again.",
+      "whatNotToDo": "Don't edit the save or turn NavalDLC on for this.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "الحفظ صُنع بإعداد مختلف لـ War Sails",
+          "whatHappened": "توقف الخادم لأن هذا الحفظ والخادم لا يتفقان على War Sails (NavalDLC). الحملة التي صُنعت مع War Sails لا تُحمَّل بدونه، والحملة التي صُنعت بدونه لا يمكن أن تحصل على War Sails لاحقًا. حفظك ليس تالفًا.",
+          "whatToDo": "اختر حفظًا صُنع بدون War Sails، أو ابدأ حملة جديدة. هذه الأدوات لا تستطيع استضافة War Sails بعد، لذلك إذا كانت قيمة \"warSails\" هي true في mod-config.json داخل\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nفاجعلها false أولًا. ثم اضغط تشغيل الخادم مرة أخرى.",
+          "whatNotToDo": "لا تعدّل الحفظ ولا تشغّل NavalDLC لهذا السبب."
+        },
+        "de": {
+          "title": "Der Spielstand wurde mit einer anderen War Sails Einstellung gemacht",
+          "whatHappened": "Der Server hat gestoppt, weil dieser Spielstand und der Server bei War Sails (NavalDLC) nicht übereinstimmen. Eine Kampagne mit War Sails lädt nicht ohne War Sails, und eine Kampagne ohne War Sails kann es später nicht dazubekommen. Dein Spielstand ist nicht beschädigt.",
+          "whatToDo": "Wähle einen Spielstand, der ohne War Sails gemacht wurde, oder starte eine neue Kampagne. Diese Tools können War Sails noch nicht hosten. Wenn \"warSails\" in mod-config.json in\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nauf true steht, setze es also zuerst auf false. Drück dann noch einmal auf Server starten.",
+          "whatNotToDo": "Bearbeite dafür nicht den Spielstand und schalte NavalDLC nicht ein."
+        },
+        "fr": {
+          "title": "La sauvegarde a été faite avec un autre réglage de War Sails",
+          "whatHappened": "Le serveur s'est arrêté parce que cette sauvegarde et le serveur ne sont pas d'accord sur War Sails (NavalDLC). Une campagne faite avec War Sails ne se charge pas sans lui, et une campagne faite sans lui ne peut pas recevoir War Sails plus tard. Ta sauvegarde n'est pas abîmée.",
+          "whatToDo": "Choisis une sauvegarde faite sans War Sails, ou démarre une nouvelle campagne. Ces outils ne peuvent pas encore héberger War Sails, donc si \"warSails\" vaut true dans mod-config.json dans\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nmets d'abord sa valeur à false. Puis clique de nouveau sur Démarrer le serveur.",
+          "whatNotToDo": "Ne modifie pas la sauvegarde et n'active pas NavalDLC pour ça."
+        },
+        "pt": {
+          "title": "O save foi feito com outra configuração de War Sails",
+          "whatHappened": "O servidor parou porque este save e o servidor não concordam sobre o War Sails (NavalDLC). Uma campanha feita com War Sails não carrega sem ele, e uma campanha feita sem ele não pode ganhar War Sails depois. Seu save não está danificado.",
+          "whatToDo": "Escolha um save feito sem War Sails, ou comece uma campanha nova. Estas ferramentas ainda não conseguem hospedar War Sails, então se \"warSails\" estiver true no mod-config.json em\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nmude para false primeiro. Depois clique em Iniciar servidor de novo.",
+          "whatNotToDo": "Não edite o save nem ligue o NavalDLC por causa disso."
+        },
+        "ru": {
+          "title": "Сохранение сделано с другой настройкой War Sails",
+          "whatHappened": "Сервер остановился, потому что это сохранение и сервер не совпадают по War Sails (NavalDLC). Кампания, сделанная с War Sails, не загружается без него, а кампания без него не может получить War Sails позже. Твоё сохранение не повреждено.",
+          "whatToDo": "Выбери сохранение, сделанное без War Sails, или начни новую кампанию. Эти программы пока не умеют запускать сервер с War Sails, поэтому если \"warSails\" стоит true в mod-config.json в папке\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nсначала поставь false. Потом снова нажми Запустить сервер.",
+          "whatNotToDo": "Не редактируй сохранение и не включай NavalDLC из за этого."
+        },
+        "tr": {
+          "title": "Kayıt farklı bir War Sails ayarıyla yapılmış",
+          "whatHappened": "Sunucu durdu, çünkü bu kayıt ve sunucu War Sails (NavalDLC) konusunda uyuşmuyor. War Sails ile yapılmış bir sefer onsuz yüklenmez, onsuz yapılmış bir sefer de sonradan War Sails kazanamaz. Kaydın bozuk değil.",
+          "whatToDo": "War Sails olmadan yapılmış bir kayıt seç ya da yeni bir sefer başlat. Bu araçlar henüz War Sails barındıramıyor, bu yüzden şu klasördeki mod-config.json içinde \"warSails\" true ise\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nönce false yap. Sonra Sunucuyu başlat düğmesine tekrar bas.",
+          "whatNotToDo": "Bunun için kaydı düzenleme ve NavalDLC'yi açma."
+        },
+        "ja": {
+          "title": "セーブが別の War Sails 設定で作られています",
+          "whatHappened": "このセーブとサーバーで War Sails (NavalDLC) の設定が合っていないため、サーバーが停止しました。War Sails ありで作ったキャンペーンは War Sails なしでは読み込めず、War Sails なしで作ったキャンペーンに後から War Sails を足すこともできません。セーブは壊れていません。",
+          "whatToDo": "War Sails なしで作ったセーブを選ぶか、新しいキャンペーンを始めてください。これらのツールはまだ War Sails をホストできないので、次の場所の mod-config.json で \"warSails\" が true になっていたら、先に false に変えてください。\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nそのあと、もう一度「サーバーを起動」を押してください。",
+          "whatNotToDo": "このために、セーブを編集したり NavalDLC をオンにしたりしないでください。"
+        },
+        "ko": {
+          "title": "저장 파일이 다른 War Sails 설정으로 만들어졌어요",
+          "whatHappened": "이 저장 파일과 서버의 War Sails (NavalDLC) 설정이 맞지 않아서 서버가 멈췄어요. War Sails로 만든 캠페인은 War Sails 없이는 불러올 수 없고, War Sails 없이 만든 캠페인에 나중에 War Sails를 더할 수도 없어요. 저장 파일은 손상되지 않았어요.",
+          "whatToDo": "War Sails 없이 만든 저장 파일을 고르거나 새 캠페인을 시작하세요. 이 도구들은 아직 War Sails를 호스트할 수 없으니, 아래 위치의 mod-config.json에서 \"warSails\"가 true라면 먼저 false로 바꾸세요.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "이 때문에 저장 파일을 고치거나 NavalDLC를 켜지 마세요."
+        },
+        "zh-CN": {
+          "title": "存档是用不同的 War Sails 设置创建的",
+          "whatHappened": "服务器停止了，因为这个存档和服务器在 War Sails (NavalDLC) 上设置不一致。用 War Sails 创建的战役没有它就无法加载，没用 War Sails 创建的战役也不能之后再加上 War Sails。你的存档没有损坏。",
+          "whatToDo": "请选择一个没用 War Sails 创建的存档，或者开始一个新战役。这些工具目前还不能托管 War Sails，所以如果下面这个位置的 mod-config.json 里 \"warSails\" 是 true，请先把它改成 false。\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n然后再点击一次“启动服务器”。",
+          "whatNotToDo": "不要为此编辑存档，也不要打开 NavalDLC。"
+        }
+      }
+    },
+    {
+      "id": "coop-ds-war-sails-setup",
+      "side": "server",
+      "tools": ["coop", "ad1259", "taom", "be"],
+      "priority": 90,
+      "category": "setup",
+      "match": {
+        "exitCodes": [10],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\[DedicatedServer\\] FATAL: [^\\r\\n]*(?:\"warSails\"|NavalDLC)" },
+          { "files": ["server", "serverLog", "hostConsole"], "contains": "\"refusal\":\"unsupported\"" }
+        ]
+      },
+      "title": "The server can't run War Sails as it is set up",
+      "whatHappened": "The server stopped before loading because War Sails (NavalDLC) is set up in a way it can't run. \"warSails\" in mod-config.json and NavalDLC in the server's module list don't agree, or this Coop build has no War Sails. Your save is not the problem.",
+      "whatToDo": "These tools can't host War Sails yet. Open mod-config.json in\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nset \"warSails\" to false, and turn NavalDLC off in the server's module list. Then press Start server again.",
+      "whatNotToDo": "Don't turn your other mods off for this.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "الخادم لا يستطيع تشغيل War Sails بالطريقة التي أُعدّ بها",
+          "whatHappened": "توقف الخادم قبل التحميل لأن War Sails (NavalDLC) مُعدّ بطريقة لا يستطيع تشغيلها. قيمة \"warSails\" في mod-config.json ووجود NavalDLC في قائمة وحدات الخادم لا يتفقان، أو أن نسخة Coop هذه ليس فيها War Sails. المشكلة ليست في حفظك.",
+          "whatToDo": "هذه الأدوات لا تستطيع استضافة War Sails بعد. افتح mod-config.json داخل\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nواجعل \"warSails\" بقيمة false، وأوقف NavalDLC في قائمة وحدات الخادم. ثم اضغط تشغيل الخادم مرة أخرى.",
+          "whatNotToDo": "لا توقف موداتك الأخرى لهذا السبب."
+        },
+        "de": {
+          "title": "Der Server kann War Sails so nicht starten",
+          "whatHappened": "Der Server hat vor dem Laden gestoppt, weil War Sails (NavalDLC) so eingerichtet ist, dass er es nicht starten kann. \"warSails\" in mod-config.json und NavalDLC in der Modulliste des Servers passen nicht zusammen, oder dieses Coop hat kein War Sails. Dein Spielstand ist nicht das Problem.",
+          "whatToDo": "Diese Tools können War Sails noch nicht hosten. Öffne mod-config.json in\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nsetze \"warSails\" auf false und schalte NavalDLC in der Modulliste des Servers aus. Drück dann noch einmal auf Server starten.",
+          "whatNotToDo": "Schalte deine anderen Mods dafür nicht aus."
+        },
+        "fr": {
+          "title": "Le serveur ne peut pas lancer War Sails tel qu'il est réglé",
+          "whatHappened": "Le serveur s'est arrêté avant le chargement parce que War Sails (NavalDLC) est réglé d'une façon qu'il ne peut pas lancer. \"warSails\" dans mod-config.json et NavalDLC dans la liste des modules du serveur ne vont pas ensemble, ou cette version de Coop n'a pas War Sails. Ta sauvegarde n'est pas en cause.",
+          "whatToDo": "Ces outils ne peuvent pas encore héberger War Sails. Ouvre mod-config.json dans\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nmets \"warSails\" à false, et désactive NavalDLC dans la liste des modules du serveur. Puis clique de nouveau sur Démarrer le serveur.",
+          "whatNotToDo": "Ne désactive pas tes autres mods pour ça."
+        },
+        "pt": {
+          "title": "O servidor não consegue rodar o War Sails do jeito que está configurado",
+          "whatHappened": "O servidor parou antes de carregar porque o War Sails (NavalDLC) está configurado de um jeito que ele não consegue rodar. O \"warSails\" no mod-config.json e o NavalDLC na lista de módulos do servidor não batem, ou esta versão do Coop não tem War Sails. Seu save não é o problema.",
+          "whatToDo": "Estas ferramentas ainda não conseguem hospedar War Sails. Abra o mod-config.json em\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nmude \"warSails\" para false e desligue o NavalDLC na lista de módulos do servidor. Depois clique em Iniciar servidor de novo.",
+          "whatNotToDo": "Não desligue seus outros mods por causa disso."
+        },
+        "ru": {
+          "title": "Сервер не может запустить War Sails с такими настройками",
+          "whatHappened": "Сервер остановился до загрузки, потому что War Sails (NavalDLC) настроен так, что сервер не может его запустить. \"warSails\" в mod-config.json и NavalDLC в списке модулей сервера не совпадают, или в этой сборке Coop нет War Sails. Дело не в твоём сохранении.",
+          "whatToDo": "Эти программы пока не умеют запускать сервер с War Sails. Открой mod-config.json в папке\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nпоставь \"warSails\" в false и выключи NavalDLC в списке модулей сервера. Потом снова нажми Запустить сервер.",
+          "whatNotToDo": "Не выключай другие моды из за этого."
+        },
+        "tr": {
+          "title": "Sunucu War Sails'i bu ayarlarla çalıştıramıyor",
+          "whatHappened": "Sunucu yüklemeden önce durdu, çünkü War Sails (NavalDLC) onun çalıştıramayacağı bir şekilde ayarlanmış. mod-config.json içindeki \"warSails\" ile sunucunun modül listesindeki NavalDLC uyuşmuyor ya da bu Coop sürümünde War Sails yok. Sorun kaydında değil.",
+          "whatToDo": "Bu araçlar henüz War Sails barındıramıyor. Şu klasördeki mod-config.json dosyasını aç\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n\"warSails\" değerini false yap ve sunucunun modül listesinde NavalDLC'yi kapat. Sonra Sunucuyu başlat düğmesine tekrar bas.",
+          "whatNotToDo": "Bunun için diğer modlarını kapatma."
+        },
+        "ja": {
+          "title": "現在の設定では、サーバーは War Sails を動かせません",
+          "whatHappened": "War Sails (NavalDLC) の設定がサーバーで動かせない形になっているため、サーバーは読み込む前に停止しました。mod-config.json の \"warSails\" とサーバーのモジュールリストの NavalDLC が食い違っているか、この Coop ビルドに War Sails が入っていません。セーブは原因ではありません。",
+          "whatToDo": "これらのツールはまだ War Sails をホストできません。次の場所の mod-config.json を開いて、\"warSails\" を false にし、サーバーのモジュールリストで NavalDLC をオフにしてください。\nDocuments\\Mount and Blade II Bannerlord\\CoopData\nそのあと、もう一度「サーバーを起動」を押してください。",
+          "whatNotToDo": "このために、ほかの MOD をオフにしないでください。"
+        },
+        "ko": {
+          "title": "지금 설정으로는 서버가 War Sails를 실행할 수 없어요",
+          "whatHappened": "War Sails (NavalDLC)가 서버에서 실행할 수 없는 방식으로 설정되어 있어서, 서버가 불러오기 전에 멈췄어요. mod-config.json의 \"warSails\"와 서버 모듈 목록의 NavalDLC가 서로 맞지 않거나, 이 Coop 빌드에 War Sails가 없어요. 저장 파일은 문제가 아니에요.",
+          "whatToDo": "이 도구들은 아직 War Sails를 호스트할 수 없어요. 아래 위치의 mod-config.json을 열어 \"warSails\"를 false로 바꾸고, 서버 모듈 목록에서 NavalDLC를 끄세요.\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "이 때문에 다른 모드를 끄지 마세요."
+        },
+        "zh-CN": {
+          "title": "按现在的设置，服务器无法运行 War Sails",
+          "whatHappened": "服务器在加载之前就停止了，因为 War Sails (NavalDLC) 的设置方式让它无法运行。mod-config.json 里的 \"warSails\" 和服务器模块列表里的 NavalDLC 不一致，或者这个 Coop 版本里没有 War Sails。问题不在你的存档。",
+          "whatToDo": "这些工具目前还不能托管 War Sails。请打开下面这个位置的 mod-config.json，把 \"warSails\" 设为 false，并在服务器的模块列表里关闭 NavalDLC。\nDocuments\\Mount and Blade II Bannerlord\\CoopData\n然后再点击一次“启动服务器”。",
+          "whatNotToDo": "不要为此关闭你的其他模组。"
+        }
+      }
+    },
+    {
+      "id": "coop-ds-save-did-not-load",
+      "side": "server",
+      "tools": ["coop", "ad1259", "taom", "be"],
+      "priority": 80,
+      "category": "setup",
+      "match": {
+        "exitCodes": [11],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\[DedicatedServer\\] FATAL: save '(?<save>[^'\\r\\n]+)' did not start loading" }
+        ]
+      },
+      "title": "The campaign save did not start loading",
+      "whatHappened": "The save {save} did not start loading, so the server stopped. The save may be damaged, or Coop hit an error while opening it. Your other saves are not touched.",
+      "whatToDo": "Put back a save backup from before this happened, or pick another save. Then press Start server. If it happens again, send the server crash report so the error can be looked at.",
+      "whatNotToDo": "Don't press Start server again and again on the same save. It fails the same way each time. Don't delete the save, a backup can only go back over it.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "حفظ الحملة لم يبدأ التحميل",
+          "whatHappened": "الحفظ {save} لم يبدأ التحميل، فتوقف الخادم. قد يكون الحفظ تالفًا، أو أن Coop واجه خطأ أثناء فتحه. حفظاتك الأخرى لم تُمس.",
+          "whatToDo": "أرجع نسخة احتياطية للحفظ من قبل حدوث هذا، أو اختر حفظًا آخر. ثم اضغط تشغيل الخادم. إذا تكرر ذلك، أرسل تقرير تعطل الخادم حتى يمكن فحص الخطأ.",
+          "whatNotToDo": "لا تضغط تشغيل الخادم مرارًا على نفس الحفظ. سيفشل بنفس الطريقة كل مرة. لا تحذف الحفظ، فالنسخة الاحتياطية لا يمكن إرجاعها إلا فوقه."
+        },
+        "de": {
+          "title": "Der Kampagnenspielstand hat nicht angefangen zu laden",
+          "whatHappened": "Der Spielstand {save} hat nicht angefangen zu laden, deshalb hat der Server gestoppt. Der Spielstand kann beschädigt sein, oder Coop hatte beim Öffnen einen Fehler. Deine anderen Spielstände sind nicht betroffen.",
+          "whatToDo": "Spiel ein Backup des Spielstands von vor diesem Problem zurück, oder wähle einen anderen Spielstand. Drück dann auf Server starten. Wenn es wieder passiert, schick den Server Absturzbericht, damit der Fehler angeschaut werden kann.",
+          "whatNotToDo": "Drück nicht immer wieder auf Server starten mit demselben Spielstand. Es schlägt jedes Mal gleich fehl. Lösche den Spielstand nicht, ein Backup kann nur über ihn zurückgespielt werden."
+        },
+        "fr": {
+          "title": "La sauvegarde de campagne n'a pas commencé à charger",
+          "whatHappened": "La sauvegarde {save} n'a pas commencé à charger, donc le serveur s'est arrêté. La sauvegarde est peut être abîmée, ou Coop a eu une erreur en l'ouvrant. Tes autres sauvegardes ne sont pas touchées.",
+          "whatToDo": "Remets une copie de sauvegarde d'avant le problème, ou choisis une autre sauvegarde. Puis clique sur Démarrer le serveur. Si ça recommence, envoie le rapport de plantage du serveur pour que l'erreur soit examinée.",
+          "whatNotToDo": "Ne clique pas encore et encore sur Démarrer le serveur avec la même sauvegarde. Ça échoue de la même façon à chaque fois. Ne supprime pas la sauvegarde, une copie ne peut être remise que par dessus."
+        },
+        "pt": {
+          "title": "O save da campanha não começou a carregar",
+          "whatHappened": "O save {save} não começou a carregar, então o servidor parou. O save pode estar danificado, ou o Coop teve um erro ao abrir ele. Seus outros saves não foram mexidos.",
+          "whatToDo": "Coloque de volta um backup do save de antes disso acontecer, ou escolha outro save. Depois clique em Iniciar servidor. Se acontecer de novo, envie o relatório de travamento do servidor para o erro ser analisado.",
+          "whatNotToDo": "Não clique em Iniciar servidor várias vezes no mesmo save. Ele falha do mesmo jeito toda vez. Não apague o save, um backup só pode voltar por cima dele."
+        },
+        "ru": {
+          "title": "Сохранение кампании не начало загружаться",
+          "whatHappened": "Сохранение {save} не начало загружаться, поэтому сервер остановился. Сохранение может быть повреждено, или Coop получил ошибку при его открытии. Другие твои сохранения не тронуты.",
+          "whatToDo": "Верни резервную копию сохранения из времени до этой проблемы или выбери другое сохранение. Потом нажми Запустить сервер. Если это повторится, отправь отчёт о сбое сервера, чтобы ошибку посмотрели.",
+          "whatNotToDo": "Не нажимай Запустить сервер снова и снова с тем же сохранением. Каждый раз будет та же ошибка. Не удаляй сохранение, резервную копию можно вернуть только поверх него."
+        },
+        "tr": {
+          "title": "Sefer kaydı yüklenmeye başlamadı",
+          "whatHappened": "{save} kaydı yüklenmeye başlamadı, bu yüzden sunucu durdu. Kayıt bozulmuş olabilir ya da Coop onu açarken bir hata aldı. Diğer kayıtlarına dokunulmadı.",
+          "whatToDo": "Bu olmadan önceki bir kayıt yedeğini geri koy ya da başka bir kayıt seç. Sonra Sunucuyu başlat düğmesine bas. Yine olursa hatanın incelenebilmesi için sunucu çökme raporunu gönder.",
+          "whatNotToDo": "Aynı kayıtla Sunucuyu başlat düğmesine tekrar tekrar basma. Her seferinde aynı şekilde başarısız olur. Kaydı silme, bir yedek ancak onun üzerine geri konabilir."
+        },
+        "ja": {
+          "title": "キャンペーンのセーブが読み込みを始められませんでした",
+          "whatHappened": "セーブ {save} の読み込みが始まらなかったため、サーバーが停止しました。セーブが壊れているか、開くときに Coop でエラーが起きた可能性があります。ほかのセーブには影響しません。",
+          "whatToDo": "こうなる前のセーブのバックアップを戻すか、別のセーブを選んでください。そのあと「サーバーを起動」を押します。また起きたら、原因を調べられるようにサーバーのクラッシュレポートを送ってください。",
+          "whatNotToDo": "同じセーブで「サーバーを起動」を何度も押さないでください。毎回同じように失敗します。セーブも削除しないでください。バックアップは上書きで戻すことしかできません。"
+        },
+        "ko": {
+          "title": "캠페인 저장 파일을 불러오기 시작하지 못했어요",
+          "whatHappened": "저장 파일 {save}을(를) 불러오기 시작하지 못해서 서버가 멈췄어요. 저장 파일이 손상되었거나, 여는 중에 Coop에서 오류가 났을 수 있어요. 다른 저장 파일은 건드리지 않았어요.",
+          "whatToDo": "이런 일이 생기기 전의 저장 파일 백업을 되돌리거나 다른 저장 파일을 고르세요. 그런 다음 ‘서버 시작’을 누르세요. 또 같은 일이 생기면 오류를 살펴볼 수 있도록 서버 충돌 보고서를 보내 주세요.",
+          "whatNotToDo": "같은 저장 파일로 ‘서버 시작’을 계속 누르지 마세요. 매번 똑같이 실패해요. 저장 파일을 지우지도 마세요. 백업은 덮어써서 되돌릴 수만 있어요."
+        },
+        "zh-CN": {
+          "title": "战役存档没能开始加载",
+          "whatHappened": "存档 {save} 没能开始加载，所以服务器停止了。存档可能已损坏，也可能是 Coop 在打开它时出了错。你的其他存档没有被动过。",
+          "whatToDo": "请放回出问题之前的存档备份，或者选择另一个存档。然后点击“启动服务器”。如果再次发生，请发送服务器崩溃报告，方便查看错误。",
+          "whatNotToDo": "不要在同一个存档上反复点击“启动服务器”，每次都会以同样的方式失败。也不要删除存档，备份只能覆盖回去。"
+        }
+      }
+    },
+    {
+      "id": "coop-server-launcher-module-missing",
+      "side": "server",
+      "tools": ["coop", "ad1259", "taom", "be"],
+      "priority": 70,
+      "category": "setup",
+      "match": {
+        "exitCodes": [7, 8],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "contains": "[BannerlordCoopServer] FATAL: " },
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "(?i)dev module re-stage failed" }
+        ]
+      },
+      "title": "Coop's server launcher could not find a module",
+      "whatHappened": "The server stopped before loading. Coop's server launcher could not find a module from the server's module list, or could not copy it into place. Your save is not the problem.",
+      "whatToDo": "Check your antivirus history and allow the server folder if it took a file. Then press Start server again. If it still stops, download the Coop server again.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "مشغّل خادم Coop لم يجد وحدة",
+          "whatHappened": "توقف الخادم قبل التحميل. مشغّل خادم Coop لم يجد وحدة من قائمة وحدات الخادم، أو لم يستطع نسخها إلى مكانها. المشكلة ليست في حفظك.",
+          "whatToDo": "افحص سجل برنامج مكافحة الفيروسات واسمح بمجلد الخادم إذا أخذ ملفًا. ثم اضغط تشغيل الخادم مرة أخرى. إذا توقف مجددًا، نزّل خادم Coop مرة أخرى."
+        },
+        "de": {
+          "title": "Der Server Starter von Coop hat ein Modul nicht gefunden",
+          "whatHappened": "Der Server hat vor dem Laden gestoppt. Der Server Starter von Coop hat ein Modul aus der Modulliste des Servers nicht gefunden oder konnte es nicht an seinen Platz kopieren. Dein Spielstand ist nicht das Problem.",
+          "whatToDo": "Schau in den Verlauf deines Virenscanners und erlaube den Server Ordner, falls er eine Datei genommen hat. Drück dann noch einmal auf Server starten. Wenn er wieder stoppt, lade den Coop Server erneut herunter."
+        },
+        "fr": {
+          "title": "Le lanceur du serveur Coop n'a pas trouvé un module",
+          "whatHappened": "Le serveur s'est arrêté avant le chargement. Le lanceur du serveur Coop n'a pas trouvé un module de la liste des modules du serveur, ou n'a pas pu le copier à sa place. Ta sauvegarde n'est pas en cause.",
+          "whatToDo": "Regarde l'historique de ton antivirus et autorise le dossier du serveur s'il a pris un fichier. Puis clique de nouveau sur Démarrer le serveur. S'il s'arrête encore, télécharge de nouveau le serveur Coop."
+        },
+        "pt": {
+          "title": "O iniciador do servidor do Coop não encontrou um módulo",
+          "whatHappened": "O servidor parou antes de carregar. O iniciador do servidor do Coop não encontrou um módulo da lista de módulos do servidor, ou não conseguiu copiar ele para o lugar. Seu save não é o problema.",
+          "whatToDo": "Veja o histórico do seu antivírus e libere a pasta do servidor se ele pegou um arquivo. Depois clique em Iniciar servidor de novo. Se parar de novo, baixe o servidor do Coop outra vez."
+        },
+        "ru": {
+          "title": "Запускатель сервера Coop не нашёл модуль",
+          "whatHappened": "Сервер остановился до загрузки. Запускатель сервера Coop не нашёл модуль из списка модулей сервера или не смог скопировать его на место. Дело не в твоём сохранении.",
+          "whatToDo": "Проверь историю антивируса и разреши папку сервера, если он забрал файл. Потом снова нажми Запустить сервер. Если сервер снова остановится, скачай сервер Coop заново."
+        },
+        "tr": {
+          "title": "Coop'un sunucu başlatıcısı bir modülü bulamadı",
+          "whatHappened": "Sunucu yüklemeden önce durdu. Coop'un sunucu başlatıcısı, sunucunun modül listesindeki bir modülü bulamadı ya da yerine kopyalayamadı. Sorun kaydında değil.",
+          "whatToDo": "Antivirüs geçmişine bak ve bir dosya aldıysa sunucu klasörüne izin ver. Sonra Sunucuyu başlat düğmesine tekrar bas. Yine durursa Coop sunucusunu yeniden indir."
+        },
+        "ja": {
+          "title": "Coop のサーバーランチャーがモジュールを見つけられませんでした",
+          "whatHappened": "サーバーは読み込む前に停止しました。Coop のサーバーランチャーが、サーバーのモジュールリストにあるモジュールを見つけられなかったか、所定の場所にコピーできませんでした。セーブは原因ではありません。",
+          "whatToDo": "ウイルス対策の履歴を確認し、ファイルを隔離していたらサーバーフォルダーを許可してください。そのあと、もう一度「サーバーを起動」を押します。それでも止まる場合は、Coop サーバーをもう一度ダウンロードしてください。"
+        },
+        "ko": {
+          "title": "Coop 서버 런처가 모듈을 찾지 못했어요",
+          "whatHappened": "서버가 불러오기 전에 멈췄어요. Coop 서버 런처가 서버 모듈 목록에 있는 모듈을 찾지 못했거나 제자리에 복사하지 못했어요. 저장 파일은 문제가 아니에요.",
+          "whatToDo": "백신 기록을 확인하고, 파일을 가져갔다면 서버 폴더를 허용하세요. 그런 다음 ‘서버 시작’을 다시 누르세요. 그래도 멈추면 Coop 서버를 다시 내려받으세요."
+        },
+        "zh-CN": {
+          "title": "Coop 的服务器启动器找不到某个模块",
+          "whatHappened": "服务器在加载之前就停止了。Coop 的服务器启动器找不到服务器模块列表里的某个模块，或者没能把它复制到位。问题不在你的存档。",
+          "whatToDo": "请查看杀毒软件的历史记录，如果它拿走了文件，就允许服务器文件夹。然后再点击一次“启动服务器”。如果还是停止，请重新下载 Coop 服务器。"
+        }
+      }
+    },
+    {
+      "id": "join-server-needs-war-sails",
+      "side": "client",
+      "tools": ["coop", "ad1259", "taom", "be"],
+      "priority": 65,
+      "category": "mod-mismatch",
+      "match": {
+        "any": [
+          { "file": "coopClient", "regex": "To join the server the module (?:'NavalDLC'|'[^'\\r\\n]*' \\(NavalDLC\\)) with version" }
+        ]
+      },
+      "title": "This server runs War Sails",
+      "whatHappened": "The server needs War Sails (NavalDLC), and your game doesn't have it on. The Coodsz tools can't host or join War Sails servers yet, so this server was not set up with them.",
+      "whatToDo": "Ask the host to start a server without War Sails, or join another server.",
+      "reportNeeded": false,
+      "labels": ["join"],
+      "translations": {
+        "ar": {
+          "title": "هذا الخادم يعمل مع War Sails",
+          "whatHappened": "الخادم يحتاج War Sails (NavalDLC)، ولعبتك ليس فيها مفعّلًا. أدوات Coodsz لا تستطيع بعد استضافة خوادم War Sails أو الانضمام إليها، لذلك هذا الخادم لم يُعدّ بها.",
+          "whatToDo": "اطلب من المضيف تشغيل خادم بدون War Sails، أو انضم إلى خادم آخر."
+        },
+        "de": {
+          "title": "Dieser Server läuft mit War Sails",
+          "whatHappened": "Der Server braucht War Sails (NavalDLC), und in deinem Spiel ist es nicht an. Die Coodsz Tools können War Sails Server noch nicht hosten oder ihnen beitreten, also wurde dieser Server nicht mit ihnen eingerichtet.",
+          "whatToDo": "Bitte den Host, einen Server ohne War Sails zu starten, oder tritt einem anderen Server bei."
+        },
+        "fr": {
+          "title": "Ce serveur utilise War Sails",
+          "whatHappened": "Le serveur demande War Sails (NavalDLC), et il n'est pas activé dans ton jeu. Les outils Coodsz ne peuvent pas encore héberger ni rejoindre des serveurs War Sails, donc ce serveur n'a pas été préparé avec eux.",
+          "whatToDo": "Demande à l'hôte de lancer un serveur sans War Sails, ou rejoins un autre serveur."
+        },
+        "pt": {
+          "title": "Este servidor usa War Sails",
+          "whatHappened": "O servidor precisa do War Sails (NavalDLC), e ele não está ligado no seu jogo. As ferramentas Coodsz ainda não conseguem hospedar nem entrar em servidores com War Sails, então este servidor não foi preparado com elas.",
+          "whatToDo": "Peça ao host para iniciar um servidor sem War Sails, ou entre em outro servidor."
+        },
+        "ru": {
+          "title": "Этот сервер работает с War Sails",
+          "whatHappened": "Серверу нужен War Sails (NavalDLC), а в твоей игре он не включён. Программы Coodsz пока не умеют запускать серверы с War Sails или подключаться к ним, так что этот сервер настроен не ими.",
+          "whatToDo": "Попроси хоста запустить сервер без War Sails или подключись к другому серверу."
+        },
+        "tr": {
+          "title": "Bu sunucu War Sails ile çalışıyor",
+          "whatHappened": "Sunucu War Sails (NavalDLC) istiyor ve oyununda açık değil. Coodsz araçları henüz War Sails sunucularını barındıramıyor ve onlara katılamıyor, yani bu sunucu onlarla kurulmadı.",
+          "whatToDo": "Ev sahibinden War Sails olmadan bir sunucu başlatmasını iste ya da başka bir sunucuya katıl."
+        },
+        "ja": {
+          "title": "このサーバーは War Sails で動いています",
+          "whatHappened": "サーバーは War Sails (NavalDLC) を必要としていますが、お使いのゲームではオンになっていません。Coodsz のツールはまだ War Sails のサーバーをホストも参加もできないため、このサーバーはツールで設定されていません。",
+          "whatToDo": "ホストに War Sails なしのサーバーを起動してもらうか、別のサーバーに参加してください。"
+        },
+        "ko": {
+          "title": "이 서버는 War Sails로 실행돼요",
+          "whatHappened": "서버에는 War Sails (NavalDLC)가 필요한데, 내 게임에는 켜져 있지 않아요. Coodsz 도구는 아직 War Sails 서버를 호스트하거나 접속할 수 없어서, 이 서버는 도구로 설정되지 않았어요.",
+          "whatToDo": "호스트에게 War Sails 없는 서버를 시작해 달라고 부탁하거나, 다른 서버에 접속하세요."
+        },
+        "zh-CN": {
+          "title": "这个服务器运行着 War Sails",
+          "whatHappened": "服务器需要 War Sails (NavalDLC)，而你的游戏里没有开启它。Coodsz 工具目前还不能托管或加入 War Sails 服务器，所以这个服务器不是用它们设置的。",
+          "whatToDo": "请让主机启动一个没有 War Sails 的服务器，或者加入别的服务器。"
+        }
+      }
+    },
+    {
+      "id": "join-war-sails-on-in-game",
+      "side": "client",
+      "tools": ["coop", "ad1259", "taom", "be"],
+      "priority": 65,
+      "category": "mod-mismatch",
+      "match": {
+        "any": [
+          { "file": "coopClient", "regex": "DLC is not supported\\.[^\\r\\n]*\\bNavalDLC\\b" }
+        ]
+      },
+      "title": "War Sails is on in your game",
+      "whatHappened": "The server refused you because War Sails (NavalDLC) is on in your game, and this server doesn't run War Sails.",
+      "whatToDo": "Start the game from the Coodsz launcher, which leaves War Sails off, or turn NavalDLC off in the game's own launcher. Then join again.",
+      "reportNeeded": false,
+      "labels": ["join"],
+      "translations": {
+        "ar": {
+          "title": "War Sails مفعّل في لعبتك",
+          "whatHappened": "رفضك الخادم لأن War Sails (NavalDLC) مفعّل في لعبتك، وهذا الخادم لا يعمل مع War Sails.",
+          "whatToDo": "شغّل اللعبة من مشغّل Coodsz، فهو يبقي War Sails متوقفًا، أو أوقف NavalDLC في مشغّل اللعبة نفسه. ثم انضم مرة أخرى."
+        },
+        "de": {
+          "title": "War Sails ist in deinem Spiel an",
+          "whatHappened": "Der Server hat dich abgewiesen, weil War Sails (NavalDLC) in deinem Spiel an ist und dieser Server kein War Sails hat.",
+          "whatToDo": "Starte das Spiel aus dem Coodsz Launcher, der War Sails aus lässt, oder schalte NavalDLC im Launcher des Spiels aus. Tritt dann wieder bei."
+        },
+        "fr": {
+          "title": "War Sails est activé dans ton jeu",
+          "whatHappened": "Le serveur t'a refusé parce que War Sails (NavalDLC) est activé dans ton jeu, et ce serveur n'utilise pas War Sails.",
+          "whatToDo": "Lance le jeu depuis le lanceur Coodsz, qui laisse War Sails désactivé, ou désactive NavalDLC dans le lanceur du jeu. Puis rejoins de nouveau."
+        },
+        "pt": {
+          "title": "O War Sails está ligado no seu jogo",
+          "whatHappened": "O servidor recusou você porque o War Sails (NavalDLC) está ligado no seu jogo, e este servidor não usa War Sails.",
+          "whatToDo": "Abra o jogo pelo launcher Coodsz, que deixa o War Sails desligado, ou desligue o NavalDLC no launcher do próprio jogo. Depois entre de novo."
+        },
+        "ru": {
+          "title": "В твоей игре включён War Sails",
+          "whatHappened": "Сервер не пустил тебя, потому что в твоей игре включён War Sails (NavalDLC), а этот сервер работает без War Sails.",
+          "whatToDo": "Запусти игру из лаунчера Coodsz, он оставляет War Sails выключенным, или выключи NavalDLC в лаунчере самой игры. Потом подключись снова."
+        },
+        "tr": {
+          "title": "Oyununda War Sails açık",
+          "whatHappened": "Sunucu seni reddetti, çünkü oyununda War Sails (NavalDLC) açık ve bu sunucu War Sails ile çalışmıyor.",
+          "whatToDo": "Oyunu War Sails'i kapalı bırakan Coodsz başlatıcısından aç ya da oyunun kendi başlatıcısında NavalDLC'yi kapat. Sonra yeniden katıl."
+        },
+        "ja": {
+          "title": "お使いのゲームで War Sails がオンになっています",
+          "whatHappened": "お使いのゲームで War Sails (NavalDLC) がオンになっていて、このサーバーは War Sails で動いていないため、サーバーが参加を断りました。",
+          "whatToDo": "War Sails をオフのままにする Coodsz のランチャーからゲームを起動するか、ゲーム自身のランチャーで NavalDLC をオフにしてください。そのあと、もう一度参加してください。"
+        },
+        "ko": {
+          "title": "내 게임에서 War Sails가 켜져 있어요",
+          "whatHappened": "내 게임에서 War Sails (NavalDLC)가 켜져 있는데 이 서버는 War Sails로 실행되지 않아서, 서버가 접속을 거부했어요.",
+          "whatToDo": "War Sails를 꺼 두는 Coodsz 런처로 게임을 시작하거나, 게임 자체 런처에서 NavalDLC를 끄세요. 그런 다음 다시 접속하세요."
+        },
+        "zh-CN": {
+          "title": "你的游戏里开着 War Sails",
+          "whatHappened": "服务器拒绝了你，因为你的游戏里开着 War Sails (NavalDLC)，而这个服务器没有运行 War Sails。",
+          "whatToDo": "请用 Coodsz 启动器启动游戏，它会让 War Sails 保持关闭，或者在游戏自带的启动器里关闭 NavalDLC。然后再加入。"
+        }
+      }
+    },
+    {
+      "id": "rot-server-load-failed",
+      "side": "server",
+      "tools": ["rot"],
+      "priority": 80,
+      "category": "setup",
+      "match": {
+        "exitCodes": [2],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\[DedicatedServer\\] (?:LOAD TIMEOUT after \\d+ ticks|LOAD FAILED:|game manager loaded after \\d+ ticks but Campaign\\.Current is null)" }
+        ]
+      },
+      "title": "The server could not load the Realm of Thrones campaign",
+      "whatHappened": "The server stopped because the campaign save did not finish loading. The save may be damaged, or it needs a mod that is not in your mods setup.",
+      "whatToDo": "Click Restore save backup and pick a backup from before this happened, or pick another save. If the save was made with extra mods, add them to your mods setup. Then press Start server again.",
+      "whatNotToDo": "Don't delete the save. A backup can only go back over it.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "لم يستطع الخادم تحميل حملة Realm of Thrones",
+          "whatHappened": "توقف الخادم لأن حفظ الحملة لم ينته من التحميل. قد يكون الحفظ تالفًا، أو يحتاج إلى مود ليس في إعداد المودات عندك.",
+          "whatToDo": "اضغط Restore save backup واختر نسخة احتياطية من قبل حدوث هذا، أو اختر حفظًا آخر. إذا صُنع الحفظ بمودات إضافية فأضفها إلى إعداد المودات. ثم اضغط Start server مرة أخرى.",
+          "whatNotToDo": "لا تحذف الحفظ. النسخة الاحتياطية لا يمكن أن تعود إلا فوقه."
+        },
+        "de": {
+          "title": "Der Server konnte die Realm of Thrones Kampagne nicht laden",
+          "whatHappened": "Der Server hat angehalten, weil der Kampagnenspielstand nicht fertig geladen wurde. Der Spielstand ist vielleicht beschädigt, oder er braucht eine Mod, die nicht in deinem Mod Setup ist.",
+          "whatToDo": "Klick auf Restore save backup und wähle eine Sicherung von vor dem Problem, oder wähle einen anderen Spielstand. Wenn der Spielstand mit zusätzlichen Mods gemacht wurde, füge sie deinem Mod Setup hinzu. Drück dann wieder Start server.",
+          "whatNotToDo": "Lösch den Spielstand nicht. Eine Sicherung kann nur über ihn zurückgespielt werden."
+        },
+        "fr": {
+          "title": "Le serveur n'a pas pu charger la campagne Realm of Thrones",
+          "whatHappened": "Le serveur s'est arrêté parce que la sauvegarde de la campagne n'a pas fini de charger. Il se peut que la sauvegarde soit abîmée, ou qu'elle ait besoin d'un mod qui n'est pas dans ta configuration de mods.",
+          "whatToDo": "Clique sur Restore save backup et choisis une sauvegarde d'avant le problème, ou choisis une autre sauvegarde. Si la sauvegarde a été faite avec des mods en plus, ajoute ces mods à ta configuration de mods. Puis appuie de nouveau sur Start server.",
+          "whatNotToDo": "Ne supprime pas la sauvegarde. Une copie de secours ne peut que la remplacer."
+        },
+        "pt": {
+          "title": "O servidor não conseguiu carregar a campanha de Realm of Thrones",
+          "whatHappened": "O servidor parou porque o save da campanha não terminou de carregar. O save pode estar danificado, ou precisa de um mod que não está na sua configuração de mods.",
+          "whatToDo": "Clique em Restore save backup e escolha um backup de antes do problema, ou escolha outro save. Se o save foi feito com mods extras, adicione esses mods à sua configuração de mods. Depois aperte Start server de novo.",
+          "whatNotToDo": "Não apague o save. Um backup só pode voltar por cima dele."
+        },
+        "ru": {
+          "title": "Сервер не смог загрузить кампанию Realm of Thrones",
+          "whatHappened": "Сервер остановился, потому что сохранение кампании не догрузилось. Сохранение может быть повреждено, или ему нужен мод, которого нет в твоём наборе модов.",
+          "whatToDo": "Нажми Restore save backup и выбери резервную копию до этой проблемы или другое сохранение. Если сохранение сделано с дополнительными модами, добавь их в набор модов. Потом снова нажми Start server.",
+          "whatNotToDo": "Не удаляй сохранение. Резервная копия может вернуться только поверх него."
+        },
+        "tr": {
+          "title": "Sunucu Realm of Thrones seferini yükleyemedi",
+          "whatHappened": "Sefer kaydı yüklenmeyi bitiremediği için sunucu durdu. Kayıt bozuk olabilir ya da mod düzeninde olmayan bir moda ihtiyaç duyuyor olabilir.",
+          "whatToDo": "Restore save backup'a tıkla ve bu sorundan önceki bir yedeği seç ya da başka bir kayıt seç. Kayıt ek modlarla yapıldıysa onları mod düzenine ekle. Sonra Start server'a tekrar bas.",
+          "whatNotToDo": "Kaydı silme. Bir yedek ancak onun üzerine geri yüklenebilir."
+        },
+        "ja": {
+          "title": "サーバーが Realm of Thrones のキャンペーンを読み込めませんでした",
+          "whatHappened": "キャンペーンのセーブの読み込みが終わらなかったため、サーバーが停止しました。セーブが壊れているか、MOD セットアップにない MOD が必要なのかもしれません。",
+          "whatToDo": "「セーブのバックアップを復元」を押して、こうなる前のバックアップを選ぶか、別のセーブを選んでください。追加の MOD で作ったセーブなら、その MOD を MOD セットアップに加えてください。そのあと、もう一度「サーバーを起動」を押します。",
+          "whatNotToDo": "セーブを削除しないでください。バックアップは上書きで戻すことしかできません。"
+        },
+        "ko": {
+          "title": "서버가 Realm of Thrones 캠페인을 불러오지 못했어요",
+          "whatHappened": "캠페인 저장 파일을 끝까지 불러오지 못해서 서버가 멈췄어요. 저장 파일이 손상되었거나, 모드 구성에 없는 모드가 필요할 수 있어요.",
+          "whatToDo": "‘저장 파일 백업 복원’을 누르고 이런 일이 생기기 전의 백업을 고르거나, 다른 저장 파일을 고르세요. 추가 모드로 만든 저장 파일이라면 그 모드를 모드 구성에 더하세요. 그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "저장 파일을 지우지 마세요. 백업은 덮어써서 되돌릴 수만 있어요."
+        },
+        "zh-CN": {
+          "title": "服务器无法加载 Realm of Thrones 战役",
+          "whatHappened": "服务器停止了，因为战役存档没有加载完成。存档可能已损坏，也可能它需要一个不在你的模组配置里的模组。",
+          "whatToDo": "点击“还原存档备份”，选择出问题之前的备份，或者选择另一个存档。如果存档是用额外模组创建的，请把它们加入你的模组配置。然后再点击一次“启动服务器”。",
+          "whatNotToDo": "不要删除存档。备份只能覆盖回去。"
+        }
+      }
+    },
+    {
+      "id": "rot-server-module-missing",
+      "side": "server",
+      "tools": ["rot"],
+      "priority": 75,
+      "category": "setup",
+      "match": {
+        "exitCodes": [8],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\[BannerlordCoopServer\\] FATAL: module \"(?<module>[^\"\\r\\n]+)\" is not installed" }
+        ]
+      },
+      "title": "A module was missing from the server folder",
+      "whatHappened": "The server stopped before loading because the module {module} was not in the server's Modules folder. Your save is not the problem.",
+      "whatToDo": "Click Prepare server so the tool copies the modules into the server folder again, then press Start server. If it stops again, check your antivirus history and allow the server folder.",
+      "whatNotToDo": "Don't take the module out of your mods setup for this.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "كان مود ناقصًا في مجلد الخادم",
+          "whatHappened": "توقف الخادم قبل التحميل لأن المود {module} لم يكن في مجلد Modules الخاص بالخادم. الحفظ ليس هو المشكلة.",
+          "whatToDo": "اضغط Prepare server لينسخ الأداة المودات إلى مجلد الخادم من جديد، ثم اضغط Start server. إذا توقف مرة أخرى فافحص سجل مضاد الفيروسات واسمح بمجلد الخادم.",
+          "whatNotToDo": "لا تُخرج المود من إعداد المودات بسبب هذا."
+        },
+        "de": {
+          "title": "Ein Modul fehlte im Serverordner",
+          "whatHappened": "Der Server hat vor dem Laden angehalten, weil das Modul {module} nicht im Modules Ordner des Servers war. Dein Spielstand ist nicht das Problem.",
+          "whatToDo": "Klick auf Prepare server, damit das Tool die Module wieder in den Serverordner kopiert, und drück dann Start server. Wenn er wieder anhält, schau in den Verlauf deines Virenschutzes und erlaube den Serverordner.",
+          "whatNotToDo": "Nimm das Modul dafür nicht aus deinem Mod Setup."
+        },
+        "fr": {
+          "title": "Un module manquait dans le dossier du serveur",
+          "whatHappened": "Le serveur s'est arrêté avant de charger parce que le module {module} n'était pas dans le dossier Modules du serveur. Ta sauvegarde n'est pas en cause.",
+          "whatToDo": "Clique sur Prepare server pour que l'outil copie de nouveau les modules dans le dossier du serveur, puis appuie sur Start server. S'il s'arrête encore, regarde l'historique de ton antivirus et autorise le dossier du serveur.",
+          "whatNotToDo": "Ne retire pas le module de ta configuration de mods pour ça."
+        },
+        "pt": {
+          "title": "Faltava um módulo na pasta do servidor",
+          "whatHappened": "O servidor parou antes de carregar porque o módulo {module} não estava na pasta Modules do servidor. O seu save não é o problema.",
+          "whatToDo": "Clique em Prepare server para a ferramenta copiar os módulos para a pasta do servidor de novo, depois aperte Start server. Se parar de novo, veja o histórico do seu antivírus e libere a pasta do servidor.",
+          "whatNotToDo": "Não tire o módulo da sua configuração de mods por causa disso."
+        },
+        "ru": {
+          "title": "В папке сервера не хватало модуля",
+          "whatHappened": "Сервер остановился до загрузки, потому что модуля {module} не было в папке Modules сервера. Сохранение тут ни при чём.",
+          "whatToDo": "Нажми Prepare server, чтобы инструмент снова скопировал модули в папку сервера, потом нажми Start server. Если он снова остановится, проверь журнал антивируса и разреши папку сервера.",
+          "whatNotToDo": "Не убирай модуль из набора модов по этой причине."
+        },
+        "tr": {
+          "title": "Sunucu klasöründe bir modül eksikti",
+          "whatHappened": "{module} modülü sunucunun Modules klasöründe olmadığı için sunucu yüklemeden önce durdu. Sorun kaydında değil.",
+          "whatToDo": "Aracın modülleri sunucu klasörüne yeniden kopyalaması için Prepare server'a tıkla, sonra Start server'a bas. Yine durursa antivirüs geçmişine bak ve sunucu klasörüne izin ver.",
+          "whatNotToDo": "Bunun için modülü mod düzeninden çıkarma."
+        },
+        "ja": {
+          "title": "サーバーフォルダーにモジュールが足りませんでした",
+          "whatHappened": "モジュール {module} がサーバーの Modules フォルダーになかったため、サーバーは読み込む前に停止しました。セーブは原因ではありません。",
+          "whatToDo": "「サーバーを準備」を押して、ツールにモジュールをサーバーフォルダーへもう一度コピーさせ、そのあと「サーバーを起動」を押してください。また止まる場合は、ウイルス対策の履歴を確認して、サーバーフォルダーを許可してください。",
+          "whatNotToDo": "このために、そのモジュールを MOD セットアップから外さないでください。"
+        },
+        "ko": {
+          "title": "서버 폴더에 모듈이 없었어요",
+          "whatHappened": "모듈 {module}이(가) 서버의 Modules 폴더에 없어서, 서버가 불러오기 전에 멈췄어요. 저장 파일은 문제가 아니에요.",
+          "whatToDo": "‘서버 준비’를 눌러 도구가 모듈을 서버 폴더에 다시 복사하게 한 다음 ‘서버 시작’을 누르세요. 또 멈추면 백신 기록을 확인하고 서버 폴더를 허용하세요.",
+          "whatNotToDo": "이 때문에 그 모듈을 모드 구성에서 빼지 마세요."
+        },
+        "zh-CN": {
+          "title": "服务器文件夹里缺少一个模块",
+          "whatHappened": "服务器在加载之前就停止了，因为模块 {module} 不在服务器的 Modules 文件夹里。问题不在你的存档。",
+          "whatToDo": "点击“准备服务器”，让工具把模块重新复制到服务器文件夹里，然后点击“启动服务器”。如果又停止了，请查看杀毒软件的历史记录，并允许服务器文件夹。",
+          "whatNotToDo": "不要为此把这个模块从你的模组配置里拿掉。"
+        }
+      }
+    },
+    {
+      "id": "rot-server-save-without-war-sails",
+      "side": "server",
+      "tools": ["rot"],
+      "priority": 92,
+      "category": "setup",
+      "match": {
+        "exitCodes": [9],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\] FATAL: save .+ was not created with NavalDLC" },
+          { "files": ["server", "serverLog", "hostConsole"], "contains": "\"refusal\":\"save-mismatch\"" }
+        ]
+      },
+      "title": "This save was made without War Sails",
+      "whatHappened": "Realm of Thrones in Coop always runs with War Sails (NavalDLC) on, and this save was made without it. A campaign can't gain War Sails later. Your save is not damaged.",
+      "whatToDo": "Pick a save made with this tool, or click New campaign to start a new Realm of Thrones campaign. Then press Start server again.",
+      "whatNotToDo": "Don't set \"warSails\" to false in mod-config.json. Realm of Thrones needs War Sails on.",
+      "reportNeeded": false,
+      "translations": {
+        "ar": {
+          "title": "صُنع هذا الحفظ بدون War Sails",
+          "whatHappened": "يعمل Realm of Thrones في Coop دائمًا مع تشغيل War Sails (NavalDLC)، وهذا الحفظ صُنع بدونه. لا يمكن للحملة أن تكسب War Sails لاحقًا. حفظك ليس تالفًا.",
+          "whatToDo": "اختر حفظًا صُنع بهذه الأداة، أو اضغط New campaign لبدء حملة Realm of Thrones جديدة. ثم اضغط Start server مرة أخرى.",
+          "whatNotToDo": "لا تضبط \"warSails\" على false في mod-config.json. يحتاج Realm of Thrones إلى تشغيل War Sails."
+        },
+        "de": {
+          "title": "Dieser Spielstand wurde ohne War Sails gemacht",
+          "whatHappened": "Realm of Thrones läuft in Coop immer mit War Sails (NavalDLC), und dieser Spielstand wurde ohne gemacht. Eine Kampagne kann War Sails nicht nachträglich bekommen. Dein Spielstand ist nicht beschädigt.",
+          "whatToDo": "Wähle einen Spielstand, der mit diesem Tool gemacht wurde, oder klick auf New campaign für eine neue Realm of Thrones Kampagne. Drück dann wieder Start server.",
+          "whatNotToDo": "Setz \"warSails\" in mod-config.json nicht auf false. Realm of Thrones braucht War Sails."
+        },
+        "fr": {
+          "title": "Cette sauvegarde a été faite sans War Sails",
+          "whatHappened": "Realm of Thrones dans Coop tourne toujours avec War Sails (NavalDLC), et cette sauvegarde a été faite sans. Une campagne ne peut pas gagner War Sails plus tard. Ta sauvegarde n'est pas abîmée.",
+          "whatToDo": "Choisis une sauvegarde faite avec cet outil, ou clique sur New campaign pour lancer une nouvelle campagne Realm of Thrones. Puis appuie de nouveau sur Start server.",
+          "whatNotToDo": "Ne mets pas \"warSails\" à false dans mod-config.json. Realm of Thrones a besoin de War Sails."
+        },
+        "pt": {
+          "title": "Este save foi feito sem War Sails",
+          "whatHappened": "Realm of Thrones no Coop sempre roda com War Sails (NavalDLC) ligado, e este save foi feito sem ele. Uma campanha não pode ganhar War Sails depois. O seu save não está danificado.",
+          "whatToDo": "Escolha um save feito com esta ferramenta, ou clique em New campaign para começar uma nova campanha de Realm of Thrones. Depois aperte Start server de novo.",
+          "whatNotToDo": "Não mude \"warSails\" para false no mod-config.json. Realm of Thrones precisa de War Sails ligado."
+        },
+        "ru": {
+          "title": "Это сохранение сделано без War Sails",
+          "whatHappened": "Realm of Thrones в Coop всегда работает с включённым War Sails (NavalDLC), а это сохранение сделано без него. Кампания не может получить War Sails позже. Сохранение не повреждено.",
+          "whatToDo": "Выбери сохранение, сделанное этим инструментом, или нажми New campaign, чтобы начать новую кампанию Realm of Thrones. Потом снова нажми Start server.",
+          "whatNotToDo": "Не ставь \"warSails\" в false в mod-config.json. Realm of Thrones нужен включённый War Sails."
+        },
+        "tr": {
+          "title": "Bu kayıt War Sails olmadan yapılmış",
+          "whatHappened": "Coop'ta Realm of Thrones her zaman War Sails (NavalDLC) açık çalışır ve bu kayıt onsuz yapılmış. Bir sefer War Sails'i sonradan kazanamaz. Kaydın bozuk değil.",
+          "whatToDo": "Bu araçla yapılmış bir kayıt seç ya da yeni bir Realm of Thrones seferi başlatmak için New campaign'e tıkla. Sonra Start server'a tekrar bas.",
+          "whatNotToDo": "mod-config.json içinde \"warSails\" değerini false yapma. Realm of Thrones'un War Sails'in açık olmasına ihtiyacı var."
+        },
+        "ja": {
+          "title": "このセーブは War Sails なしで作られています",
+          "whatHappened": "Coop 版の Realm of Thrones は常に War Sails (NavalDLC) をオンにして動きますが、このセーブは War Sails なしで作られています。キャンペーンに後から War Sails を足すことはできません。セーブは壊れていません。",
+          "whatToDo": "このツールで作ったセーブを選ぶか、「新しいキャンペーン」を押して新しい Realm of Thrones キャンペーンを始めてください。そのあと、もう一度「サーバーを起動」を押します。",
+          "whatNotToDo": "mod-config.json の \"warSails\" を false にしないでください。Realm of Thrones には War Sails がオンである必要があります。"
+        },
+        "ko": {
+          "title": "이 저장 파일은 War Sails 없이 만들어졌어요",
+          "whatHappened": "Coop의 Realm of Thrones는 항상 War Sails (NavalDLC)를 켠 채로 실행되는데, 이 저장 파일은 War Sails 없이 만들어졌어요. 캠페인에 나중에 War Sails를 더할 수는 없어요. 저장 파일은 손상되지 않았어요.",
+          "whatToDo": "이 도구로 만든 저장 파일을 고르거나, ‘새 캠페인’을 눌러 새 Realm of Thrones 캠페인을 시작하세요. 그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "mod-config.json의 \"warSails\"를 false로 바꾸지 마세요. Realm of Thrones에는 War Sails가 켜져 있어야 해요."
+        },
+        "zh-CN": {
+          "title": "这个存档是在没有 War Sails 的情况下创建的",
+          "whatHappened": "Coop 里的 Realm of Thrones 始终开着 War Sails (NavalDLC) 运行，而这个存档是在没有它的情况下创建的。战役不能之后再加上 War Sails。你的存档没有损坏。",
+          "whatToDo": "请选择用本工具创建的存档，或者点击“新战役”开始一个新的 Realm of Thrones 战役。然后再点击一次“启动服务器”。",
+          "whatNotToDo": "不要把 mod-config.json 里的 \"warSails\" 设为 false。Realm of Thrones 需要开着 War Sails。"
+        }
+      }
+    },
+    {
+      "id": "rot-server-war-sails-setup",
+      "side": "server",
+      "tools": ["rot"],
+      "priority": 92,
+      "category": "setup",
+      "match": {
+        "exitCodes": [10],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\] FATAL: [^\\r\\n]*(?:\"warSails\"|NavalDLC)" },
+          { "files": ["server", "serverLog", "hostConsole"], "contains": "\"refusal\":\"unsupported\"" }
+        ]
+      },
+      "title": "This Coop server can't run War Sails",
+      "whatHappened": "The server stopped before loading because War Sails (NavalDLC) can't run on this Coop server as it is set up, and Realm of Thrones in Coop always runs with War Sails on. Your save is not the problem.",
+      "whatToDo": "Click Choose Coop server and pick the Coop server the Realm of Thrones tools are made for, then click Prepare server. Then press Start server again.",
+      "whatNotToDo": "Don't set \"warSails\" to false in mod-config.json. Realm of Thrones needs War Sails on.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "خادم Coop هذا لا يستطيع تشغيل War Sails",
+          "whatHappened": "توقف الخادم قبل التحميل لأن War Sails (NavalDLC) لا يمكن أن يعمل على خادم Coop هذا بإعداده الحالي، ويعمل Realm of Thrones في Coop دائمًا مع تشغيل War Sails. الحفظ ليس هو المشكلة.",
+          "whatToDo": "اضغط Choose Coop server واختر خادم Coop المصنوعة له أدوات Realm of Thrones، ثم اضغط Prepare server. ثم اضغط Start server مرة أخرى.",
+          "whatNotToDo": "لا تضبط \"warSails\" على false في mod-config.json. يحتاج Realm of Thrones إلى تشغيل War Sails."
+        },
+        "de": {
+          "title": "Dieser Coop Server kann War Sails nicht ausführen",
+          "whatHappened": "Der Server hat vor dem Laden angehalten, weil War Sails (NavalDLC) auf diesem Coop Server so wie er eingerichtet ist nicht laufen kann, und Realm of Thrones läuft in Coop immer mit War Sails. Dein Spielstand ist nicht das Problem.",
+          "whatToDo": "Klick auf Choose Coop server und wähle den Coop Server, für den die Realm of Thrones Tools gemacht sind, und klick dann auf Prepare server. Drück dann wieder Start server.",
+          "whatNotToDo": "Setz \"warSails\" in mod-config.json nicht auf false. Realm of Thrones braucht War Sails."
+        },
+        "fr": {
+          "title": "Ce serveur Coop ne peut pas faire tourner War Sails",
+          "whatHappened": "Le serveur s'est arrêté avant de charger parce que War Sails (NavalDLC) ne peut pas tourner sur ce serveur Coop tel qu'il est configuré, et Realm of Thrones dans Coop tourne toujours avec War Sails. Ta sauvegarde n'est pas en cause.",
+          "whatToDo": "Clique sur Choose Coop server et choisis le serveur Coop pour lequel les outils Realm of Thrones sont faits, puis clique sur Prepare server. Puis appuie de nouveau sur Start server.",
+          "whatNotToDo": "Ne mets pas \"warSails\" à false dans mod-config.json. Realm of Thrones a besoin de War Sails."
+        },
+        "pt": {
+          "title": "Este servidor Coop não consegue rodar War Sails",
+          "whatHappened": "O servidor parou antes de carregar porque War Sails (NavalDLC) não consegue rodar neste servidor Coop do jeito que ele está configurado, e Realm of Thrones no Coop sempre roda com War Sails ligado. O seu save não é o problema.",
+          "whatToDo": "Clique em Choose Coop server e escolha o servidor Coop para o qual as ferramentas de Realm of Thrones foram feitas, depois clique em Prepare server. Depois aperte Start server de novo.",
+          "whatNotToDo": "Não mude \"warSails\" para false no mod-config.json. Realm of Thrones precisa de War Sails ligado."
+        },
+        "ru": {
+          "title": "Этот сервер Coop не может запустить War Sails",
+          "whatHappened": "Сервер остановился до загрузки, потому что War Sails (NavalDLC) не может работать на этом сервере Coop в его текущей настройке, а Realm of Thrones в Coop всегда работает с включённым War Sails. Сохранение тут ни при чём.",
+          "whatToDo": "Нажми Choose Coop server и выбери сервер Coop, для которого сделаны инструменты Realm of Thrones, потом нажми Prepare server. Потом снова нажми Start server.",
+          "whatNotToDo": "Не ставь \"warSails\" в false в mod-config.json. Realm of Thrones нужен включённый War Sails."
+        },
+        "tr": {
+          "title": "Bu Coop sunucusu War Sails çalıştıramıyor",
+          "whatHappened": "War Sails (NavalDLC) bu Coop sunucusunda şu anki ayarıyla çalışamadığı için sunucu yüklemeden önce durdu ve Coop'ta Realm of Thrones her zaman War Sails açık çalışır. Sorun kaydında değil.",
+          "whatToDo": "Choose Coop server'a tıkla ve Realm of Thrones araçlarının yapıldığı Coop sunucusunu seç, sonra Prepare server'a tıkla. Sonra Start server'a tekrar bas.",
+          "whatNotToDo": "mod-config.json içinde \"warSails\" değerini false yapma. Realm of Thrones'un War Sails'in açık olmasına ihtiyacı var."
+        },
+        "ja": {
+          "title": "この Coop サーバーは War Sails を動かせません",
+          "whatHappened": "War Sails (NavalDLC) がこの Coop サーバーの現在の設定では動かせず、Coop 版の Realm of Thrones は常に War Sails をオンにして動くため、サーバーは読み込む前に停止しました。セーブは原因ではありません。",
+          "whatToDo": "「Coop サーバーを選ぶ」を押して、Realm of Thrones ツール用の Coop サーバーを選び、「サーバーを準備」を押してください。そのあと、もう一度「サーバーを起動」を押します。",
+          "whatNotToDo": "mod-config.json の \"warSails\" を false にしないでください。Realm of Thrones には War Sails がオンである必要があります。"
+        },
+        "ko": {
+          "title": "이 Coop 서버는 War Sails를 실행할 수 없어요",
+          "whatHappened": "이 Coop 서버의 현재 설정으로는 War Sails (NavalDLC)를 실행할 수 없고 Coop의 Realm of Thrones는 항상 War Sails를 켠 채로 실행되기 때문에, 서버가 불러오기 전에 멈췄어요. 저장 파일은 문제가 아니에요.",
+          "whatToDo": "‘Coop 서버 선택’을 눌러 Realm of Thrones 도구에 맞는 Coop 서버를 고르고, ‘서버 준비’를 누르세요. 그런 다음 ‘서버 시작’을 다시 누르세요.",
+          "whatNotToDo": "mod-config.json의 \"warSails\"를 false로 바꾸지 마세요. Realm of Thrones에는 War Sails가 켜져 있어야 해요."
+        },
+        "zh-CN": {
+          "title": "这个 Coop 服务器无法运行 War Sails",
+          "whatHappened": "服务器在加载之前就停止了，因为 War Sails (NavalDLC) 无法在这个 Coop 服务器的当前设置下运行，而 Coop 里的 Realm of Thrones 始终开着 War Sails 运行。问题不在你的存档。",
+          "whatToDo": "点击“选择 Coop 服务器”，选择 Realm of Thrones 工具对应的 Coop 服务器，然后点击“准备服务器”。然后再点击一次“启动服务器”。",
+          "whatNotToDo": "不要把 mod-config.json 里的 \"warSails\" 设为 false。Realm of Thrones 需要开着 War Sails。"
+        }
+      }
+    },
+    {
+      "id": "rot-server-save-did-not-load",
+      "side": "server",
+      "tools": ["rot"],
+      "priority": 82,
+      "category": "setup",
+      "match": {
+        "exitCodes": [11],
+        "any": [
+          { "files": ["server", "serverLog", "hostConsole"], "regex": "\\[DedicatedServer\\] FATAL: save '(?<save>[^'\\r\\n]+)' did not start loading" }
+        ],
+        "none": [
+          { "file": "server", "contains": "!!! Fresh campaign: REFUSED save" },
+          { "file": "hostConsole", "contains": "!!! Fresh campaign: REFUSED save" }
+        ]
+      },
+      "title": "The campaign save did not start loading",
+      "whatHappened": "The save {save} did not start loading, so the server stopped. The save may be damaged, or Coop or Realm of Thrones hit an error while opening it. Your other saves are not touched.",
+      "whatToDo": "Click Restore save backup and pick a backup from before this happened, or pick another save. Then press Start server. If it happens again, send the server crash report so the error can be looked at.",
+      "whatNotToDo": "Don't press Start server again and again on the same save. It fails the same way each time. Don't delete the save, a backup can only go back over it.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "لم يبدأ حفظ الحملة في التحميل",
+          "whatHappened": "لم يبدأ الحفظ {save} في التحميل، فتوقف الخادم. قد يكون الحفظ تالفًا، أو واجه Coop أو Realm of Thrones خطأ أثناء فتحه. حفظاتك الأخرى لم تُلمس.",
+          "whatToDo": "اضغط Restore save backup واختر نسخة احتياطية من قبل حدوث هذا، أو اختر حفظًا آخر. ثم اضغط Start server. إذا تكرر ذلك فأرسل تقرير تعطل الخادم حتى يمكن فحص الخطأ.",
+          "whatNotToDo": "لا تضغط Start server مرارًا على نفس الحفظ. سيفشل بنفس الطريقة كل مرة. لا تحذف الحفظ، فالنسخة الاحتياطية لا يمكن أن تعود إلا فوقه."
+        },
+        "de": {
+          "title": "Der Kampagnenspielstand hat nicht angefangen zu laden",
+          "whatHappened": "Der Spielstand {save} hat nicht angefangen zu laden, deshalb hat der Server angehalten. Der Spielstand ist vielleicht beschädigt, oder Coop oder Realm of Thrones ist beim Öffnen auf einen Fehler gestoßen. Deine anderen Spielstände sind nicht betroffen.",
+          "whatToDo": "Klick auf Restore save backup und wähle eine Sicherung von vor dem Problem, oder wähle einen anderen Spielstand. Drück dann Start server. Wenn es wieder passiert, schick den Server Absturzbericht, damit der Fehler angeschaut werden kann.",
+          "whatNotToDo": "Drück nicht immer wieder Start server mit demselben Spielstand. Es schlägt jedes Mal gleich fehl. Lösch den Spielstand nicht, eine Sicherung kann nur über ihn zurückgespielt werden."
+        },
+        "fr": {
+          "title": "La sauvegarde de la campagne n'a pas commencé à charger",
+          "whatHappened": "La sauvegarde {save} n'a pas commencé à charger, donc le serveur s'est arrêté. Il se peut que la sauvegarde soit abîmée, ou que Coop ou Realm of Thrones ait rencontré une erreur en l'ouvrant. Tes autres sauvegardes ne sont pas touchées.",
+          "whatToDo": "Clique sur Restore save backup et choisis une sauvegarde d'avant le problème, ou choisis une autre sauvegarde. Puis appuie sur Start server. Si ça recommence, envoie le rapport de plantage du serveur pour que l'erreur soit examinée.",
+          "whatNotToDo": "N'appuie pas sur Start server encore et encore avec la même sauvegarde. Ça échoue de la même façon à chaque fois. Ne supprime pas la sauvegarde, une copie de secours ne peut que la remplacer."
+        },
+        "pt": {
+          "title": "O save da campanha não começou a carregar",
+          "whatHappened": "O save {save} não começou a carregar, então o servidor parou. O save pode estar danificado, ou o Coop ou o Realm of Thrones encontrou um erro ao abrir o arquivo. Seus outros saves não foram mexidos.",
+          "whatToDo": "Clique em Restore save backup e escolha um backup de antes do problema, ou escolha outro save. Depois aperte Start server. Se acontecer de novo, envie o relatório de crash do servidor para o erro ser analisado.",
+          "whatNotToDo": "Não aperte Start server várias vezes no mesmo save. Ele falha do mesmo jeito toda vez. Não apague o save, um backup só pode voltar por cima dele."
+        },
+        "ru": {
+          "title": "Сохранение кампании не начало загружаться",
+          "whatHappened": "Сохранение {save} не начало загружаться, поэтому сервер остановился. Сохранение может быть повреждено, или Coop или Realm of Thrones столкнулся с ошибкой при его открытии. Другие сохранения не затронуты.",
+          "whatToDo": "Нажми Restore save backup и выбери резервную копию до этой проблемы или другое сохранение. Потом нажми Start server. Если это повторится, отправь отчёт о сбое сервера, чтобы ошибку посмотрели.",
+          "whatNotToDo": "Не нажимай Start server снова и снова с тем же сохранением. Каждый раз будет та же ошибка. Не удаляй сохранение, резервная копия может вернуться только поверх него."
+        },
+        "tr": {
+          "title": "Sefer kaydı yüklenmeye başlamadı",
+          "whatHappened": "{save} kaydı yüklenmeye başlamadı, bu yüzden sunucu durdu. Kayıt bozuk olabilir ya da Coop veya Realm of Thrones onu açarken bir hatayla karşılaştı. Diğer kayıtlarına dokunulmadı.",
+          "whatToDo": "Restore save backup'a tıkla ve bu sorundan önceki bir yedeği seç ya da başka bir kayıt seç. Sonra Start server'a bas. Yine olursa hataya bakılabilmesi için sunucu çökme raporunu gönder.",
+          "whatNotToDo": "Aynı kayıtla tekrar tekrar Start server'a basma. Her seferinde aynı şekilde başarısız olur. Kaydı silme, bir yedek ancak onun üzerine geri yüklenebilir."
+        },
+        "ja": {
+          "title": "キャンペーンのセーブが読み込みを始められませんでした",
+          "whatHappened": "セーブ {save} の読み込みが始まらなかったため、サーバーが停止しました。セーブが壊れているか、開くときに Coop か Realm of Thrones でエラーが起きた可能性があります。ほかのセーブには影響しません。",
+          "whatToDo": "「セーブのバックアップを復元」を押して、こうなる前のバックアップを選ぶか、別のセーブを選んでください。そのあと「サーバーを起動」を押します。また起きたら、原因を調べられるようにサーバーのクラッシュレポートを送ってください。",
+          "whatNotToDo": "同じセーブで「サーバーを起動」を何度も押さないでください。毎回同じように失敗します。セーブも削除しないでください。バックアップは上書きで戻すことしかできません。"
+        },
+        "ko": {
+          "title": "캠페인 저장 파일을 불러오기 시작하지 못했어요",
+          "whatHappened": "저장 파일 {save}을(를) 불러오기 시작하지 못해서 서버가 멈췄어요. 저장 파일이 손상되었거나, 여는 중에 Coop나 Realm of Thrones에서 오류가 났을 수 있어요. 다른 저장 파일은 건드리지 않았어요.",
+          "whatToDo": "‘저장 파일 백업 복원’을 누르고 이런 일이 생기기 전의 백업을 고르거나, 다른 저장 파일을 고르세요. 그런 다음 ‘서버 시작’을 누르세요. 또 같은 일이 생기면 오류를 살펴볼 수 있도록 서버 충돌 보고서를 보내 주세요.",
+          "whatNotToDo": "같은 저장 파일로 ‘서버 시작’을 계속 누르지 마세요. 매번 똑같이 실패해요. 저장 파일을 지우지도 마세요. 백업은 덮어써서 되돌릴 수만 있어요."
+        },
+        "zh-CN": {
+          "title": "战役存档没能开始加载",
+          "whatHappened": "存档 {save} 没能开始加载，所以服务器停止了。存档可能已损坏，也可能是 Coop 或 Realm of Thrones 在打开它时出了错。你的其他存档没有被动过。",
+          "whatToDo": "点击“还原存档备份”，选择出问题之前的备份，或者选择另一个存档。然后点击“启动服务器”。如果再次发生，请发送服务器崩溃报告，方便查看错误。",
+          "whatNotToDo": "不要在同一个存档上反复点击“启动服务器”，每次都会以同样的方式失败。也不要删除存档，备份只能覆盖回去。"
+        }
+      }
+    },
+    {
+      "id": "rot-server-map-crash",
+      "side": "server",
+      "tools": ["rot"],
+      "priority": 88,
+      "category": "setup",
+      "match": {
+        "any": [
+          { "files": ["server", "hostConsole"], "regex": "\\[RealmOfThrones\\.CoopCompat\\] Map redirect: [^\\r\\n]*the server keeps its own map" }
+        ]
+      },
+      "title": "The server ran Realm of Thrones on the wrong campaign map",
+      "whatHappened": "Realm of Thrones Coop Compat could not point the server at Realm of Thrones' campaign map, so the server kept its own map. That map doesn't fit a Realm of Thrones world, so the server crashed.",
+      "whatToDo": "Click Prepare server so the tool makes the server map again, then press Start server. If it crashes again, send the server crash report.",
+      "whatNotToDo": "Don't delete the save. The map is the problem, not the save.",
+      "reportNeeded": true,
+      "translations": {
+        "ar": {
+          "title": "شغّل الخادم Realm of Thrones على خريطة حملة خاطئة",
+          "whatHappened": "لم يستطع Realm of Thrones Coop Compat توجيه الخادم إلى خريطة حملة Realm of Thrones، فأبقى الخادم خريطته الخاصة. تلك الخريطة لا تناسب عالم Realm of Thrones، فتعطل الخادم.",
+          "whatToDo": "اضغط Prepare server لتصنع الأداة خريطة الخادم من جديد، ثم اضغط Start server. إذا تعطل مرة أخرى فأرسل تقرير تعطل الخادم.",
+          "whatNotToDo": "لا تحذف الحفظ. المشكلة في الخريطة وليست في الحفظ."
+        },
+        "de": {
+          "title": "Der Server hat Realm of Thrones auf der falschen Kampagnenkarte gestartet",
+          "whatHappened": "Realm of Thrones Coop Compat konnte den Server nicht auf die Kampagnenkarte von Realm of Thrones umleiten, deshalb hat der Server seine eigene Karte behalten. Diese Karte passt nicht zu einer Realm of Thrones Welt, deshalb ist der Server abgestürzt.",
+          "whatToDo": "Klick auf Prepare server, damit das Tool die Serverkarte neu macht, und drück dann Start server. Wenn er wieder abstürzt, schick den Server Absturzbericht.",
+          "whatNotToDo": "Lösch den Spielstand nicht. Das Problem ist die Karte, nicht der Spielstand."
+        },
+        "fr": {
+          "title": "Le serveur a lancé Realm of Thrones sur la mauvaise carte de campagne",
+          "whatHappened": "Realm of Thrones Coop Compat n'a pas pu diriger le serveur vers la carte de campagne de Realm of Thrones, donc le serveur a gardé sa propre carte. Cette carte ne va pas avec un monde Realm of Thrones, donc le serveur a planté.",
+          "whatToDo": "Clique sur Prepare server pour que l'outil refasse la carte du serveur, puis appuie sur Start server. S'il plante encore, envoie le rapport de plantage du serveur.",
+          "whatNotToDo": "Ne supprime pas la sauvegarde. Le problème vient de la carte, pas de la sauvegarde."
+        },
+        "pt": {
+          "title": "O servidor rodou Realm of Thrones no mapa de campanha errado",
+          "whatHappened": "O Realm of Thrones Coop Compat não conseguiu apontar o servidor para o mapa de campanha de Realm of Thrones, então o servidor ficou com o próprio mapa. Esse mapa não serve para um mundo de Realm of Thrones, então o servidor travou.",
+          "whatToDo": "Clique em Prepare server para a ferramenta fazer o mapa do servidor de novo, depois aperte Start server. Se travar de novo, envie o relatório de crash do servidor.",
+          "whatNotToDo": "Não apague o save. O problema é o mapa, não o save."
+        },
+        "ru": {
+          "title": "Сервер запустил Realm of Thrones не на той карте кампании",
+          "whatHappened": "Realm of Thrones Coop Compat не смог направить сервер на карту кампании Realm of Thrones, поэтому сервер оставил свою карту. Эта карта не подходит к миру Realm of Thrones, поэтому сервер упал.",
+          "whatToDo": "Нажми Prepare server, чтобы инструмент заново сделал карту сервера, потом нажми Start server. Если он снова упадёт, отправь отчёт о сбое сервера.",
+          "whatNotToDo": "Не удаляй сохранение. Проблема в карте, а не в сохранении."
+        },
+        "tr": {
+          "title": "Sunucu Realm of Thrones'u yanlış sefer haritasında çalıştırdı",
+          "whatHappened": "Realm of Thrones Coop Compat sunucuyu Realm of Thrones'un sefer haritasına yönlendiremedi, bu yüzden sunucu kendi haritasını tuttu. O harita bir Realm of Thrones dünyasına uymuyor, bu yüzden sunucu çöktü.",
+          "whatToDo": "Aracın sunucu haritasını yeniden yapması için Prepare server'a tıkla, sonra Start server'a bas. Yine çökerse sunucu çökme raporunu gönder.",
+          "whatNotToDo": "Kaydı silme. Sorun haritada, kayıtta değil."
+        },
+        "ja": {
+          "title": "サーバーが間違ったキャンペーンマップで Realm of Thrones を動かしました",
+          "whatHappened": "Realm of Thrones Coop Compat がサーバーを Realm of Thrones のキャンペーンマップに向けられず、サーバーが自分のマップのままになりました。そのマップは Realm of Thrones のワールドに合わないため、サーバーがクラッシュしました。",
+          "whatToDo": "「サーバーを準備」を押して、ツールにサーバーのマップをもう一度作らせ、そのあと「サーバーを起動」を押してください。またクラッシュしたら、サーバーのクラッシュレポートを送ってください。",
+          "whatNotToDo": "セーブを削除しないでください。問題はマップで、セーブではありません。"
+        },
+        "ko": {
+          "title": "서버가 잘못된 캠페인 맵으로 Realm of Thrones를 실행했어요",
+          "whatHappened": "Realm of Thrones Coop Compat가 서버를 Realm of Thrones의 캠페인 맵으로 돌리지 못해서, 서버가 자기 맵을 그대로 썼어요. 그 맵은 Realm of Thrones 월드와 맞지 않아서 서버가 충돌했어요.",
+          "whatToDo": "‘서버 준비’를 눌러 도구가 서버 맵을 다시 만들게 한 다음 ‘서버 시작’을 누르세요. 또 충돌하면 서버 충돌 보고서를 보내 주세요.",
+          "whatNotToDo": "저장 파일을 지우지 마세요. 문제는 저장 파일이 아니라 맵이에요."
+        },
+        "zh-CN": {
+          "title": "服务器用错误的战役地图运行了 Realm of Thrones",
+          "whatHappened": "Realm of Thrones Coop Compat 没能让服务器指向 Realm of Thrones 的战役地图，所以服务器沿用了它自己的地图。那张地图不适合 Realm of Thrones 的世界，所以服务器崩溃了。",
+          "whatToDo": "点击“准备服务器”，让工具重新生成服务器地图，然后点击“启动服务器”。如果再次崩溃，请发送服务器崩溃报告。",
+          "whatNotToDo": "不要删除存档。问题出在地图，不在存档。"
+        }
+      }
+    },
+    {
+      "id": "rot-join-needs-war-sails",
+      "side": "client",
+      "tools": ["rot"],
+      "priority": 66,
+      "category": "mod-mismatch",
+      "match": {
+        "any": [
+          { "file": "coopClient", "regex": "To join the server the module (?:'NavalDLC'|'[^'\\r\\n]*' \\(NavalDLC\\)) with version" }
+        ]
+      },
+      "title": "Realm of Thrones servers run War Sails",
+      "whatHappened": "The server needs War Sails (NavalDLC), and your game didn't have it on. Realm of Thrones in Coop always runs with War Sails on.",
+      "whatToDo": "Make sure War Sails is installed in Steam. Then join with Connect in the Realm of Thrones Client Launcher, which starts the game with War Sails on.",
+      "reportNeeded": false,
+      "labels": ["join"],
+      "translations": {
+        "ar": {
+          "title": "خوادم Realm of Thrones تعمل مع War Sails",
+          "whatHappened": "يحتاج الخادم إلى War Sails (NavalDLC)، ولم يكن مفعّلًا في لعبتك. يعمل Realm of Thrones في Coop دائمًا مع تشغيل War Sails.",
+          "whatToDo": "تأكد أن War Sails مثبت في Steam. ثم انضم عبر Connect في Realm of Thrones Client Launcher، الذي يشغّل اللعبة مع War Sails."
+        },
+        "de": {
+          "title": "Realm of Thrones Server laufen mit War Sails",
+          "whatHappened": "Der Server braucht War Sails (NavalDLC), und in deinem Spiel war es nicht an. Realm of Thrones läuft in Coop immer mit War Sails.",
+          "whatToDo": "Stell sicher, dass War Sails in Steam installiert ist. Tritt dann mit Connect im Realm of Thrones Client Launcher bei, der das Spiel mit War Sails startet."
+        },
+        "fr": {
+          "title": "Les serveurs Realm of Thrones tournent avec War Sails",
+          "whatHappened": "Le serveur a besoin de War Sails (NavalDLC), et il n'était pas activé dans ton jeu. Realm of Thrones dans Coop tourne toujours avec War Sails.",
+          "whatToDo": "Vérifie que War Sails est installé dans Steam. Puis rejoins avec Connect dans le Realm of Thrones Client Launcher, qui lance le jeu avec War Sails."
+        },
+        "pt": {
+          "title": "Servidores de Realm of Thrones rodam War Sails",
+          "whatHappened": "O servidor precisa de War Sails (NavalDLC), e ele não estava ligado no seu jogo. Realm of Thrones no Coop sempre roda com War Sails ligado.",
+          "whatToDo": "Confira se War Sails está instalado na Steam. Depois entre com Connect no Realm of Thrones Client Launcher, que abre o jogo com War Sails ligado."
+        },
+        "ru": {
+          "title": "Серверы Realm of Thrones работают с War Sails",
+          "whatHappened": "Серверу нужен War Sails (NavalDLC), а в твоей игре он не был включён. Realm of Thrones в Coop всегда работает с включённым War Sails.",
+          "whatToDo": "Убедись, что War Sails установлен в Steam. Потом подключайся через Connect в Realm of Thrones Client Launcher, который запускает игру с включённым War Sails."
+        },
+        "tr": {
+          "title": "Realm of Thrones sunucuları War Sails ile çalışır",
+          "whatHappened": "Sunucunun War Sails'e (NavalDLC) ihtiyacı var ve oyununda açık değildi. Coop'ta Realm of Thrones her zaman War Sails açık çalışır.",
+          "whatToDo": "War Sails'in Steam'de kurulu olduğundan emin ol. Sonra oyunu War Sails açık başlatan Realm of Thrones Client Launcher'daki Connect ile katıl."
+        },
+        "ja": {
+          "title": "Realm of Thrones のサーバーは War Sails で動いています",
+          "whatHappened": "サーバーは War Sails (NavalDLC) を必要としていますが、お使いのゲームではオンになっていませんでした。Coop 版の Realm of Thrones は常に War Sails をオンにして動きます。",
+          "whatToDo": "Steam で War Sails がインストールされていることを確かめてください。そのあと、Realm of Thrones Client Launcher の「接続」で参加してください。War Sails をオンにしてゲームが起動します。"
+        },
+        "ko": {
+          "title": "Realm of Thrones 서버는 War Sails로 실행돼요",
+          "whatHappened": "서버에는 War Sails (NavalDLC)가 필요한데, 내 게임에는 켜져 있지 않았어요. Coop의 Realm of Thrones는 항상 War Sails를 켠 채로 실행돼요.",
+          "whatToDo": "Steam에 War Sails가 설치되어 있는지 확인하세요. 그런 다음 Realm of Thrones Client Launcher의 ‘연결’로 접속하세요. War Sails를 켠 채로 게임이 시작돼요."
+        },
+        "zh-CN": {
+          "title": "Realm of Thrones 服务器运行着 War Sails",
+          "whatHappened": "服务器需要 War Sails (NavalDLC)，而你的游戏里没有开启它。Coop 里的 Realm of Thrones 始终开着 War Sails 运行。",
+          "whatToDo": "请确认 Steam 里已经安装了 War Sails。然后用 Realm of Thrones Client Launcher 里的“连接”加入，它会在开着 War Sails 的情况下启动游戏。"
         }
       }
     }
