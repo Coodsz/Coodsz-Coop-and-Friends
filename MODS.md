@@ -72,7 +72,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | Achievement Enabler | Not checked yet | 1 works, 0 broken | 2026-11-05 |  |  |
 | [Achievement Unblocker](https://www.nexusmods.com/mountandblade2bannerlord/mods/4587) | Not checked yet |  |  |  |  |
 | [Adjustable Bandits](https://steamcommunity.com/sharedfiles/filedetails/?id=2896450980) | Not checked yet |  |  |  |  |
-| [Adjustable Leveling](https://steamcommunity.com/sharedfiles/filedetails/?id=2896410558) | Not checked yet |  |  |  |  |
+| [Adjustable Leveling](https://steamcommunity.com/sharedfiles/filedetails/?id=2896410558) | Not checked yet | 1 works, 0 broken | 2026-11-23 |  |  |
 | [Adonnay's Exotic Weaponry](https://steamcommunity.com/sharedfiles/filedetails/?id=2875503961) | Not checked yet |  |  |  |  |
 | [Adonnay's Troop Changer](https://steamcommunity.com/sharedfiles/filedetails/?id=2875508967) | Not checked yet |  |  |  |  |
 | [Adoption](https://steamcommunity.com/sharedfiles/filedetails/?id=2893279424) | Not checked yet |  |  |  |  |
@@ -187,7 +187,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [BetterTroopHUD](https://steamcommunity.com/sharedfiles/filedetails/?id=2999591774) | Not checked yet |  |  |  |  |
 | [BloodMod - More Blood and Gore](https://www.nexusmods.com/mountandblade2bannerlord/mods/1591) | Not checked yet |  |  |  |  |
 | [Bodyguards](https://steamcommunity.com/sharedfiles/filedetails/?id=2880365016) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
-| [Both Perks](https://steamcommunity.com/sharedfiles/filedetails/?id=3615340073) | Not checked yet |  |  | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [Both Perks](https://steamcommunity.com/sharedfiles/filedetails/?id=3615340073) | Not checked yet | 1 works, 0 broken | 2026-11-23 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Breakable Polearms](https://steamcommunity.com/sharedfiles/filedetails/?id=3080363208) | Not checked yet |  |  |  |  |
 | [Broken mods fixes](https://www.nexusmods.com/mountandblade2bannerlord/mods/2613) | Not checked yet |  |  |  |  |
 | [Brynhild The Shieldmaiden](https://steamcommunity.com/sharedfiles/filedetails/?id=2883954746) | Not checked yet |  |  |  |  |
