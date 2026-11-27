@@ -120,7 +120,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [B.A.R.D. - Khuzait Army Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2882454523) | Not checked yet |  |  |  |  |
 | [B.A.R.D. - Sturgian Army Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2875089081) | Not checked yet |  |  |  |  |
 | [B.A.R.D. - Vlandian Army Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2875386075) | Not checked yet |  |  |  |  |
-| [Bahamut's Armory+](https://steamcommunity.com/sharedfiles/filedetails/?id=2875496157) | Not checked yet |  |  | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. If a player crashes on start, delete the mod's Shaders folder on that PC. With RBM, use the matching RBM patch. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [Bahamut's Armory+](https://steamcommunity.com/sharedfiles/filedetails/?id=2875496157) | Not checked yet | 1 works, 0 broken | 2026-11-26 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. If a player crashes on start, delete the mod's Shaders folder on that PC. With RBM, use the matching RBM patch. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Baijin Troops](https://steamcommunity.com/sharedfiles/filedetails/?id=2890099774) | Not checked yet |  |  |  |  |
 | [Balanced Tournament Armor](https://steamcommunity.com/sharedfiles/filedetails/?id=2875978806) | Not checked yet | 1 works, 0 broken | 2026-10-28 |  |  |
 | [Bandit Black Hole](https://www.nexusmods.com/mountandblade2bannerlord/mods/7433) | Not checked yet |  |  |  |  |
@@ -204,7 +204,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Camp Menu](https://steamcommunity.com/sharedfiles/filedetails/?id=3627110143) | Not checked yet |  |  | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Runs in Coop; not fully tested. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Caravans Give Trade XP](https://www.nexusmods.com/mountandblade2bannerlord/mods/907) | Not checked yet |  |  |  |  |
 | [Carrier - Banners and Torches](https://www.nexusmods.com/mountandblade2bannerlord/mods/3354) | Not checked yet |  |  |  |  |
-| [CC's Banners](https://steamcommunity.com/sharedfiles/filedetails/?id=2877445271) | Not checked yet |  |  | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [CC's Banners](https://steamcommunity.com/sharedfiles/filedetails/?id=2877445271) | Not checked yet | 1 works, 0 broken | 2026-11-26 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Works in Coop. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Change Settlement Culture](https://www.nexusmods.com/mountandblade2bannerlord/mods/510) | Not checked yet |  |  |  |  |
 | [Changing Culture](https://www.nexusmods.com/mountandblade2bannerlord/mods/2453) | Not checked yet |  |  |  |  |
 | [Character Development Editor](https://steamcommunity.com/sharedfiles/filedetails/?id=3658499134) | Not checked yet |  |  |  |  |
@@ -375,6 +375,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [LogRaam's Full Body Sliders](https://www.nexusmods.com/mountandblade2bannerlord/mods/2045) | Not checked yet |  |  |  |  |
 | [Longer and Bigger Crafting Parts with Uniform Scaling](https://steamcommunity.com/sharedfiles/filedetails/?id=2887434433) | Not checked yet |  |  |  |  |
 | [LootEveryone](https://www.nexusmods.com/mountandblade2bannerlord/mods/535) | Not checked yet |  |  |  |  |
+| LOTRLOME_Armory | Not checked yet | 1 works, 0 broken | 2026-11-26 |  |  |
 | [Lowborn](https://steamcommunity.com/sharedfiles/filedetails/?id=3653125474) | Not checked yet |  |  |  |  |
 | [Machination](https://steamcommunity.com/sharedfiles/filedetails/?id=3644127631) | Not checked yet |  |  |  |  |
 | [Malfoy Collection](https://www.nexusmods.com/mountandblade2bannerlord/mods/5356) | Not checked yet |  |  |  |  |
@@ -426,9 +427,9 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [NPC Fixes Collection - formerly No More Clones](https://www.nexusmods.com/mountandblade2bannerlord/mods/6204) | Not checked yet |  |  |  |  |
 | [NPC Revamp](https://www.nexusmods.com/mountandblade2bannerlord/mods/21) | Not checked yet |  |  |  |  |
 | Nuggets' Agriculture Estate and Xorberax Bank patch | Not checked yet |  |  |  | Legacy Coop setup. Support on 0.1.8 is unverified. Alternative Coop patch by Nuggets for Agriculture Estate and the Bank module of Xorberax's Legacy, posted on the Coop Discord (old 0.1.5 thread, #other-mods). Made for Coop 0.1.5 and not updated since; may clash with Zexui's CoopModPatch. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
-| [Open Source Armory](https://steamcommunity.com/sharedfiles/filedetails/?id=3011479883) | Not checked yet | 1 works, 0 broken | 2026-11-13 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Load Open Source Armory, then Saddlery, then Weaponry. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
-| [Open Source Saddlery](https://steamcommunity.com/sharedfiles/filedetails/?id=3010990914) | Not checked yet | 1 works, 0 broken | 2026-11-13 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Load it after Open Source Armory and before Open Source Weaponry. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
-| [Open Source Weaponry](https://steamcommunity.com/sharedfiles/filedetails/?id=3010984416) | Not checked yet | 1 works, 0 broken | 2026-11-13 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Load it after Open Source Armory and Saddlery. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [Open Source Armory](https://steamcommunity.com/sharedfiles/filedetails/?id=3011479883) | Not checked yet | 2 works, 0 broken | 2026-11-25 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Load Open Source Armory, then Saddlery, then Weaponry. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [Open Source Saddlery](https://steamcommunity.com/sharedfiles/filedetails/?id=3010990914) | Not checked yet | 2 works, 0 broken | 2026-11-25 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Load it after Open Source Armory and before Open Source Weaponry. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
+| [Open Source Weaponry](https://steamcommunity.com/sharedfiles/filedetails/?id=3010984416) | Not checked yet | 2 works, 0 broken | 2026-11-25 | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. Load it after Open Source Armory and Saddlery. If a player crashes on start, delete the mod's Shaders folder on that PC. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Party AI Controls](https://steamcommunity.com/sharedfiles/filedetails/?id=3117962790) | Not checked yet |  |  |  |  |
 | Party AI Controls Reforged | Not checked yet | 1 works, 0 broken | 2026-11-07 |  |  |
 | [Party AI Overhaul and Commands](https://www.nexusmods.com/mountandblade2bannerlord/mods/493) | Not checked yet |  |  |  |  |
@@ -615,4 +616,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-582 mods.
+583 mods.
