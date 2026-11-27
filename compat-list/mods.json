@@ -26,8 +26,7 @@
   //   idGuess   true when the real Module Id is not known yet and "id" is just the display name.
   //             The first report that carries both the real id and this name fixes it automatically.
   //
-  // Seeded from CoopKeep's list (https://github.com/Aderimo/bannerlord-coopkeep, MIT, Copyright (c) 2026 aderimo):
-  // the most subscribed Steam Workshop and most downloaded Nexus Mods Bannerlord mods, most still "Unknown".
+  // The seed list covers popular Bannerlord mods from Steam Workshop and Nexus Mods, most still "Unknown".
   // The hand entries come from the Coodsz tools' own notes (the Coodsz Host working list, the TAOM list and
   // the server module notes) and from Coop's Server Instructions.md (War Sails, Birth and Aging Options, Fast Mode).
   // Coodsz's Coop 0.1.6 compatibility thread on Discord (2026-10-08, edited 2026-10-14) added the verdicts whose
