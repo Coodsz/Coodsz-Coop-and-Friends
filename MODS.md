@@ -198,6 +198,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Calradia At War](https://steamcommunity.com/sharedfiles/filedetails/?id=2878689343) | Not checked yet |  |  |  |  |
 | [Calradia Expanded](https://www.nexusmods.com/mountandblade2bannerlord/mods/1389) | Not checked yet |  |  |  |  |
 | [Calradia Rising Armory](https://steamcommunity.com/sharedfiles/filedetails/?id=3469351983) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
+| Calradia18Realms | Not checked yet | 1 works, 0 broken | 2026-11-26 |  |  |
 | [Calradian Patrols V2](https://steamcommunity.com/sharedfiles/filedetails/?id=2859407083) | Not checked yet |  |  |  |  |
 | [Calradic Campaign](https://steamcommunity.com/sharedfiles/filedetails/?id=2933062399) | Not checked yet |  |  |  |  |
 | [Camel Troops and Aserai Overhaul](https://steamcommunity.com/sharedfiles/filedetails/?id=2887096699) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
@@ -525,6 +526,7 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Swadian Armoury](https://steamcommunity.com/sharedfiles/filedetails/?id=2875090166) | Not checked yet |  |  | v0.1.5 | Older Coop evidence (v0.1.5). Not yet tested on 0.1.8. If a player crashes on start, delete the mod's Shaders folder on that PC. With RBM, use the matching RBM patch. Source: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08 (tested on Coop 0.1.5, retest). |
 | [Swadian Armoury RBM](https://steamcommunity.com/sharedfiles/filedetails/?id=2883563167) | Not checked yet |  |  |  |  |
 | [Tales from the Age of Men](https://www.nexusmods.com/mountandblade2bannerlord/mods/7748) | Not checked yet |  |  |  |  |
+| TalkAndLearn | Not checked yet | 1 works, 0 broken | 2026-11-26 |  |  |
 | Tavern Recruiters | Not checked yet |  |  | v0.1.6 | Older Coop evidence (v0.1.6). Not yet tested on 0.1.8. By Sannech, made for Coop (Bannerlord 1.4.8 and Coop 0.1.6). Hire troops through the tavern; the server sets it up in its .json config. Sources: Coodsz Coop 0.1.6 compatibility thread, 2026-10-08; old Coop 0.1.5 compatibility thread. |
 | [Taverns Extended](https://www.nexusmods.com/mountandblade2bannerlord/mods/6109) | Not checked yet |  |  |  |  |
 | [Telepathy](https://steamcommunity.com/sharedfiles/filedetails/?id=2890978557) | Not checked yet |  |  |  |  |
@@ -616,4 +618,4 @@ With a GitHub account you can also use the [report form](https://github.com/Cood
 | [Zweihander and Claymore](https://steamcommunity.com/sharedfiles/filedetails/?id=2913601276) | Not checked yet | 1 works, 0 broken | 2026-11-01 |  |  |
 | [zzy.ExtraLevelUp](https://steamcommunity.com/sharedfiles/filedetails/?id=2875931856) | Not checked yet |  |  |  |  |
 
-583 mods.
+585 mods.
